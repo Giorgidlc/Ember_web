@@ -1,0 +1,20 @@
+# Ignorar todo
+*
+
+# Excepto la carpeta wp-content
+!wp-content/
+!wp-content/**
+
+# Incluir archivos de configuración del repositorio
+!.gitignore
+!README.md
+
+# Ignorar archivos temporales y logs dentro de wp-content
+wp-content/cache/
+wp-content/uploads/cache/
+wp-content/debug.log
+wp-content/error_log
+
+# Ignorar archivos de backup
+wp-content/backup-*
+wp-content/*.sql
