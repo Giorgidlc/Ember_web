@@ -4,7 +4,7 @@ Este repositorio contiene únicamente la carpeta `wp-content` de una instalació
 
 ## Contenido incluido
 
-- **Themes**: Temas de WordPress (emberweb)
+- **Themes**: Tema de WordPress (twentytwentyfive)
 - **Plugins**: Plugins instalados (Akismet, Hello Dolly)
 - **Must-Use Plugins**: Plugin de integración con SQLite
 - **Languages**: Archivos de traducción al español
