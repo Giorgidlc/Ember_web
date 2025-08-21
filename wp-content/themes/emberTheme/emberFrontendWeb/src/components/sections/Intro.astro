@@ -1,6 +1,8 @@
+---
+const { titleIntro } = Astro.props
+---
 <article>
-  <h2>No traemos fuego de fuera. 
-Lo cultivamos desde dentro.</h2>
+  <h2>{titleIntro}</h2>
 </article>
 
 <style>
@@ -13,5 +15,6 @@ Lo cultivamos desde dentro.</h2>
     font-size: var(--fontSize-x-large);
     color: var(--color-contrast-2);
     text-wrap: balance;
+    max-inline-size: 16ch;
   }
 </style>

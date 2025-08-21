@@ -1,7 +1,7 @@
 ---
-const { titleHero } = Astro.props 
+const { titleCounter } = Astro.props
 ---
-<header>
+<article>
   <svg
     class="bg"
     fill="none"
@@ -10,24 +10,26 @@ const { titleHero } = Astro.props
   >
     <path fill="currentColor" d="M0 0h1440v800L0 838V0Z" />
   </svg>
-  <h1>{ titleHero }</h1>
-</header>
+  <div>contador</div>
+  <div>
+    <h2>{titleCounter}</h2>
+  </div>
+  
+</article>
 
 <style>
-  header {
-    position: relative;      
+
+  article {
+    position: relative;
     display: flex;
-    align-items: center;
+    padding: var(--space-block) var(--space-inline);
+    margin-block-start: var(--space-block);
+  }
+
+  h2 {
+    font-size: var(--fontSize-x-large);
     color: var(--color-base);
-    block-size: 90dvh;
-    overflow: hidden;  
-    
-    h1 {
-      font-size: var(--fontSize-xx-large);
-      text-wrap: balance;
-      padding-inline: var(--space-inline);
-      max-inline-size: 16ch;
-    }
+    text-wrap: balance;
   }
 
   .bg {
@@ -37,6 +39,6 @@ const { titleHero } = Astro.props
     height: 100%;
     z-index: -1;            
     pointer-events: none;   
-    color: var(--color-accent);
+    color: var(--color-contrast-2);
   }
 </style>

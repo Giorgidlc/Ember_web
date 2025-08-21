@@ -1,13 +1,70 @@
 ---
-import BaseLayout from '@layouts/BaseLayout.astro';
-import Hero from '@/components/sections/Hero.astro';
-import Intro from '@/components/sections/Intro.astro';
-import Card from '@/components/Card.astro';
-import  '@styles/global-styles.css'
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@/components/sections/Hero.astro";
+import Intro from "@/components/sections/Intro.astro";
+import Card from "@/components/Card.astro";
+import Button from "@/components/Button.astro";
+import "@styles/global-styles.css";
+
+import { homePageContent } from "@utils/data/homePage";
+import Counter from "@/components/sections/Counter.astro";
+const { hero, intro, services, features, counter } = homePageContent;
 ---
 
 <BaseLayout>
- <Hero />
- <Intro />
- <Card />
+  <Hero titleHero={hero.title} />
+  <Intro titleIntro={intro?.title}/>
+  <article>
+    <section>
+      {
+        services.map((service) => (
+          <Card
+            id={service.id}
+            title={service.title}
+            description={service.description}
+            buttonText={service.buttonText}
+          />
+        ))
+      }
+    </section>
+    <div>
+      <h2>{features[0].title}</h2>
+      <Button buttonText={features[0].buttonText} />
+    </div>
+  </article>
+
+  <Counter titleCounter={counter.title}/>
 </BaseLayout>
+
+<style>
+  article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-block);
+    padding-inline: var(--space-inline);
+
+  }
+  section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+   
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    h2 {
+      font-size: var(--fontSize-x-large);
+      color: var(--color-contrast-2);
+      max-inline-size: 16ch;
+    }
+
+    button {
+      color: var(--color-base);
+      background-color: var(--color-contrast-1);
+    }
+  }
+</style>
