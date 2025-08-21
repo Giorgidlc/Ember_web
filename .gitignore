@@ -5,6 +5,10 @@
 !wp-content/
 !wp-content/**
 
+# Pero ignorar node_modules en cualquier lugar
+node_modules/
+**/node_modules/
+
 # Incluir archivos de configuración del repositorio
 !.gitignore
 !README.md
