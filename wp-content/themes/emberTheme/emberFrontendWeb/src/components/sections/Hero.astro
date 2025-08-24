@@ -1,7 +1,7 @@
 ---
 const { titleHero } = Astro.props 
 ---
-<header>
+<section>
   <svg
     class="bg"
     fill="none"
@@ -10,11 +10,14 @@ const { titleHero } = Astro.props
   >
     <path fill="currentColor" d="M0 0h1440v800L0 838V0Z" />
   </svg>
-  <h1>{ titleHero }</h1>
-</header>
+  <header class="inner">
+    <h1>{ titleHero }</h1>
+  </header>
+  
+</section>
 
 <style>
-  header {
+  section {
     position: relative;      
     display: flex;
     align-items: center;
@@ -25,7 +28,6 @@ const { titleHero } = Astro.props
     h1 {
       font-size: var(--fontSize-xx-large);
       text-wrap: balance;
-      padding-inline: var(--space-inline);
       max-inline-size: 16ch;
     }
   }

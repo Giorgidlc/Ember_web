@@ -2,13 +2,16 @@
 const { titleIntro } = Astro.props
 ---
 <article>
-  <h2>{titleIntro}</h2>
+  <header class="inner">
+    <h2>{titleIntro}</h2>
+  </header>
+  
 </article>
 
 <style>
 
   article {
-    padding: var(--space-block) var(--space-inline);
+    padding-block: var(--space-block);
   }
 
   h2 {

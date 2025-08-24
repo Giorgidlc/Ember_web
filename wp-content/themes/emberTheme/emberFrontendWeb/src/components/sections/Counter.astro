@@ -10,10 +10,13 @@ const { titleCounter } = Astro.props
   >
     <path fill="currentColor" d="M0 0h1440v800L0 838V0Z" />
   </svg>
-  <div>contador</div>
-  <div>
-    <h2>{titleCounter}</h2>
-  </div>
+  <section class="inner">
+    <div>contador</div>
+    <div>
+      <h2>{titleCounter}</h2>
+    </div> 
+  </section>
+  
   
 </article>
 
@@ -21,8 +24,6 @@ const { titleCounter } = Astro.props
 
   article {
     position: relative;
-    display: flex;
-    padding: var(--space-block) var(--space-inline);
     margin-block-start: var(--space-block);
   }
 

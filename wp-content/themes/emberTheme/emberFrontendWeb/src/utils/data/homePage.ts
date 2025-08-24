@@ -19,6 +19,8 @@ export interface HomePageContent {
 
   services: ServiceCard[];
   features: FeatureItem[];
+  posts: PostCard[];
+  footer: Footer;
   cta: {
     title: string;
     description: string;
@@ -39,6 +41,22 @@ export interface FeatureItem {
   title: string;
   description?: string;
   buttonText: string;
+}
+
+export interface PostCard {
+  srcLink: string;
+  title: string;
+  description: string;
+  buttonText: string;
+  
+}
+
+export interface Footer {
+  title: string;
+  description: string;
+  contactFooter?: string[];
+  buttonText: string;
+  
 }
 
 // Contenido temporal en español
@@ -91,6 +109,37 @@ export const homePageContent: HomePageContent = {
   counter: {
     title: "Proyectos Erasmus+ implementados con éxito",
     description: "",
+  },
+
+   posts: [
+    {
+      srcLink: "https://brisaintercultural.org/wp-content/uploads/2025/04/report-mobilidadad.png",
+      title: "Nuotta Coaching | TC en Finlandia",
+      description: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores.",
+      buttonText: "Leer más",
+    },
+    {
+      srcLink: "https://brisaintercultural.org/wp-content/uploads/2024/12/report-mobilidadad-1.png",
+      title: "Emancipatory Simulations for Inclusive Societies | TC en Lituania",
+      description: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam.",
+      buttonText: "Leer más",
+    },
+    {
+      srcLink: "https://brisaintercultural.org/wp-content/uploads/2024/07/report-mobilidadad.png",
+      title: "Tech-ing Up Non-Formal Youth Work | TC en Grecia",
+      description: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni.",
+      buttonText: "Leer más",
+    },
+  
+  ],
+   
+  footer: {
+    title: "Contacta con nosotros",
+    description: "Explora nuestro blog para descubrir las últimas noticias, consejos y recursos sobre formación, gestión y comunicación en el ámbito de las organizaciones.",
+    contactFooter: [
+      "+34 601 253 603", "hablamos@ember.com"
+    ],
+    buttonText: "Visitar blog"
   },
   cta: {
     title: "¿Listo para transformar tu organización?",

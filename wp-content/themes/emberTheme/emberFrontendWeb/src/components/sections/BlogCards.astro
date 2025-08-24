@@ -1,0 +1,28 @@
+---
+import BlogCard from "@/components/BlogCard.astro";
+
+const { posts } = Astro.props;
+---
+
+<article>
+  <section class="inner">
+    {
+      posts.map((post: any) => (
+        <BlogCard
+          imgSrc={post.srcLink}
+          title={post.title}
+          description={post.description}
+          buttonText={post.buttonText}
+        />
+      ))
+    }
+  </section>
+</article>
+
+<style>
+  section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+</style>
