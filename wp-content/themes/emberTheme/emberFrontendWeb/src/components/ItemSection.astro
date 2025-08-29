@@ -1,0 +1,39 @@
+---
+const { titleItem, descriptionItem } = Astro.props
+---
+<section>
+  <div class="inner">
+    <h2>{titleItem}</h2>
+    <p>{descriptionItem}</p>
+  </div>
+  
+</section>
+
+<style>
+
+  section {
+    padding-block-start: var(--space-block);
+    color: var(--color-contrast-2);
+    
+    & div {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+
+  h2 {
+    font-size: var(--fontSize-x-large);
+    color: inherit;
+    text-wrap: balance;
+    max-inline-size: 16ch;
+  } 
+
+  p {
+    font-size: var(--fontSize-medium);
+    color: inherit;
+    max-inline-size: 29ch;
+    margin-inline-start: 2rem;
+    text-wrap: pretty;
+  }
+</style>

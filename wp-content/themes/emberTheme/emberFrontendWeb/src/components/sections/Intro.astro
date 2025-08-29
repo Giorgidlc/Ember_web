@@ -1,9 +1,10 @@
 ---
-const { titleIntro } = Astro.props
+const { titleIntro, description } = Astro.props
 ---
 <article>
   <header class="inner">
     <h2>{titleIntro}</h2>
+    { description && <p>{description}</p> } 
   </header>
   
 </article>
@@ -11,7 +12,7 @@ const { titleIntro } = Astro.props
 <style>
 
   article {
-    padding-block: var(--space-block);
+    padding-block-start: var(--space-block);
   }
 
   h2 {
@@ -19,5 +20,5 @@ const { titleIntro } = Astro.props
     color: var(--color-contrast-2);
     text-wrap: balance;
     max-inline-size: 16ch;
-  }
+  } 
 </style>

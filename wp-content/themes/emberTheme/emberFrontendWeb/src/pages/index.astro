@@ -10,6 +10,7 @@ import "@styles/global-styles.css";
 
 
 import { homePageContent } from "@utils/data/homePage";
+import ItemSection from "@/components/ItemSection.astro";
 
 const { hero, intro, services, features, counter, posts, footer} = homePageContent;
 ---
@@ -22,23 +23,29 @@ const { hero, intro, services, features, counter, posts, footer} = homePageConte
   <Counter titleCounter={counter.title}/>
   <BlogCards posts={posts} />
 
+  <ItemSection 
+    titleItem="Formación y Desarollo de competencias"
+    descriptionItem=`Creemos en el poder del conocimiento para transformar. 
+      Nuestras formaciones están diseñadas para equipar a tu equipo con las competencias necesarias para liderar proyectos exitosos y fortalecer la comunicación interna y externa de tu organización. 
+      Ofrecemos talleres interactivos y programas de capacitación personalizados, adaptados a las necesidades de tu equipo.`
+  />
+
 
   </main>
   <Footer
     titleFooter={footer.title}
     contactFooter={footer.contactFooter}
-
   />
 </BaseLayout>
 
 <style>
   main {
-    margin-block: 150px;
+    margin-block-end: var(--space-block);
     display: flex;
     flex-direction: column;
 
     max-inline-size: 100%;
-    gap: 100px;
+    gap: var(--space-block);
   }
 
 

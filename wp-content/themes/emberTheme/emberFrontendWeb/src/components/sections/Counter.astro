@@ -1,5 +1,7 @@
 ---
+import ItemCounter from "../ItemCounter.astro"
 const { titleCounter } = Astro.props
+
 ---
 <article>
   <svg
@@ -11,8 +13,10 @@ const { titleCounter } = Astro.props
     <path fill="currentColor" d="M0 0h1440v800L0 838V0Z" />
   </svg>
   <section class="inner">
-    <div>contador</div>
-    <div>
+    <div class="column">
+      <ItemCounter number="30"/>
+    </div>
+    <div class="column">
       <h2>{titleCounter}</h2>
     </div> 
   </section>
@@ -24,13 +28,30 @@ const { titleCounter } = Astro.props
 
   article {
     position: relative;
-    margin-block-start: var(--space-block);
+    display: flex;
+    padding-block: var(--space-block);
+   
+  }
+
+  section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    .column {
+      display: flex;
+      flex: 2;
+      align-items: end;
+      
+       
+    }
   }
 
   h2 {
     font-size: var(--fontSize-x-large);
     color: var(--color-base);
     text-wrap: balance;
+    margin-block-end: 2rem;
   }
 
   .bg {

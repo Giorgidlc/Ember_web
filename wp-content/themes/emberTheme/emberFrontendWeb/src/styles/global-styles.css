@@ -20,11 +20,13 @@
   --color-contrast-1: #D93D04;
   --color-contrast-2: #712B2B;
 
-  --fontSize-xx-large: clamp(3.563rem, 3.344rem + 1.09vw, 4.375rem);
-  --fontSize-x-large: clamp(2.875rem, 2.69rem + 0.92vw, 3.563rem);
-
+  --fontSize-xx-large: clamp(2.75rem, 2.314rem + 2.18vw, 4.375rem);
+  --fontSize-x-large: clamp(1.813rem, 1.561rem + 1.26vw, 2.75rem);
+  --fontSize-large: clamp(1.438rem, 1.337rem + 0.5vw, 1.813rem);
+  --fontSize-medium: clamp(0.938rem, 0.887rem + 0.25vw, 1.125rem);
+  
   --space-inline: clamp(1.25rem, -0.931rem + 10.91vw, 9.375rem);
-  --space-block: clamp(1.5rem, 0.56rem + 4.7vw, 5rem);
+  --space-block: clamp(5rem, 3.826rem + 5.87vw, 9.375rem);
 }
 
 h1,

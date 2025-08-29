@@ -16,18 +16,19 @@ const {id, title, description, buttonText } = Astro.props
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap: .9rem;
     border-radius: 50px 0px 50px 0px;
     padding: 2rem;
     background-color: var(--color-accent);
     min-block-size: 280px;
 
     & h3 {
-      font-size: 30px;
+      font-size: var(--fontSize-large);
       color: var(--color-base);
     }
 
     & p {
-      font: 1rem;
+      font-size: var(--fontSize-medium);
       color: var(--color-base)
     }
   }
