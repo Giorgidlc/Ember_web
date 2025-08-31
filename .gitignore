@@ -21,4 +21,4 @@ wp-content/error_log
 
 # Ignorar archivos de backup
 wp-content/backup-*
-wp-content/*.sql
+!wp-content/*.sql
