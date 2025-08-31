@@ -1,0 +1,35 @@
+---
+import Button from "@components/Button.astro";
+
+const {id, title, description, buttonText } = Astro.props
+---
+
+<div id={id}>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <Button buttonText={buttonText} variant="secondary"/>
+</div> 
+
+
+<style>
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: .9rem;
+    border-radius: 50px 0px 50px 0px;
+    padding: 2rem;
+    background-color: var(--color-accent);
+    min-block-size: 280px;
+
+    & h3 {
+      font-size: var(--fontSize-large);
+      color: var(--color-base);
+    }
+
+    & p {
+      font-size: var(--fontSize-medium);
+      color: var(--color-base)
+    }
+  }
+</style>

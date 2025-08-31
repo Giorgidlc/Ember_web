@@ -1,0 +1,50 @@
+---
+const { number } = Astro.props;
+---
+
+<div class="item-counter">
+   <div id="counter">0</div>
+</div>
+
+<style>
+  .item-counter {
+    position: relative;
+    display: flex;
+    border: solid 2rem var(--color-base);
+    border-radius: 30px 0px 30px 0px;
+    flex: 1;
+    aspect-ratio: 1/1;
+    ;
+
+    div {
+      position: absolute;
+      font-family: 'Unbounded Variable';
+      left: -20px;
+      bottom: 0;
+      font-size: 18vw;
+      color: var(--color-base);
+    }    
+  }
+</style>
+
+
+<script define:vars={{ number }}>
+  const el = document.getElementById('counter');
+  const final = number;
+  let current = 0;
+
+  // Duración total de la animación (ms)
+  const duration = 1000;
+  const stepTime = 16;              
+  const steps = Math.floor(duration / stepTime);
+  const increment = final / steps;
+
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= final) {
+      current = final;
+      clearInterval(timer);
+    }
+    el.textContent = Math.round(current);
+  }, stepTime);
+</script>

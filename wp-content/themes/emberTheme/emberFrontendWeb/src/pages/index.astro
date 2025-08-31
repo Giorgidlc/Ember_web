@@ -1,0 +1,52 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@/components/sections/Hero.astro";
+import Intro from "@/components/sections/Intro.astro";
+import Counter from "@/components/sections/Counter.astro";
+import ServiceCards  from "@components/sections/ServiceCards.astro";
+import BlogCards from "@/components/sections/BlogCards.astro";
+import Footer from "@/components/sections/Footer.astro";
+import "@styles/global-styles.css";
+
+
+import { homePageContent } from "@utils/data/homePage";
+import ItemSection from "@/components/ItemSection.astro";
+
+const { hero, intro, services, features, counter, posts, footer} = homePageContent;
+---
+
+<BaseLayout>
+  <Hero titleHero={hero.title} />
+  <main>
+  <Intro titleIntro={intro?.title}/>
+  <ServiceCards services={services} features={features}/>
+  <Counter titleCounter={counter.title}/>
+  <BlogCards posts={posts} />
+
+  <ItemSection 
+    titleItem="Formación y Desarollo de competencias"
+    descriptionItem=`Creemos en el poder del conocimiento para transformar. 
+      Nuestras formaciones están diseñadas para equipar a tu equipo con las competencias necesarias para liderar proyectos exitosos y fortalecer la comunicación interna y externa de tu organización. 
+      Ofrecemos talleres interactivos y programas de capacitación personalizados, adaptados a las necesidades de tu equipo.`
+  />
+
+
+  </main>
+  <Footer
+    titleFooter={footer.title}
+    contactFooter={footer.contactFooter}
+  />
+</BaseLayout>
+
+<style>
+  main {
+    margin-block-end: var(--space-block);
+    display: flex;
+    flex-direction: column;
+
+    max-inline-size: 100%;
+    gap: var(--space-block);
+  }
+
+
+</style>

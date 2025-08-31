@@ -1,0 +1,64 @@
+---
+import Button from "@components/Button.astro";
+
+const { id, title, description, buttonText, imgSrc, imgAlt } = Astro.props;
+---
+
+<div id={id} class="blog-card">
+  <div class="blog-card__container">
+    <figure>
+      <img src={imgSrc} alt={imgAlt} loading="lazy" width="350" height="400" />
+    </figure>
+    <div class="info-card-blog">
+      <h4>{title}</h4>
+      <p>{description}</p>
+    </div>
+  </div>
+  <Button buttonText={buttonText} variant="transparent" />
+</div>
+
+<style>
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+
+    & .blog-card__container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    & figure {
+      display: flex;
+      border-radius: 50px 0px 50px 0px;
+      overflow: hidden;
+      max-block-size: 24rem;
+
+      & img {
+        flex: 1;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        min-inline-size: 100%;
+      }
+    }
+
+    & .info-card-blog {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      color: var(--color-contrast-2);
+
+      & h4 {
+        font-size: 24px;
+        color: inherit;
+      }
+
+      & p {
+        font: 1rem;
+        color: inherit;
+      }
+    }
+  }
+</style>
