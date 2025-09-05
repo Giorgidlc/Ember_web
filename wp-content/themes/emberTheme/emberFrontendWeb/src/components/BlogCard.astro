@@ -1,7 +1,7 @@
 ---
 import Button from "@components/Button.astro";
 
-const { id, title, description, buttonText, imgSrc, imgAlt } = Astro.props;
+const { id, title, description, buttonText="Leer más", hrefPost, imgSrc, imgAlt } = Astro.props;
 ---
 
 <div id={id} class="blog-card">
@@ -11,10 +11,15 @@ const { id, title, description, buttonText, imgSrc, imgAlt } = Astro.props;
     </figure>
     <div class="info-card-blog">
       <h4>{title}</h4>
-      <p>{description}</p>
+      <span set:html={description}/>
     </div>
   </div>
-  <Button buttonText={buttonText} variant="transparent" />
+  <Button 
+    buttonText={buttonText} 
+    href={hrefPost}
+    target=""
+    variant="transparent" 
+  />
 </div>
 
 <style>
@@ -55,8 +60,8 @@ const { id, title, description, buttonText, imgSrc, imgAlt } = Astro.props;
         color: inherit;
       }
 
-      & p {
-        font: 1rem;
+      & span {
+        font-size: 1rem;
         color: inherit;
       }
     }

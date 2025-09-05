@@ -30,21 +30,33 @@ const { number } = Astro.props;
 
 <script define:vars={{ number }}>
   const el = document.getElementById('counter');
-  const final = number;
+  const final = Number(number);
   let current = 0;
 
-  // Duración total de la animación (ms)
-  const duration = 1000;
-  const stepTime = 16;              
+  const duration = 1500;
+  const stepTime = 16;
   const steps = Math.floor(duration / stepTime);
   const increment = final / steps;
 
-  const timer = setInterval(() => {
-    current += increment;
-    if (current >= final) {
-      current = final;
-      clearInterval(timer);
-    }
-    el.textContent = Math.round(current);
-  }, stepTime);
+  const startCounter = () => {
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= final) {
+        current = final;
+        clearInterval(timer);
+      }
+      el.textContent = Math.round(current).toString();
+    }, stepTime);
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        startCounter();
+        observer.unobserve(entry.target); // Solo se activa una vez
+      }
+    });
+  });
+
+  observer.observe(el);
 </script>

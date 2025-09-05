@@ -10,9 +10,10 @@ const { posts } = Astro.props;
       posts.map((post: any) => (
         <BlogCard
           imgSrc={post.srcLink}
-          title={post.title}
-          description={post.description}
+          title={post.titlePost}
+          description={post.excerpt}
           buttonText={post.buttonText}
+          hrefPost={`post/${post.slug}`}
         />
       ))
     }

@@ -1,0 +1,46 @@
+---
+interface ServiceData {
+  id: string;
+  title: string;
+  description: string;
+
+}
+const {id, title, description,} =
+  Astro.props as ServiceData;
+---
+
+<div 
+  id={id}
+  class="service inner"
+>
+  <h3>{title}</h3>
+  <p>{description}</p>
+
+</div> 
+
+
+<style>
+  .service {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: .9rem;
+    padding: 2rem;
+   
+
+    > h3 {
+      font-size: var(--fontSize-x-large);
+      color: var(--color-contrast-2);
+      max-inline-size: 16ch;
+      margin-block-end: 2rem;
+     
+    }
+
+    > p {
+      font-size: var(--fontSize-medium);
+      color: var(--color-contrast-2);
+      font-weight: 100;
+      max-inline-size: 24ch;
+    }
+  }
+</style>

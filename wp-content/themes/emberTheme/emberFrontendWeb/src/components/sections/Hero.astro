@@ -1,5 +1,5 @@
 ---
-const { titleHero } = Astro.props 
+const { titleHero, descriptionHero } = Astro.props 
 ---
 <section>
   <svg
@@ -12,6 +12,7 @@ const { titleHero } = Astro.props
   </svg>
   <header class="inner">
     <h1>{ titleHero }</h1>
+    {descriptionHero && <p>{descriptionHero}</p>}
   </header>
   
 </section>
@@ -29,6 +30,11 @@ const { titleHero } = Astro.props
       font-size: var(--fontSize-xx-large);
       text-wrap: balance;
       max-inline-size: 16ch;
+      margin-block-end: 2rem;
+    }
+
+    p {
+      font-size: var(--fontSize-medium);
     }
   }
 

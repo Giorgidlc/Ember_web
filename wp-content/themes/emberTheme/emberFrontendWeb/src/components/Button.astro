@@ -2,16 +2,23 @@
 export interface Props {
   href?: string;
   buttonText: string;
+  target?: string;
   variant?: "primary" | "secondary" | "transparent";
 }
 
-const { href = "#", buttonText, variant = "primary" } = Astro.props;
+const { href, buttonText, target, variant = "primary" } = Astro.props;
 ---
 
-<a href={href} class:list={["btn", `btn--${variant}`]}
-  >{buttonText}
+{href
+  ? (
+  <a 
+  href={href} 
+  class:list={["btn", `btn--${variant}`]}
+  target={target}
+>
+    {buttonText}
   <span>
-    <svg fill="none" viewBox="0 0 18 18"
+    <svg aria-hidden="true" fill="none" viewBox="0 0 18 18"
       ><path
         fill="currentColor"
         d="M8.25 17.5V9.75H.5v-1.5h7.75V.5h1.5v7.75h7.75v1.5H9.75v7.75h-1.5Z"
@@ -19,6 +26,23 @@ const { href = "#", buttonText, variant = "primary" } = Astro.props;
     </svg>
   </span>
 </a>
+) : (
+    <button 
+      type="button" 
+      class:list={["btn", `btn--${variant}`]}
+    >
+      {buttonText}
+      <span>
+        <svg aria-hidden="true" fill="none" viewBox="0 0 18 18">
+          <path
+            fill="currentColor"
+            d="M8.25 17.5V9.75H.5v-1.5h7.75V.5h1.5v7.75h7.75v1.5H9.75v7.75h-1.5Z"
+          ></path>
+        </svg>
+      </span>
+    </button>
+  )
+}
 
 <style>
   .btn {
@@ -38,6 +62,7 @@ const { href = "#", buttonText, variant = "primary" } = Astro.props;
     padding: 16px 20px;
     inline-size: fit-content;
     transition: all ease-in-out .3s;
+    border: none;
 
     span {
       inline-size: 1rem;

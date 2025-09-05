@@ -1,7 +1,6 @@
 ---
 import ItemCounter from "../ItemCounter.astro"
-const { titleCounter } = Astro.props
-
+const { titleCounter, projectCounter } = Astro.props
 ---
 <article>
   <svg
@@ -14,7 +13,7 @@ const { titleCounter } = Astro.props
   </svg>
   <section class="inner">
     <div class="column">
-      <ItemCounter number="30"/>
+      <ItemCounter  number={Number(projectCounter)}/>
     </div>
     <div class="column">
       <h2>{titleCounter}</h2>

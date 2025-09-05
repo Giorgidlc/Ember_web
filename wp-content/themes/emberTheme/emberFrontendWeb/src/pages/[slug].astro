@@ -1,0 +1,99 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import Intro from "@/components/sections/Intro.astro";
+import ServiceItem from "@/components/ServiceItem.astro";
+
+import { getAllSlugPages, getInfoPage, getAllServices } from "@/libs/wp";
+
+export async function getStaticPaths() {
+  const slugs = await getAllSlugPages();
+  return slugs.map((slug: string) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const page = await getInfoPage(slug);
+
+if (!page) {
+  return Astro.redirect("/404");
+}
+
+const {
+  titlePage = "",
+  acfTitle = "",
+  acfDescription = "",
+  introTitle = "",
+  introDescription = "",
+} = page;
+
+const services = await getAllServices({ perPage: 4 });
+---
+
+<!-- <PageLayout
+  pageTitle={titlePage}
+  acfTitle={acfTitle}
+  acfDescription={acfDescription}
+>
+  <Intro introTitle={introTitle} description={introDescription} />
+
+  <article class="inner">
+    {
+      services.map((service: any) => (
+        <ServiceItem
+          id={service.slug}
+          title={service.title}
+          description={service.descriptionService}
+        />
+      ))
+    }
+  </article>
+</PageLayout>
+
+<style>
+  article {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-block:var(--space-block);
+   
+  }
+</style>
+ -->
+
+ <PageLayout
+  pageTitle={titlePage}
+  acfTitle={acfTitle}
+  acfDescription={acfDescription}
+>
+  <!-- Contenido del slot "header" -->
+  {slug === "que-hacemos" && (
+    <div slot="header">
+      <h2>Nuestros servicios destacados</h2>
+    </div>
+  )}
+
+  {slug === "programas" && (
+    <div slot="header">
+      <h2>Servicios especiales</h2>
+    </div>
+  )}
+
+  <!-- Contenido principal (slot por defecto) -->
+  <Intro introTitle={introTitle} description={introDescription} />
+
+  <article class="inner">
+    {services.map((service: any) => (
+      <ServiceItem
+        id={service.slug}
+        title={service.title}
+        description={service.descriptionService}
+      />
+    ))}
+  </article>
+
+  <!-- Contenido del slot "footer" -->
+  {slug === "que-hacemos" && (
+    <div slot="footer">
+      <p>Pie de página para “Qué hacemos”</p>
+    </div>
+  )}
+</PageLayout>

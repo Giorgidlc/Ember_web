@@ -2,40 +2,68 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Hero from "@/components/sections/Hero.astro";
 import Intro from "@/components/sections/Intro.astro";
+import Card from "@/components/Card.astro";
+import Button from "@/components/Button.astro";
 import Counter from "@/components/sections/Counter.astro";
-import ServiceCards  from "@components/sections/ServiceCards.astro";
 import BlogCards from "@/components/sections/BlogCards.astro";
 import Footer from "@/components/sections/Footer.astro";
-import "@styles/global-styles.css";
 
+import { pagesIndexInfo, getAllPosts, getAllServices } from "@libs/wp.ts";
+
+const {
+  title,
+  introTitle,
+  sectionTitle,
+  sectionButtonTitle,
+  sectionButtonUrl,
+  sectionButtonTarget,
+  sectionCounterTitle,
+  projectCounter,
+} = await pagesIndexInfo("inicio");
+
+const services = await getAllServices({ perPage: 4 });
+
+const posts = await getAllPosts({ perPage: 3 });
 
 import { homePageContent } from "@utils/data/homePage";
-import ItemSection from "@/components/ItemSection.astro";
-
-const { hero, intro, services, features, counter, posts, footer} = homePageContent;
+const { footer } = homePageContent;
 ---
 
-<BaseLayout>
-  <Hero titleHero={hero.title} />
+<BaseLayout pageTitle="Ember">
+  <Hero titleHero={title} />
   <main>
-  <Intro titleIntro={intro?.title}/>
-  <ServiceCards services={services} features={features}/>
-  <Counter titleCounter={counter.title}/>
-  <BlogCards posts={posts} />
-
-  <ItemSection 
-    titleItem="Formación y Desarollo de competencias"
-    descriptionItem=`Creemos en el poder del conocimiento para transformar. 
-      Nuestras formaciones están diseñadas para equipar a tu equipo con las competencias necesarias para liderar proyectos exitosos y fortalecer la comunicación interna y externa de tu organización. 
-      Ofrecemos talleres interactivos y programas de capacitación personalizados, adaptados a las necesidades de tu equipo.`
-  />
-
-
+    <Intro introTitle={introTitle} />
+    <article class="section__cards">
+      <section class="inner section__cards__wrapper">
+        {
+          services.map((service: any) => (
+            <Card
+              id={service.id}
+              title={service.titleShortService}
+              description={service.excerpt}
+              buttonText={service.buttonText}
+              url={service.urlService}
+              target={service.targetService}
+            />
+          ))
+        }
+      </section>
+      <div class="inner">
+        <h2>{sectionTitle}</h2>
+        <Button
+          buttonText={sectionButtonTitle}
+          href={sectionButtonUrl}
+          target={sectionButtonTarget}
+        />
+      </div>
+    </article>
+    <Counter
+      titleCounter={sectionCounterTitle}
+      projectCounter={projectCounter}
+    />
+    <BlogCards posts={posts} />
   </main>
-  <Footer
-    titleFooter={footer.title}
-    contactFooter={footer.contactFooter}
-  />
+  <Footer titleFooter={footer.title} contactFooter={footer.contactFooter} />
 </BaseLayout>
 
 <style>
@@ -48,5 +76,58 @@ const { hero, intro, services, features, counter, posts, footer} = homePageConte
     gap: var(--space-block);
   }
 
+  .section__cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-block);
+  }
+  .section__cards__wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
 
+    > .card:nth-child(1) {
+      background-color: var(--color-contrast-2);
+    }
+
+    > .card:nth-child(2) {
+      background-color: var(--color-accent);
+    }
+
+    > .card:nth-child(3) {
+      background-color: var(--color-contrast-1);
+    }
+
+    > .card:nth-child(4) {
+      border: solid 2px var(--color-contrast-2);
+      background-color: var(--color-base);
+      > h3 {
+        color: var(--color-contrast-2);
+      }
+      > .description-card {
+        color: var(--color-contrast-2);
+      }
+
+      > a {
+        border: solid 2px var(--color-contrast-2);
+      }
+    }
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    h2 {
+      font-size: var(--fontSize-x-large);
+      color: var(--color-contrast-2);
+      max-inline-size: 16ch;
+    }
+  }
+  @media (width < 480px) {
+    .section__cards__wrapper {
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    }
+  }
 </style>

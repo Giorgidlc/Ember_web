@@ -1,19 +1,28 @@
+---
+export interface Props {
+  pageTitle: string;
+}
+import "@styles/global-styles.css";
+const { pageTitle } = Astro.props;
+
+
+---
+
 <!doctype html>
 <html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>Ember</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
-
 <style>
-	body {
-		background-color: var(--color-base);
-	}
+  body {
+    background-color: var(--color-base);
+  }
 </style>
