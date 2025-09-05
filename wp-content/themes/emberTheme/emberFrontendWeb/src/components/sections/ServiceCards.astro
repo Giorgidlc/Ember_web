@@ -2,13 +2,23 @@
 import Card from "@/components/Card.astro";
 import Button from "../Button.astro";
 
-const { services, features } = Astro.props;
+interface CardData {
+  id: number | string;
+  title: string;
+  description: string;
+  buttonText: string;
+  url?: string;
+  target?: string;
+}
+
+
+const { services, features } = Astro.props as { services: CardData[]; features?: { title: string; buttonText: string }[];};
 ---
 
 <article>
   <section class="inner">
     {
-      services.map((service: any) => (
+      services.map((service) => (
         <Card
           id={service.id}
           title={service.title}
@@ -18,10 +28,10 @@ const { services, features } = Astro.props;
       ))
     }
   </section>
-  <div class="inner">
+<!--   <div class="inner">
     <h2>{features[0].title}</h2>
     <Button buttonText={features[0].buttonText} />
-  </div>
+  </div> -->
 </article>
 
 <style>

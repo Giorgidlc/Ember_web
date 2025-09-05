@@ -1,18 +1,37 @@
 ---
 import Button from "@components/Button.astro";
 
-const {id, title, description, buttonText } = Astro.props
+interface CardProps {
+  id: string;
+  title: string;
+  description: string;
+  buttonText: string;
+  url?: string;
+  target?: string
+  appearance?: "red" | "yellow" | "orange" | "transparent";
+}
+
+const { id, title, description, buttonText, url, target, appearance } =
+  Astro.props as CardProps;
 ---
 
-<div id={id}>
+<div 
+  id={id}
+  class:list={["card", `card--${appearance}`]}
+>
   <h3>{title}</h3>
-  <p>{description}</p>
-  <Button buttonText={buttonText} variant="secondary"/>
+  <span set:html={description}/>
+  <Button 
+    buttonText={buttonText} 
+    href={url} 
+    target={target} 
+    variant="secondary"
+  />
 </div> 
 
 
 <style>
-  div {
+  .card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -25,11 +44,13 @@ const {id, title, description, buttonText } = Astro.props
     & h3 {
       font-size: var(--fontSize-large);
       color: var(--color-base);
+      text-transform: uppercase;
     }
 
-    & p {
+    & span {
       font-size: var(--fontSize-medium);
-      color: var(--color-base)
+      color: var(--color-base);
+      font-weight: 100;
     }
   }
 </style>
