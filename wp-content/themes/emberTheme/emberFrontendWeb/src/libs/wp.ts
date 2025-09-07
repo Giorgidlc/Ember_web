@@ -23,9 +23,13 @@ interface PropsAcf {
     url: string;
     target: string;
   };
+  service_cards: Array<number>;
   section_counter_titlte: string;
   project_counter: number;
-
+  content_block_1?: string;
+  content_block_2?: string;
+  content_block_3?: string;
+  
 }
 
 interface PropsServices {
@@ -36,11 +40,13 @@ interface PropsServices {
   acf: {
     title_service: string;
     description_service: string;
+    service_cards: Array<number>;
     button_service: {
       title: string;
       url: string;
       target: string;
     };
+    
   };
   _embedded: any;
 }
@@ -85,15 +91,23 @@ export const getInfoPage = async (slug: string) => {
           intro_title: introTitle,
           intro_description: introDescription,
           section_title: sectionTitle,
+          section_description: sectionDescription,
+          content_block_1,
+          content_block_2,
+          content_block_3,
+          service_cards: serviceCardsOrder,
           section_button: {
             title: sectionButtonTitle,
             url: sectionButtonUrl,
             target: sectionButtonTarget,
-          } = {}, // 👈 evita error si section_button es null
-        } = {}, // 👈 evita error si acf es null
+          } = {}, 
+        } = {}, 
         excerpt: { rendered: excerpt } = { rendered: "" },
         _embedded,
       } = page;
+
+      const contentBlocks = [content_block_1, content_block_2, content_block_3]
+        .filter(Boolean);
 
       return {
         pageSlug,
@@ -104,10 +118,13 @@ export const getInfoPage = async (slug: string) => {
         introTitle,
         introDescription,
         sectionTitle,
+        sectionDescription,
         sectionButtonTitle,
         sectionButtonUrl,
         sectionButtonTarget,
         excerpt,
+        contentBlocks,
+        serviceCardsOrder,
         _embedded,
       };
     });
@@ -121,7 +138,7 @@ export const getInfoPage = async (slug: string) => {
 
 export const pagesIndexInfo = async (slug: string) => {
   try {
-    const res = await fetch(`${apiUrl}/pages?slug=${slug}&_embed&_fields=slug,title.rendered,acf.title,acf.description,acf.btn_url,acf.intro_title,acf.section_title,acf.section_button,acf.section_counter_titlte,acf.project_counter,excerpt.rendered`);
+    const res = await fetch(`${apiUrl}/pages?slug=${slug}&_embed&_fields=slug,title.rendered,acf,excerpt.rendered`);
 
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
 
@@ -138,6 +155,7 @@ export const pagesIndexInfo = async (slug: string) => {
           btn_url: btnUrl,
           intro_title: introTitle,
           section_title: sectionTitle,
+          service_cards: serviceCardsOrder,
           section_button: {
             title: sectionButtonTitle,
             url: sectionButtonUrl,
@@ -150,7 +168,8 @@ export const pagesIndexInfo = async (slug: string) => {
         _embedded,
       } = page;
 
-      return { pageSlug, titlePage, title: acfTitle, acfDescription, btnUrl, introTitle, excerpt, _embedded, sectionTitle, sectionButtonTitle, sectionButtonUrl, sectionButtonTarget, sectionCounterTitle, projectCounter };
+
+      return { pageSlug, titlePage, title: acfTitle, acfDescription, btnUrl, introTitle, excerpt, _embedded, sectionTitle, sectionButtonTitle, sectionButtonUrl, sectionButtonTarget, sectionCounterTitle, projectCounter, serviceCardsOrder };
     })
 
     return infoPageIndex;
@@ -179,17 +198,18 @@ export const getAllServices = async ({ perPage = 4 }: { perPage?: number } = {})
         acf: {
           title_service: titleShortService,
           description_service: descriptionService,
+          service_cards: serviceCardsOrder,
           button_service: {
             title: buttonText,
             url: urlService,
             target: targetService
-          } = { title: "Ver más", url: "", target: "" }
-        } = { titleService:"", description_service: "", button_service: {} },
-        /*  _embedded */
+          } = { title: "Ver más", url: "", target: "" },
+        } = { titleService: "", description_service: "", button_service: {}, serviceCardsOrder: [] },
+        //  _embedded
       } = service;
 
-      /*  // Manejo seguro de imagen destacada
-       const srcLink = _embedded?.["wp:featuredmedia"]?.[0]?.source_url || ""; */
+      // Manejo seguro de imagen destacada
+      // const srcLink = _embedded?.["wp:featuredmedia"]?.[0]?.source_url || ""; 
 
       return {
         id: serviceId,
@@ -200,16 +220,70 @@ export const getAllServices = async ({ perPage = 4 }: { perPage?: number } = {})
         excerpt,
         buttonText,
         urlService,
-        targetService
+        targetService,
+        service_cards: serviceCardsOrder,
         /*  srcLink,
-        slug, 
-        buttonText, 
-        urlService, 
-        targetService */
+        _embedded, 
+         */
       };
     }
-    )
-    //console.log(services)
+    );
+    return services;
+
+  } catch (error) {
+    console.error("Error fetching services:", error);
+    throw error;
+  }
+}
+
+
+export const getAllEUServices = async ({ perPage = 4 }: { perPage?: number } = {}) => {
+  try {
+    const res = await fetch(`${apiUrl}/programa?per_page=${perPage}&_embed`);
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+
+    const results = await res.json();
+    if (results.length === 0) throw new Error("No services found.");
+
+    const services = results.map((service: PropsServices) => {
+      const {
+        id: serviceId,
+        title: { rendered: titleService },
+        excerpt: { rendered: excerpt },
+        slug: slug,
+        acf: {
+          title_service: titleShortService,
+          description_service: descriptionService,
+          service_cards: serviceCardsOrder,
+          button_service: {
+            title: buttonText,
+            url: urlService,
+            target: targetService
+          } = { title: "Ver más", url: "", target: "" },
+        } = { titleService: "", description_service: "", button_service: {}, serviceCardsOrder: [] },
+        //  _embedded
+      } = service;
+
+      // Manejo seguro de imagen destacada
+      // const srcLink = _embedded?.["wp:featuredmedia"]?.[0]?.source_url || ""; 
+
+      return {
+        id: serviceId,
+        title: titleService,
+        titleShortService,
+        descriptionService,
+        slug,
+        excerpt,
+        buttonText,
+        urlService,
+        targetService,
+        service_cards: serviceCardsOrder,
+        /*  srcLink,
+        _embedded, 
+         */
+      };
+    }
+    );
     return services;
 
   } catch (error) {
@@ -240,7 +314,7 @@ export const getAllPosts = async ({ perPage = 3 }: { perPage?: number } = {}) =>
       
       return { postId, titlePost, excerpt, srcLink, slug };
     })
-    //console.log(posts)
+
     return posts;
   } catch (error) {
     throw error;
@@ -283,7 +357,7 @@ export const getInfoPost = async (slug: string) => {
       
       return { postId, titlePost, contentPost, excerpt, _embedded, slug };      
     })
-    //console.log(infoPost)
+    
     return infoPost;
 
   } catch (error) {

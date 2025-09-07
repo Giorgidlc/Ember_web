@@ -19,14 +19,17 @@ const {
   sectionButtonTarget,
   sectionCounterTitle,
   projectCounter,
+  serviceCardsOrder,
 } = await pagesIndexInfo("inicio");
 
 const services = await getAllServices({ perPage: 4 });
 
+const byId = new Map(services.map((s:any) => [s.id, s]));
+const servicesToShow = serviceCardsOrder.map((id) => byId.get(id))
+  .filter(Boolean);
+
 const posts = await getAllPosts({ perPage: 3 });
 
-import { homePageContent } from "@utils/data/homePage";
-const { footer } = homePageContent;
 ---
 
 <BaseLayout pageTitle="Ember">
@@ -36,7 +39,7 @@ const { footer } = homePageContent;
     <article class="section__cards">
       <section class="inner section__cards__wrapper">
         {
-          services.map((service: any) => (
+          servicesToShow.map((service: any) => (
             <Card
               id={service.id}
               title={service.titleShortService}
@@ -63,7 +66,7 @@ const { footer } = homePageContent;
     />
     <BlogCards posts={posts} />
   </main>
-  <Footer titleFooter={footer.title} contactFooter={footer.contactFooter} />
+  <Footer/>
 </BaseLayout>
 
 <style>

@@ -2,8 +2,11 @@
 import PageLayout from "@/layouts/PageLayout.astro";
 import Intro from "@/components/sections/Intro.astro";
 import ServiceItem from "@/components/ServiceItem.astro";
+import HighlightSection from "@/components/HighlightSection.astro";
+import Card from "@/components/Card.astro";
 
-import { getAllSlugPages, getInfoPage, getAllServices } from "@/libs/wp";
+import { getAllSlugPages, getInfoPage, getAllServices, getAllEUServices } from "@/libs/wp";
+
 
 export async function getStaticPaths() {
   const slugs = await getAllSlugPages();
@@ -23,62 +26,31 @@ const {
   acfDescription = "",
   introTitle = "",
   introDescription = "",
+  contentBlocks,
+  serviceCardsOrder = [],
+  sectionTitle = "",
+  sectionDescription = "",
+  sectionButtonTitle = "",
+  sectionButtonUrl = "",
+  sectionButtonTarget = "",
+
 } = page;
 
 const services = await getAllServices({ perPage: 4 });
+const programs = await getAllEUServices({ perPage: 6 });
+const byId = new Map(programs.map((s:any) => [s.id, s]));
+const programsToShow = serviceCardsOrder.map((id:any) => byId.get(id)).filter(Boolean);
 ---
 
-<!-- <PageLayout
+<PageLayout
   pageTitle={titlePage}
   acfTitle={acfTitle}
   acfDescription={acfDescription}
+  slug={slug}     
 >
-  <Intro introTitle={introTitle} description={introDescription} />
-
-  <article class="inner">
-    {
-      services.map((service: any) => (
-        <ServiceItem
-          id={service.slug}
-          title={service.title}
-          description={service.descriptionService}
-        />
-      ))
-    }
-  </article>
-</PageLayout>
-
-<style>
-  article {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    padding-block:var(--space-block);
-   
-  }
-</style>
- -->
-
- <PageLayout
-  pageTitle={titlePage}
-  acfTitle={acfTitle}
-  acfDescription={acfDescription}
->
-  <!-- Contenido del slot "header" -->
+ 
   {slug === "que-hacemos" && (
-    <div slot="header">
-      <h2>Nuestros servicios destacados</h2>
-    </div>
-  )}
-
-  {slug === "programas" && (
-    <div slot="header">
-      <h2>Servicios especiales</h2>
-    </div>
-  )}
-
-  <!-- Contenido principal (slot por defecto) -->
-  <Intro introTitle={introTitle} description={introDescription} />
+    <Intro introTitle={introTitle} description={introDescription} />
 
   <article class="inner">
     {services.map((service: any) => (
@@ -88,12 +60,105 @@ const services = await getAllServices({ perPage: 4 });
         description={service.descriptionService}
       />
     ))}
-  </article>
-
-  <!-- Contenido del slot "footer" -->
-  {slug === "que-hacemos" && (
-    <div slot="footer">
-      <p>Pie de página para “Qué hacemos”</p>
-    </div>
+  </article> 
   )}
+
+  {slug === "quienes-somos" && (
+    <article class="inner">
+      {contentBlocks.map((block: any) => (
+      <ServiceItem
+        title={block.block_title}
+        description={block.block_description}
+      />
+    ))}
+    </article>
+  )}
+
+
+ {slug === "oportunidades-europeas" && (
+   <article class="section__cards">
+      <section class="inner section__cards__wrapper">
+        {
+          programsToShow.map((program: any) => (
+            <Card
+              id={program.id}
+              title={program.titleShortService}
+              description={program.excerpt}
+              buttonText={program.buttonText}
+              url={program.urlService}
+              target={program.targetService}
+            />
+          ))
+        }
+      </section>
+  </article> 
+
+   <HighlightSection
+        title={sectionTitle}
+        description={sectionDescription}
+        buttonText={sectionButtonTitle}
+        link={sectionButtonUrl}
+        target={sectionButtonTarget}
+    />
+
+  <article class="inner">
+    {programs.map((program: any) => (
+      <ServiceItem
+        id={program.slug}
+        title={program.title}
+        description={program.descriptionService}
+      />
+    ))}
+  </article> 
+  )}
+
 </PageLayout>
+
+
+<style>
+  article {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-block:var(--space-block);
+   
+  }
+
+  .section__cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-block);
+  }
+  .section__cards__wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 2rem;
+
+    > .card:nth-child(5n + 1) {
+      background-color: var(--color-contrast-2);
+    }
+
+    > .card:nth-child(5n + 2) {
+      background-color: var(--color-accent);
+    }
+
+    > .card:nth-child(5n + 3) {
+      background-color: var(--color-contrast-1);
+    }
+
+    > .card:nth-child(5n + 4) {
+      border: solid 2px var(--color-contrast-2);
+      background-color: var(--color-base);
+      > h3 {
+        color: var(--color-contrast-2);
+      }
+      > .description-card {
+        color: var(--color-contrast-2);
+      }
+
+      > a {
+        border: solid 2px var(--color-contrast-2);
+      }
+    }
+  }
+</style>

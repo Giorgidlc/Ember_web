@@ -10,7 +10,7 @@ const { number } = Astro.props;
   .item-counter {
     position: relative;
     display: flex;
-    border: solid 2rem var(--color-base);
+    border: solid clamp(1rem, 0.597rem + 2.01vw, 2.5rem) var(--color-base);
     border-radius: 30px 0px 30px 0px;
     flex: 1;
     aspect-ratio: 1/1;
@@ -19,9 +19,9 @@ const { number } = Astro.props;
     div {
       position: absolute;
       font-family: 'Unbounded Variable';
-      left: -20px;
+      left: -22px;
       bottom: 0;
-      font-size: 18vw;
+      font-size: clamp(8.5rem, 4.339rem + 20.81vw, 16rem);
       color: var(--color-base);
     }    
   }

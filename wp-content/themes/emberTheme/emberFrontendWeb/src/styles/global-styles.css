@@ -51,5 +51,5 @@ button
 }
 
 @media (width < 480px ) {
-  .inner {inline-size: calc(100% - 3rem * (1 / 1));}
+  .inner {inline-size: calc(100% - 5rem * (1 / 1));}
 }

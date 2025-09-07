@@ -9,14 +9,20 @@ const { titleFooter, contactFooter } = Astro.props;
   </svg>
   <section class="inner">
     <div class="column">
-      <h2>{titleFooter}</h2>
+      <h2>Contacta con nosotros</h2>
       <div>
-        <p>{contactFooter[0]}</p>
-        <p>{contactFooter[1]}</p>
+        <p>+34 601 253 603</p>
+        <p>hablamos@ember.com</p>
       </div>
     </div>
     <div class="column">
-       <img src={logoEmber.src} alt='Logo Ember' loading="lazy" width="200" height="150" />
+      <img
+        src={logoEmber.src}
+        alt="Logo Ember"
+        loading="lazy"
+        width="200"
+        height="150"
+      />
     </div>
   </section>
 </footer>
@@ -27,17 +33,39 @@ const { titleFooter, contactFooter } = Astro.props;
     display: flex;
     align-items: center;
     color: var(--color-base);
-    block-size: 60dvh;
+    block-size: 40dvh;
     overflow: hidden;
 
-    h2 {
-      font-size: var(--fontSize-x-large);
-      text-wrap: balance;
-      max-inline-size: 16ch;
-    }
+    section {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
 
-    img {
-      color: var(--color-base);
+      >:nth-child(1) {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+      >:nth-child(2) {
+        display: flex;
+        justify-content: end;
+        flex: 1 2 auto;
+  
+      }
+
+      h2 {
+        font-size: var(--fontSize-x-large);
+        text-wrap: balance;
+        max-inline-size: 13ch;
+      }
+
+      p {
+        margin-block-end: 1rem;
+      }
+
+      img {
+        color: var(--color-base);
+      }
     }
   }
 

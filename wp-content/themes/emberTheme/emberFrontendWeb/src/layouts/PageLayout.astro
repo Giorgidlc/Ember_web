@@ -3,27 +3,24 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import Hero from "@/components/sections/Hero.astro";
 import Footer from "@/components/sections/Footer.astro";
 
-const {
-  pageTitle = "",
-  acfTitle = "",
-  acfDescription = "",
-} = Astro.props;
+
+
+const { pageTitle = "", acfTitle = "", acfDescription = "", } = Astro.props;
+
+
 ---
 
-<BaseLayout pageTitle={pageTitle}>
+<BaseLayout pageTitle={pageTitle} >
+
   <Hero 
     titleHero={acfTitle} 
     descriptionHero={acfDescription} 
   />
-  <slot name="header">
-    <h1>{acfTitle}</h1>
-    <p>{acfDescription}</p>
-  </slot>
+  <slot />  
+  <slot name="que-hacemos" />
+  <slot name="quienes-somos" />
+  <slot name="oportunidades-europeas"/>
 
-
-  <slot />
-
-  <!-- Slot para footer o secciones finales -->
-  <slot name="footer" />
+  <Footer />
 
 </BaseLayout>
