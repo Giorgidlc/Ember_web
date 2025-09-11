@@ -13,6 +13,7 @@
       "@styles/*": ["src/styles/*"],
       "@utils/*": ["src/utils/*"],
       "@libs/*": ["src/libs/*"],
+      "@types/*": ["src/libs/lib-types/*"]
 
     }
   }
