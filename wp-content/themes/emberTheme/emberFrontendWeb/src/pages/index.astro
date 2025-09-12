@@ -8,63 +8,52 @@ import Counter from "@/components/sections/Counter.astro";
 import BlogCards from "@/components/sections/BlogCards.astro";
 import Footer from "@/components/sections/Footer.astro";
 
-import { pagesIndexInfo, getAllPosts, getAllServices } from "@libs/wp.ts";
+import { getPageBySlug, getAllSlugPosts, getPostBySlug } from "@/libs/apiWP";
 
-const {
-  title,
-  introTitle,
-  sectionTitle,
-  sectionButtonTitle,
-  sectionButtonUrl,
-  sectionButtonTarget,
-  sectionCounterTitle,
-  projectCounter,
-  serviceCardsOrder,
-} = await pagesIndexInfo("inicio");
+const slugIndex = 'inicio'
+const page = await getPageBySlug(slugIndex)
 
-const services = await getAllServices({ perPage: 4 });
+const slugsPost = await getAllSlugPosts({ perPage: 3 });
 
-const byId = new Map(services.map((s:any) => [s.id, s]));
-const servicesToShow = serviceCardsOrder.map((id) => byId.get(id))
-  .filter(Boolean);
-
-const posts = await getAllPosts({ perPage: 3 });
-
+const slugPost = await Promise.all(
+  slugsPost.map((slug: string) => getPostBySlug(slug))
+);
+console.log("Slug de index: ", slugPost)
 ---
 
 <BaseLayout pageTitle="Ember">
-  <Hero titleHero={title} />
+  <Hero titleHero={page?.heroTitle} />
   <main>
-    <Intro introTitle={introTitle} />
+    <Intro introTitle={page?.introTitle} />
     <article class="section__cards">
       <section class="inner section__cards__wrapper">
         {
-          servicesToShow.map((service: any) => (
+          page?.serviceCards?.map((service: any) => (
             <Card
-              id={service.id}
-              title={service.titleShortService}
-              description={service.excerpt}
-              buttonText={service.buttonText}
-              url={service.urlService}
-              target={service.targetService}
+              id={service.serviceId}
+              title={service.serviceName}
+              description={service.serviceExcerpt}
+              buttonText={service.serviceButton.buttonText}
+              url={service.serviceButton.buttonHref}
+              target={service.serviceButton.buttonTarget}
             />
           ))
         }
       </section>
       <div class="inner">
-        <h2>{sectionTitle}</h2>
+        <h2>{page?.sectionTitle}</h2>
         <Button
-          buttonText={sectionButtonTitle}
-          href={sectionButtonUrl}
-          target={sectionButtonTarget}
+          buttonText={page?.sectionButton?.buttonText ?? ""}
+          href={page?.sectionButton?.buttonHref}
+          target={page?.sectionButton?.buttonTarget}
         />
       </div>
     </article>
     <Counter
-      titleCounter={sectionCounterTitle}
-      projectCounter={projectCounter}
+      titleCounter={page?.counterTitle}
+      projectCounter={page?.numberProjects}
     />
-    <BlogCards posts={posts} />
+        <BlogCards posts={slugPost} />
   </main>
   <Footer/>
 </BaseLayout>

@@ -5,8 +5,9 @@ import ServiceItem from "@/components/ServiceItem.astro";
 import HighlightSection from "@/components/HighlightSection.astro";
 import Card from "@/components/Card.astro";
 
-import { getAllSlugPages, getInfoPage, getAllServices, getAllEUServices } from "@/libs/wp";
+//import { getAllSlugPages, getInfoPage, getAllServices, getAllEUServices } from "@/libs/wp";
 
+import { getAllSlugPages, getPageBySlug, getAllSlugSevices, getServiceBySlug,  } from "@/libs/apiWP";
 
 export async function getStaticPaths() {
   const slugs = await getAllSlugPages();
@@ -14,58 +15,57 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const page = await getInfoPage(slug);
+const page = await getPageBySlug(slug);
 
 if (!page) {
   return Astro.redirect("/404");
 }
 
 const {
-  titlePage = "",
-  acfTitle = "",
-  acfDescription = "",
-  introTitle = "",
-  introDescription = "",
+  pageTitle,
+  heroTitle,
+  heroDescription,
+  introTitle,
+  introDescription,
+  sectionTitle,
+  setionDescription,
+  sectionButton,
   contentBlocks,
-  serviceCardsOrder = [],
-  sectionTitle = "",
-  sectionDescription = "",
-  sectionButtonTitle = "",
-  sectionButtonUrl = "",
-  sectionButtonTarget = "",
-
+  serviceCards,
 } = page;
 
-const services = await getAllServices({ perPage: 4 });
-const programs = await getAllEUServices({ perPage: 6 });
-const byId = new Map(programs.map((s:any) => [s.id, s]));
-const programsToShow = serviceCardsOrder.map((id:any) => byId.get(id)).filter(Boolean);
+const slugServices = await getAllSlugSevices({ perPage: 4 });
+const slugService = await Promise.all(
+  slugServices.map((slug: string) => getServiceBySlug(slug))
+);
+
 ---
 
 <PageLayout
-  pageTitle={titlePage}
-  acfTitle={acfTitle}
-  acfDescription={acfDescription}
+  pageTitle={pageTitle}
+  acfTitle={heroTitle}
+  acfDescription={heroDescription}
   slug={slug}     
 >
  
   {slug === "que-hacemos" && (
     <Intro introTitle={introTitle} description={introDescription} />
 
-  <article class="inner">
-    {services.map((service: any) => (
+  <article class="inner sevices-wrapper">
+    {slugService?.map((service: any) => (
       <ServiceItem
-        id={service.slug}
-        title={service.title}
-        description={service.descriptionService}
+        id={service.serviceSlug}
+        title={service.serviceTitle}
+        description={service.serviceDescription}
       />
     ))}
   </article> 
   )}
 
+
   {slug === "quienes-somos" && (
     <article class="inner">
-      {contentBlocks.map((block: any) => (
+      {contentBlocks?.map((block: any) => (
       <ServiceItem
         title={block.block_title}
         description={block.block_description}
@@ -74,19 +74,18 @@ const programsToShow = serviceCardsOrder.map((id:any) => byId.get(id)).filter(Bo
     </article>
   )}
 
-
  {slug === "oportunidades-europeas" && (
    <article class="section__cards">
       <section class="inner section__cards__wrapper">
         {
-          programsToShow.map((program: any) => (
+          serviceCards?.map((program: any) => (
             <Card
-              id={program.id}
-              title={program.titleShortService}
-              description={program.excerpt}
-              buttonText={program.buttonText}
-              url={program.urlService}
-              target={program.targetService}
+              id={program.serviceId}
+              title={program.serviceName}
+              description={program.serviceExcerpt}
+              buttonText={program.serviceButton?.buttonText ?? ""}
+              url={program.serviceButton.buttonHref}
+              target={program.serviceButton.buttonTarget}
             />
           ))
         }
@@ -95,22 +94,22 @@ const programsToShow = serviceCardsOrder.map((id:any) => byId.get(id)).filter(Bo
 
    <HighlightSection
         title={sectionTitle}
-        description={sectionDescription}
-        buttonText={sectionButtonTitle}
-        link={sectionButtonUrl}
-        target={sectionButtonTarget}
-    />
+        description={setionDescription}
+        buttonText={sectionButton?.buttonText}
+        link={sectionButton?.buttonHref}
+        target={sectionButton?.buttonTarget}
+    /> 
 
   <article class="inner">
-    {programs.map((program: any) => (
+    {serviceCards?.map((program: any) => (
       <ServiceItem
-        id={program.slug}
-        title={program.title}
-        description={program.descriptionService}
+        id={program.serviceSlug}
+        title={program.serviceName}
+        description={program.serviceDescription}
       />
     ))}
   </article> 
-  )}
+  )} 
 
 </PageLayout>
 
@@ -122,6 +121,10 @@ const programsToShow = serviceCardsOrder.map((id:any) => byId.get(id)).filter(Bo
     gap: 2rem;
     padding-block:var(--space-block);
    
+  }
+
+  .sevices-wrapper {
+    flex-direction: column-reverse !important;
   }
 
   .section__cards {

@@ -12,7 +12,7 @@ interface PropsPages {
 }
 
 interface PropsAcf {
-  title: string;
+  hero_title: string;
   description: string;
   btn_url: string;
   intro_title: string;
@@ -150,7 +150,7 @@ export const pagesIndexInfo = async (slug: string) => {
         slug: pageSlug,
         title: { rendered: titlePage },
         acf: {
-          title: acfTitle,
+          hero_title: acfTitle,
           description: acfDescription,
           btn_url: btnUrl,
           intro_title: introTitle,

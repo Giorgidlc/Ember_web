@@ -6,17 +6,15 @@ const { posts } = Astro.props;
 
 <article>
   <section class="inner">
-    {
-      posts.map((post: any) => (
-        <BlogCard
-          imgSrc={post.srcLink}
-          title={post.titlePost}
-          description={post.excerpt}
-          buttonText={post.buttonText}
-          hrefPost={`post/${post.slug}`}
-        />
-      ))
-    }
+   {posts.map((post: any) => (
+      <BlogCard
+        imgSrc={post.featuredImage}
+        title={post.postTitle}
+        description={post.postExcerpt}
+        buttonText="Leer más"
+        hrefPost={`/post/${post.postSlug}`}
+      />
+    ))}
   </section>
 </article>
 
