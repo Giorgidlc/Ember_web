@@ -1,6 +1,5 @@
 ---
 import logoEmber from "@assets/logoEmber.svg";
-const { titleFooter, contactFooter } = Astro.props;
 ---
 
 <footer>
@@ -25,21 +24,32 @@ const { titleFooter, contactFooter } = Astro.props;
       />
     </div>
   </section>
+  <figure>
+    <img 
+      width="1000"
+      height="100"
+      src="http://localhost:8890/wp-content/uploads/2025/09/CONBANDERA_KITDIGITAL-fondo-transparente.webp" 
+      alt="Banner Kit digital" 
+    />
+  </figure>
 </footer>
 
 <style>
   footer {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
     color: var(--color-base);
-    block-size: 40dvh;
+    padding-inline: var(--space-inline);
+    padding-block: var(--space-block);
     overflow: hidden;
 
     section {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
+      margin-block-end: var(--space-block);
 
       >:nth-child(1) {
         display: flex;
@@ -65,6 +75,22 @@ const { titleFooter, contactFooter } = Astro.props;
 
       img {
         color: var(--color-base);
+      }
+    }
+
+    figure {
+      position: absolute;
+      bottom: 0;
+      display: flex;
+      inline-size: 100dvw;
+      background-color: var(--color-base);
+      padding-inline: 1rem;
+      padding-block: 1.5rem;
+
+      img {
+        flex: 1;
+        max-inline-size: 100%;
+        object-fit: contain;
       }
     }
   }

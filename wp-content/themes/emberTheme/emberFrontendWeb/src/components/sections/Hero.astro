@@ -3,7 +3,7 @@ const { titleHero, descriptionHero } = Astro.props
 ---
 <section>
   <svg
-    class="bg"
+    class:list={["bg", "bg--color-base"]}
     fill="none"
     viewBox="0 0 1440 838"
     preserveAspectRatio="none"
@@ -46,5 +46,15 @@ const { titleHero, descriptionHero } = Astro.props
     z-index: -1;            
     pointer-events: none;   
     color: var(--color-accent);
+  }
+
+  .bg--color-base {
+    position: absolute;
+    inset: 0;               
+    width: 100%;
+    height: 100%;
+    z-index: -1;            
+    pointer-events: none;   
+    color: var(--color-base);
   }
 </style>

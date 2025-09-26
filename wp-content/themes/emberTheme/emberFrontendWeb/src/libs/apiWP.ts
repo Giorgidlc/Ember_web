@@ -106,7 +106,7 @@ export async function getAllSlugPages({ perPage = 100 }: { perPage?: number } = 
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const slugPages = await response.json();
     if (!Array.isArray(slugPages)) throw new Error("Unexpected response format.");
-    console.log("Fetched slugs:", slugPages);
+    //console.log("Fetched slugs:", slugPages);
     return slugPages.map((slugPage: any) => slugPage.slug);
 
   } catch (error) {
@@ -129,6 +129,10 @@ export async function getPostBySlug(postSlug: string) {
         title: { rendered: postTitle },
         excerpt: { rendered: postExcerpt },
         content: { rendered: postContent },
+        acf: {
+          hero_title: heroTitle,
+          hero_description: heroDescription,
+        } = {},
         date: postDate,
         _embedded,
       } = post;
@@ -139,6 +143,8 @@ export async function getPostBySlug(postSlug: string) {
         postId,
         postSlug,
         postTitle,
+        heroTitle,
+        heroDescription,
         postExcerpt,
         postContent,
         postDate,
@@ -159,7 +165,7 @@ export async function getAllSlugPosts({ perPage = 100 }: { perPage?: number } = 
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const slugPosts = await response.json();
     if (!Array.isArray(slugPosts)) throw new Error("Unexpected response format.");
-    console.log("Fetched slugs:", slugPosts);
+    //console.log("Fetched slugs:", slugPosts);
     return slugPosts.map((slugPost: any) => slugPost.slug);
   } catch (error) {
     console.error("Error fetching slugs:", error);
@@ -274,3 +280,55 @@ export async function getAllSlugEUPrograms({ perPage = 100 }: { perPage?: number
     return [];
   }
 }
+
+
+export const getNavMenu = async () => {
+
+  const user = import.meta.env.PUBLIC_WP_USER as string;
+  const pass = import.meta.env.PUBLIC_WP_PASS as string;
+
+  if (!user || !pass) {
+    throw new Error('WP_USERNAME y WP_PASSWORD deben estar configurados');
+  }
+   const token = btoa(`${user}:${pass}`);
+  
+  const res = await fetch(`${endpoints.menu}?_fields=title,url`, {
+    headers: {
+       Authorization: `Basic ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+
+  const menu = await res.json();
+  if (!menu.length) throw new Error("No menu items found");
+
+  console.log("Datos crudos del menú:", menu );
+
+  const menuItems = menu.map((item: any) => {
+    const { title: { rendered: title }, url } = item;
+    return { title, url };
+  });
+  
+  console.log("Estos son los items del menú:", menuItems);
+  return menuItems;
+}
+
+
+
+/* export const getNavMenu = async () => {
+  const res = await fetch(`${endpoints.menu}?_fields=title,url`);
+  if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+
+  const menu = await res.json();
+  if (!menu.length) throw new Error("No menu items found");
+
+  console.log("Datos crudos del menú:", menu);
+
+  const menuItems = menu.map((item: any) => {
+    const { title: { rendered: title }, url } = item;
+    return { title, url };
+  });
+
+  console.log("Estos son los items del menú:", menuItems);
+  return menuItems;
+}; */

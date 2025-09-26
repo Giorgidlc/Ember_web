@@ -3,6 +3,7 @@ export interface Endpoints {
   pages: string;
   services: string;
   programs: string;
+  menu: string;
 }
 export type Section = "hero" | "section" | "service";
 

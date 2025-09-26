@@ -7,6 +7,7 @@ import Button from "@/components/Button.astro";
 import Counter from "@/components/sections/Counter.astro";
 import BlogCards from "@/components/sections/BlogCards.astro";
 import Footer from "@/components/sections/Footer.astro";
+import Navigation from "@/components/Navigation.astro";
 
 import { getPageBySlug, getAllSlugPosts, getPostBySlug } from "@/libs/apiWP";
 
@@ -18,7 +19,7 @@ const slugsPost = await getAllSlugPosts({ perPage: 3 });
 const slugPost = await Promise.all(
   slugsPost.map((slug: string) => getPostBySlug(slug))
 );
-console.log("Slug de index: ", slugPost)
+//console.log("Slug de index: ", slugPost)
 ---
 
 <BaseLayout pageTitle="Ember">
@@ -75,7 +76,7 @@ console.log("Slug de index: ", slugPost)
   }
   .section__cards__wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
     gap: 2rem;
 
     > .card:nth-child(1) {

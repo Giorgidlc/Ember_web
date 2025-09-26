@@ -4,22 +4,17 @@ import Hero from "@/components/sections/Hero.astro";
 import Footer from "@/components/sections/Footer.astro";
 
 
-
 const { pageTitle = "", heroTitle = "", heroDescription = "", } = Astro.props;
-
-
 ---
 
 <BaseLayout pageTitle={pageTitle} >
+  
   <Hero 
     titleHero={heroTitle} 
     descriptionHero={heroDescription} 
   />
   
   <slot />  
-  <slot name="que-hacemos" />
-  <slot name="quienes-somos" />
-  <slot name="oportunidades-europeas"/>
 
   <Footer />
 

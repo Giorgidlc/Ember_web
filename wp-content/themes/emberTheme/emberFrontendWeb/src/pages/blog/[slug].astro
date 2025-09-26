@@ -1,0 +1,45 @@
+---
+import BlogLayout from "@/layouts/BlogLayout.astro";
+import { getAllSlugPosts, getPostBySlug } from "@/libs/apiWP";
+
+export async function getStaticPaths() {
+  const slugs = await getAllSlugPosts();
+  return slugs.map((slug: string) => ({
+    params: { slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+const post = await getPostBySlug(slug);
+if (!post) {
+  return Astro.redirect("/404");
+}
+---
+<BlogLayout 
+  slug={slug}
+  pageTitle={post.postTitle}
+  heroTitle={post.heroTitle}
+  heroDescription={post.heroDescription}
+>
+  <article>
+    <div class="main-blog" set:html={post.postContent} />
+  </article>
+</BlogLayout>
+
+
+<style>
+
+  article {
+    min-block-size: 50dvb;
+  }
+
+  article .main-blog {
+    padding-inline: var(--space-inline);
+    padding-block: var(--space-block);
+    color: var(--color-contrast-2);
+    font-size: var(--fontSize-medium);
+  }
+
+ 
+</style>

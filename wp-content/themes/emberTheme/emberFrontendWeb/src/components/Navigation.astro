@@ -1,0 +1,74 @@
+---
+import LogoEmber from '@assets/logoEmber.svg'
+import { getNavMenu } from '@libs/apiWP'
+
+const menuItems = await getNavMenu();
+---
+<header>
+    <figure>
+        <a href="/"><img src={LogoEmber.src} alt="Logotipo Ember" loading="lazy" width="172" height="80"/></a>
+    </figure>
+    <nav>
+        <menu>
+           { menuItems.map((item: any) => {
+            const urlPath = new URL(item.url).pathname;
+            return (
+              <li >
+                <a href={urlPath}>{item.title}</a>
+              </li>
+            );
+          })}
+        </menu>
+    </nav>
+</header>
+
+<style>
+    header {    
+        display: flex;
+        background-color: var(--color-accent);
+        justify-content: space-between;
+        padding-inline: 5rem;
+        padding-block: 1.5rem;
+
+       
+        > figure {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            inline-size: auto;
+            block-size: 40px;
+            
+            & a {
+                flex: 1
+                inline-size: auto;
+                block-size: 100%;
+            
+                > img {
+                    inline-size: auto;
+                    max-block-size: 100%;
+                    object-fit: cover;
+                }
+            }
+        }
+
+        & nav {
+            display: grid;
+            place-content: center;
+
+            & menu {
+                display: flex;
+                font-family: 'Geologica';
+                list-style-type: none;
+                gap: 3rem;
+
+                & a {
+                    color: var(--color-base);
+                    text-decoration: none;
+                }
+            }
+
+           
+        }
+        
+    }
+</style>
