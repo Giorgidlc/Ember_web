@@ -11,9 +11,10 @@ const { titleHero, descriptionHero } = Astro.props
     <path fill="currentColor" d="M0 0h1440v800L0 838V0Z" />
   </svg>
   <header class="inner">
-    <h1>{ titleHero }</h1>
-    {descriptionHero && <p>{descriptionHero}</p>}
+    <h1 class="split">{ titleHero }</h1>
+    {descriptionHero && <p class="split">{descriptionHero}</p>}
   </header>
+  
   
 </section>
 
@@ -48,7 +49,7 @@ const { titleHero, descriptionHero } = Astro.props
     color: var(--color-accent);
   }
 
-  .bg--color-base {
+ /*  .bg--color-base {
     position: absolute;
     inset: 0;               
     width: 100%;
@@ -56,5 +57,5 @@ const { titleHero, descriptionHero } = Astro.props
     z-index: -1;            
     pointer-events: none;   
     color: var(--color-base);
-  }
+  } */
 </style>

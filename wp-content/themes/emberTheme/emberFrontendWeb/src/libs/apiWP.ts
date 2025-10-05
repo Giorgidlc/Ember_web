@@ -273,7 +273,7 @@ export async function getAllSlugEUPrograms({ perPage = 100 }: { perPage?: number
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const slugServices = await response.json();
     if (!Array.isArray(slugServices)) throw new Error("Unexpected response format.");
-    console.log("Fetched slugs:", slugServices);
+    //console.log("Fetched slugs:", slugServices);
     return slugServices.map((slugService: any) => slugService.slug);
   } catch (error) {
     console.error("Error fetching slugs:", error);
@@ -309,26 +309,6 @@ export const getNavMenu = async () => {
     return { title, url };
   });
   
-  console.log("Estos son los items del menú:", menuItems);
+  //console.log("Estos son los items del menú:", menuItems);
   return menuItems;
 }
-
-
-
-/* export const getNavMenu = async () => {
-  const res = await fetch(`${endpoints.menu}?_fields=title,url`);
-  if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-
-  const menu = await res.json();
-  if (!menu.length) throw new Error("No menu items found");
-
-  console.log("Datos crudos del menú:", menu);
-
-  const menuItems = menu.map((item: any) => {
-    const { title: { rendered: title }, url } = item;
-    return { title, url };
-  });
-
-  console.log("Estos son los items del menú:", menuItems);
-  return menuItems;
-}; */

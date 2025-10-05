@@ -9,6 +9,8 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.13.2"
+    "@waaark/luge": "0.6.20-beta",
+    "astro": "^5.13.2",
+    "gsap": "^3.13.0"
   }
 }

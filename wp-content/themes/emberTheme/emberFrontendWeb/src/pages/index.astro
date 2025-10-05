@@ -7,7 +7,6 @@ import Button from "@/components/Button.astro";
 import Counter from "@/components/sections/Counter.astro";
 import BlogCards from "@/components/sections/BlogCards.astro";
 import Footer from "@/components/sections/Footer.astro";
-import Navigation from "@/components/Navigation.astro";
 
 import { getPageBySlug, getAllSlugPosts, getPostBySlug } from "@/libs/apiWP";
 
@@ -42,7 +41,7 @@ const slugPost = await Promise.all(
         }
       </section>
       <div class="inner">
-        <h2>{page?.sectionTitle}</h2>
+        <h2 class="split">{page?.sectionTitle}</h2>
         <Button
           buttonText={page?.sectionButton?.buttonText ?? ""}
           href={page?.sectionButton?.buttonHref}
@@ -124,3 +123,20 @@ const slugPost = await Promise.all(
     }
   }
 </style>
+
+
+<!-- <script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger)
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      scrub: 1,
+    }
+  })
+
+  tl.to('.section__cards', { opacity: 0})
+
+</script> -->

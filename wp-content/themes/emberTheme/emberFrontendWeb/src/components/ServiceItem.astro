@@ -3,20 +3,24 @@ interface ServiceData {
   id: string;
   title: string;
   description: string;
+  char?: string;
 
 }
-const {id, title, description,} =
-  Astro.props as ServiceData;
+const { id, title, description, char } =  Astro.props as ServiceData;
 ---
 
-<div 
+<article 
   id={id}
   class="service inner"
 >
-  <h3>{title}</h3>
+  <h3  class="split">{title}</h3>
   <p>{description}</p>
 
-</div> 
+</article> 
+
+<aside class="part-side-block">
+  <img class="chars" src={char} />
+</aside>
 
 
 <style>
@@ -26,6 +30,7 @@ const {id, title, description,} =
     justify-content: space-between;
     gap: .9rem;
     padding: 2rem;
+    
    
 
     > h3 {
@@ -43,4 +48,21 @@ const {id, title, description,} =
       max-inline-size: 24ch;
     }
   }
+
+  .part-side-block {
+    position: absolute;
+    display: flex;
+    top: 0;
+    right: -6em;
+    min-block-size: 100%;
+  
+
+    .chars {
+      flex: 1;
+      min-inline-size: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .part-side-block--right {}
 </style>

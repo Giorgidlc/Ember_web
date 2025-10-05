@@ -9,7 +9,7 @@ const { title, description, buttonText, link, target } = Astro.props;
     <path fill="currentColor" d="M0 0h1440v800L0 838V0Z"></path>
   </svg>
   <div class="inner">
-    <h2>{title}</h2>
+    <h2 class="split">{title}</h2>
     <p>{description}</p>
     <Button buttonText={buttonText} href={link} target={target} />
   </div>
