@@ -305,10 +305,10 @@ export const getNavMenu = async () => {
   console.log("Datos crudos del menú:", menu );
 
   const menuItems = menu.map((item: any) => {
-    const { title: { rendered: title }, url } = item;
+    const { title, url } = item;
     return { title, url };
   });
   
-  //console.log("Estos son los items del menú:", menuItems);
+  console.log("Estos son los items del menú:", menuItems);
   return menuItems;
 }

@@ -61,16 +61,25 @@ const slugService = await Promise.all(
   {slug === "que-hacemos" && (
     <Intro introTitle={introTitle} description={introDescription} />
 
-  <article class="inner sevices-wrapper">
-    {slugService?.map((service, i: any) => (
-      <ServiceItem
-        id={service.serviceSlug}
-        title={service.serviceTitle}
-        description={service.serviceDescription}
-        char={chars}
-        index={i}
-      />
-    ))}
+  <article class="inner sevices-container">
+    <div class="sevices-wrapper">
+      {slugService?.map((service) => (
+        <ServiceItem
+          id={service.serviceSlug}
+          title={service.serviceTitle}
+          description={service.serviceDescription}  
+        />
+      ))}
+    </div>
+    <aside class="part-side-block">
+        {slugService?.map((service, i: any) =>(
+          <figure class="chars-container">
+            <img class="chars" src={chars[i % chars.length]} alt={`char-${i}`} />
+          </figure>
+        ))}
+      
+      
+    </aside>
   </article> 
   )}
 
@@ -128,15 +137,19 @@ const slugService = await Promise.all(
 
 <style>
   article {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
     padding-block:var(--space-block);
-   
   }
 
+  
+  .sevices-container {
+    display: flex;
+    flex-wrap: nowrap;
+   justify-content: space-between;
+  }
+  
   .sevices-wrapper {
-    flex-direction: column-reverse !important;
+    display: flex;
+    flex-direction: column-reverse;
     position: relative;
   }
 
@@ -145,9 +158,10 @@ const slugService = await Promise.all(
     flex-direction: column;
     gap: var(--space-block);
   }
+
   .section__cards__wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
     gap: 2rem;
 
     > .card:nth-child(5n + 1) {
@@ -177,6 +191,47 @@ const slugService = await Promise.all(
       }
     }
   }
+
+  .part-side-block {
+    display: grid;
+    right: -6em;
+    max-block-size: 100%;
+
+    .chars-container {
+      margin-block-start: 3rem;
+      display: flex;
+      align-items: flex-start;
+
+      &:nth-child(1) {
+          z-index: 9;
+        }
+        &:nth-child(2) {
+          z-index: 8;
+        }
+        &:nth-child(3) {
+          z-index: 7;
+        }
+        &:nth-child(4) {
+          z-index: 6;
+        }
+        &:nth-child(5) {
+          z-index: 5;
+        }
+        &:nth-child(6) {
+          z-index: 4;
+        }
+
+    
+      .chars {
+        flex:1;
+        object-fit: contain;
+        min-inline-size: 100%;
+      }
+    }
+
+
+  }
+
 </style>
 
-<script  src="/src/libs/animation/chars.js"></script>
+<script type="module" src="/src/libs/animation/chars.js"></script>

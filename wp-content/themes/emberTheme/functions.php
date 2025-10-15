@@ -10,3 +10,11 @@ function disable_wp_frontend() {
 }
 
 add_action('template_redirect', 'disable_wp_frontend');
+
+
+function setup_theme_supports() {
+    add_theme_support('post-thumbnails');
+    add_theme_support('menus');
+}
+
+add_action('after_setup_theme', 'setup_theme_supports');

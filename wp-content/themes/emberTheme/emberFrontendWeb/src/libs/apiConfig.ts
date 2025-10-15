@@ -8,7 +8,7 @@ const endpoints : Endpoints = {
   pages: `${apiUrl}/pages`,
   services: `${apiUrl}/servicio`,
   programs: `${apiUrl}/programa`,
-  menu: `${apiUrl}/menu-items`,
+  menu: `${apiUrl}/menu-items-public`,
 };
 
 export { domain, apiUrl, endpoints };
