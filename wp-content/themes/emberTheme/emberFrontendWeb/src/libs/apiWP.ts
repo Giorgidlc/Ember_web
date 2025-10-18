@@ -8,105 +8,94 @@ const createButton = (section: Section, rawBtn?: RawButton | null): ButtonData =
   source: section,
 });
 
+
 export async function getPageBySlug(pageSlug: string): Promise<PageData | null> {
   try {
-    const response = await fetch(`${endpoints.pages}?slug=${pageSlug}&_embed`);
+    // 1. Petición ligera: solo campos que usamos
+    const response = await fetch(
+      `${endpoints.pages}?slug=${pageSlug}&_fields=id,slug,title,excerpt,acf,_links`
+    );
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const data = await response.json();
-    if (Array.isArray(data) && data.length === 0) throw new Error("No page found with the given slug.");
+    if (Array.isArray(data) && data.length === 0)
+      throw new Error("No page found with the given slug.");
 
-    const [pageInfo]: PageData[] = data.map((page: any) => {
-      const {
-        id: pageId,
-        slug: pageSlug,
-        title: { rendered: pageTitle },
-        excerpt: { rendered: PageExcerpt },
-        acf: {
-          hero_title: heroTitle,
-          hero_description: heroDescription,
-          hero_button,
-          section_counter_title: counterTitle,
-          number_project_counter: numberProjects,
-          section_title: sectionTitle,
-          section_description: setionDescription,
-          section_button,
-          intro_title: introTitle,
-          intro_description: introDescription,
-          service_cards: serviceCards = [],
-          content_block_1,
-          content_block_2,
-          content_block_3,
-        } = {},
+    const [page] = data;
 
-        _embedded,
-      } = page;
+    // 2. Extraemos los IDs de los service_cards
+    const serviceIds: number[] = page.acf?.service_cards || [];
+    console.log("Service IDs:", serviceIds);
 
+    let relatedEndpoint = endpoints.services; // Valor por defecto
 
-      const heroButton = createButton("hero", hero_button);
-      const sectionButton = createButton("section", section_button);
+    const acfPostLink = page._links?.["acf:post"]?.[0]?.href;
 
-      // servicios embebidos
-      const embeddedServices = _embedded?.["acf:post"] || [];
+    if (acfPostLink) {
+      relatedEndpoint = acfPostLink.replace(/\/\d+$/, '');
+    }
 
-      const orderedServices: ServiceCard[] = serviceCards
-        .map((id: number) => {
-          const service = embeddedServices.find((s: any) => s.id === id);
-          if (!service) return null;
+    // 3. Una sola petición para traer todos los servicios necesarios
+    let services: any[] = [];
+    if (serviceIds.length) {
+      const svcRes = await fetch(
+        // USAMOS LA VARIABLE DETERMINADA
+        `${relatedEndpoint}?include=${serviceIds.join(
+          ","
+        )}&_fields=id,slug,title,excerpt,acf`
+      );
+      if (svcRes.ok) services = await svcRes.json();
+    }
+    console.log("Fetched Services:", services);
+    // 4. Ordenamos los servicios según el orden de ACF
+    const orderedServices: ServiceCard[] = serviceIds
+      .map((id) => services.find((s) => s.id === id))
+      .filter(Boolean)
+      .map((s) => ({
+        serviceId: s.id,
+        serviceSlug: s.slug,
+        serviceTitle: s.title?.rendered || "",
+        serviceName: s.acf?.service_title || "",
+        serviceDescription: s.acf?.service_description || "",
+        serviceExcerpt: s.excerpt?.rendered || "",
+        serviceButton: createButton("service", s.acf?.service_button),
+      }));
+    console.log("Ordered Services:", orderedServices);
 
-          const button = createButton("service", service.acf?.service_button);
-
-          return {
-            serviceId: service.id,
-            serviceSlug: service.slug,
-            serviceName: service.acf?.service_title || service.title?.rendered || "",
-            serviceDescription: service.acf?.service_description || "",
-            serviceExcerpt: service.excerpt?.rendered || "",
-            serviceButton: button || null,
-          };
-        })
-        .filter(Boolean) as ServiceCard[];
-
-      const contentBlocks = [content_block_1, content_block_2, content_block_3]
-        .filter(Boolean);
-
-
-      return {
-        pageId,
-        pageSlug,
-        pageTitle,
-        PageExcerpt,
-        heroTitle,
-        heroDescription,
-        heroButton,
-        counterTitle,
-        numberProjects,
-        sectionTitle,
-        setionDescription,
-        sectionButton,
-        introTitle,
-        introDescription,
-        serviceCards: orderedServices.length > 0 ? orderedServices : null,
-        contentBlocks,
-
-      };
-    });
-
-    return pageInfo;
-
+    // 5. Armamos el objeto final
+    return {  
+      pageId: page.id,
+      pageSlug: page.slug,
+      pageTitle: page.title.rendered,
+      PageExcerpt: page.excerpt.rendered,
+      heroTitle: page.acf?.hero_title || "",
+      heroDescription: page.acf?.hero_description || "",
+      heroButton: createButton("hero", page.acf?.hero_button),
+      counterTitle: page.acf?.section_counter_title || "",
+      numberProjects: page.acf?.number_project_counter || 0,
+      sectionTitle: page.acf?.section_title || "",
+      setionDescription: page.acf?.section_description || "",
+      sectionButton: createButton("section", page.acf?.section_button),
+      introTitle: page.acf?.intro_title || "",
+      introDescription: page.acf?.intro_description || "",
+      serviceCards: orderedServices.length ? orderedServices : null,
+      contentBlocks: [
+        page.acf?.content_block_1,
+        page.acf?.content_block_2,
+        page.acf?.content_block_3,
+      ].filter(Boolean),
+    };
   } catch (error) {
     console.error("Error fetching page data:", error);
     return null;
   }
-
 }
-
 export async function getAllSlugPages({ perPage = 100 }: { perPage?: number } = {}) {
   try {
     const response = await fetch(`${endpoints.pages}?per_page=${perPage}&_fields=slug`);
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const slugPages = await response.json();
     if (!Array.isArray(slugPages)) throw new Error("Unexpected response format.");
-    //console.log("Fetched slugs:", slugPages);
+
     return slugPages.map((slugPage: any) => slugPage.slug);
 
   } catch (error) {
@@ -165,7 +154,7 @@ export async function getAllSlugPosts({ perPage = 100 }: { perPage?: number } = 
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const slugPosts = await response.json();
     if (!Array.isArray(slugPosts)) throw new Error("Unexpected response format.");
-    //console.log("Fetched slugs:", slugPosts);
+
     return slugPosts.map((slugPost: any) => slugPost.slug);
   } catch (error) {
     console.error("Error fetching slugs:", error);
@@ -220,7 +209,7 @@ export async function getAllSlugSevices({ perPage = 100 }: { perPage?: number } 
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const slugServices = await response.json();
     if (!Array.isArray(slugServices)) throw new Error("Unexpected response format.");
-    console.log("Fetched slugs:", slugServices);
+
     return slugServices.map((slugService: any) => slugService.slug);
   } catch (error) {
     console.error("Error fetching slugs:", error);
@@ -273,7 +262,7 @@ export async function getAllSlugEUPrograms({ perPage = 100 }: { perPage?: number
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const slugServices = await response.json();
     if (!Array.isArray(slugServices)) throw new Error("Unexpected response format.");
-    //console.log("Fetched slugs:", slugServices);
+    console.log("Fetched slugs:", slugServices);
     return slugServices.map((slugService: any) => slugService.slug);
   } catch (error) {
     console.error("Error fetching slugs:", error);
@@ -290,11 +279,11 @@ export const getNavMenu = async () => {
   if (!user || !pass) {
     throw new Error('WP_USERNAME y WP_PASSWORD deben estar configurados');
   }
-   const token = btoa(`${user}:${pass}`);
-  
+  const token = btoa(`${user}:${pass}`);
+
   const res = await fetch(`${endpoints.menu}?_fields=title,url`, {
     headers: {
-       Authorization: `Basic ${token}`,
+      Authorization: `Basic ${token}`,
     },
   });
   if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
@@ -302,13 +291,10 @@ export const getNavMenu = async () => {
   const menu = await res.json();
   if (!menu.length) throw new Error("No menu items found");
 
-  console.log("Datos crudos del menú:", menu );
-
   const menuItems = menu.map((item: any) => {
     const { title, url } = item;
     return { title, url };
   });
-  
-  console.log("Estos son los items del menú:", menuItems);
+
   return menuItems;
 }
