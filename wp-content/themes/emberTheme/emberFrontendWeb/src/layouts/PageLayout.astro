@@ -5,15 +5,20 @@ import Footer from "@/components/sections/Footer.astro";
 
 
 
-const { pageTitle = "", heroTitle = "", heroDescription = "", } = Astro.props;
-
+const { 
+  pageTitle = "", 
+  heroTitle = "", 
+  heroDescription = "", 
+  slug,
+} = Astro.props;
 
 ---
 
 <BaseLayout pageTitle={pageTitle} >
   <Hero 
     titleHero={heroTitle} 
-    descriptionHero={heroDescription} 
+    descriptionHero={heroDescription}
+    isContact={ slug === 'contacto'} 
   />
   
   <slot />  

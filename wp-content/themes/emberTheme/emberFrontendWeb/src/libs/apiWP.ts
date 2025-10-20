@@ -39,9 +39,7 @@ export async function getPageBySlug(pageSlug: string): Promise<PageData | null> 
     if (serviceIds.length) {
       const svcRes = await fetch(
         // USAMOS LA VARIABLE DETERMINADA
-        `${relatedEndpoint}?include=${serviceIds.join(
-          ","
-        )}&_fields=id,slug,title,excerpt,acf`
+        `${relatedEndpoint}?include=${serviceIds.join(",")}&_fields=id,slug,title,excerpt,acf`
       );
       if (svcRes.ok) services = await svcRes.json();
     }
@@ -62,6 +60,7 @@ export async function getPageBySlug(pageSlug: string): Promise<PageData | null> 
     console.log("Ordered Services:", orderedServices);
 
     // 5. Armamos el objeto final
+  
     return {  
       pageId: page.id,
       pageSlug: page.slug,
@@ -84,6 +83,8 @@ export async function getPageBySlug(pageSlug: string): Promise<PageData | null> 
         page.acf?.content_block_3,
       ].filter(Boolean),
     };
+
+   
   } catch (error) {
     console.error("Error fetching page data:", error);
     return null;

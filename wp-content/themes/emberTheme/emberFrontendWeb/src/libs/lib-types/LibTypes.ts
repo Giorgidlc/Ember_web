@@ -46,3 +46,4 @@ export interface PageData {
   contentBlocks?: string[];
   
 }
+

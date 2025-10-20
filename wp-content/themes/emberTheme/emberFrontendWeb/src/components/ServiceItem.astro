@@ -9,25 +9,26 @@ interface ServiceData {
 const { id, title, description } =  Astro.props as ServiceData;
 ---
 
-<section 
+<div 
   id={id}
   class="service"
 >
   <h3  class="split">{title}</h3>
   <p>{description}</p>
 
-</section> 
+</div> 
 
 
 
 
 <style>
   .service {
+    grid-column: 2;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: .9rem;
-    padding: 2rem;
+    padding: clamp(0.01rem, -0.524rem + 2.67vw, 2rem);
     
    
 

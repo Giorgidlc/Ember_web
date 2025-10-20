@@ -5,7 +5,7 @@ import ServiceItem from "@/components/ServiceItem.astro";
 import HighlightSection from "@/components/HighlightSection.astro";
 import Card from "@/components/Card.astro";
 
-import { getAllSlugPages, getPageBySlug, getAllSlugSevices, getServiceBySlug,  } from "@/libs/apiWP";
+import { getAllSlugPages, getPageBySlug, } from "@/libs/apiWP";
 
 export async function getStaticPaths() {
   const slugs = await getAllSlugPages();
@@ -32,12 +32,6 @@ const {
   serviceCards,
 } = page;
 
-/* const slugServices = await getAllSlugSevices({ perPage: 4 });
-const slugService = await Promise.all(
-  slugServices.map((slug: string) => getServiceBySlug(slug))
-  
-);
- */
  const chars = [
   "/src/assets/chars/char1.svg",
   "/src/assets/chars/char2.svg",
@@ -59,29 +53,33 @@ const slugService = await Promise.all(
   {slug === "que-hacemos" && (
   <Intro introTitle={introTitle} description={introDescription} />
 
-  <article class="inner sevices-container">
+  <section class="inner sevices-container">
     <div class="sevices-wrapper">
-      {serviceCards?.map((service:any) => (
-        <ServiceItem
-          id={service.serviceSlug}
-          title={service.serviceTitle}
-          description={service.serviceDescription}  
-        />
-      ))}
-    </div>
-    <aside class="part-side-block">
-        {serviceCards?.map((service, i: any) =>(
+      {serviceCards?.map((service:any, i:any) => (
+        <article class="item-block">
           <figure class="chars-container">
             <img class="chars" src={chars[i % chars.length]} alt={`char-${i}`} />
           </figure>
-        ))}
-
-        
-      
-      
-    </aside>
-  </article> 
+          <ServiceItem
+            id={service.serviceId}
+            title={service.serviceTitle}
+            description={service.serviceDescription}  
+          />
+           <figure class="dotlootie-wrap">
+            <dotlottie-wc
+            src="/src/assets/lottie/writng.lottie"
+            class="dotlootie-container"
+            autoplay
+            loop
+          />
+           </figure>
+        </article>
+      ))}
+    </div>
+  </section> 
   )}
+
+  
 
 
   {slug === "quienes-somos" && (
@@ -96,8 +94,8 @@ const slugService = await Promise.all(
   )}
 
  {slug === "oportunidades-europeas" && (
-   <article class="section__cards">
-      <section class="inner section__cards__wrapper">
+    <section class="section__cards">
+      <article class="inner section__cards__wrapper">
         {
           serviceCards?.map((program: any) => (
             <Card
@@ -110,33 +108,48 @@ const slugService = await Promise.all(
             />
           ))
         }
-      </section>
-  </article> 
+      </article>
+    </section> 
 
-   <HighlightSection
-        title={sectionTitle}
-        description={setionDescription}
-        buttonText={sectionButton?.buttonText}
-        link={sectionButton?.buttonHref}
-        target={sectionButton?.buttonTarget}
+    <HighlightSection
+         title={sectionTitle}
+         description={setionDescription}
+         buttonText={sectionButton?.buttonText}
+         link={sectionButton?.buttonHref}
+         target={sectionButton?.buttonTarget}
     /> 
 
-  <article class="inner">
-    {serviceCards?.map((program: any) => (
-      <ServiceItem
-        id={program.serviceSlug}
-        title={program.serviceTitle}
-        description={program.serviceDescription}
-      />
-    ))}
-  </article> 
+    <section class="inner">
+     <div class="sevices-wrapper">
+      {serviceCards?.map((program:any, i:any) => (
+        <article class="item-block">
+          <figure class="chars-container">
+            <img class="chars" src={chars[i % chars.length]} alt={`char-${i}`} />
+          </figure>
+          <ServiceItem
+            id={program.serviceId}
+            title={program.serviceTitle}
+            description={program.serviceDescription}  
+          />
+          <figure class="dotlootie-wrap">
+            <dotlottie-wc
+            src="/src/assets/lottie/writng.lottie"
+            class="dotlootie-container"
+            autoplay
+            loop
+          />
+          </figure>
+        </article>
+      ))}
+    </div>
+    </section> 
   )} 
 
 </PageLayout>
 
 
 <style>
-  article {
+  section {
     padding-block:var(--space-block);
   }
 
@@ -144,13 +157,61 @@ const slugService = await Promise.all(
   .sevices-container {
     display: flex;
     flex-wrap: nowrap;
-   justify-content: space-between;
+    justify-content: space-between;
   }
   
   .sevices-wrapper {
-    display: flex;
-    flex-direction: column;
     position: relative;
+    display: grid;
+    gap: 2rem;
+    inline-size: 100%;
+
+    & .item-block {
+      position: relative;
+      display: grid; 
+      grid-template-columns: 18% 60% 18%;
+      justify-content: space-between;
+
+      & .chars-container {
+        margin-block-start: 3rem;
+        display: flex;
+        max-block-size: 12rem;
+        grid-column: 1;
+
+      
+        > .chars {
+          flex:1;
+          object-fit: contain;
+          max-inline-size: 100%;
+        }
+      }
+
+      & .dotlootie-wrap {
+        position: relative;
+        display: flex;
+        grid-column: 3;
+    
+        & .dotlootie-container {
+           position: absolute;
+           width: 100%;
+           height: auto;
+           bottom: 1rem;
+           left: -10px;
+        }
+      }
+
+      &:nth-child(odd) {
+      grid-auto-flow: dense;  
+
+      > .chars-container {
+        grid-column: 3;
+    
+      }  
+      > .dotlootie-wrap {
+        grid-column: 1;
+      }
+    }
+    }
   }
 
   .section__cards {
@@ -191,47 +252,28 @@ const slugService = await Promise.all(
       }
     }
   }
+  
 
-  .part-side-block {
-    display: grid;
-    right: -6em;
-    max-block-size: 100%;
+@media (max-width: 425px) {
 
-    .chars-container {
-      margin-block-start: 3rem;
-      display: flex;
-      align-items: flex-start;
+   .item-block {
 
-      &:nth-child(1) {
-          z-index: 9;
-        }
-        &:nth-child(2) {
-          z-index: 8;
-        }
-        &:nth-child(3) {
-          z-index: 7;
-        }
-        &:nth-child(4) {
-          z-index: 6;
-        }
-        &:nth-child(5) {
-          z-index: 5;
-        }
-        &:nth-child(6) {
-          z-index: 4;
-        }
+    grid-template-columns: 1fr !important ;
 
-    
-      .chars {
-        flex:1;
-        object-fit: contain;
-        min-inline-size: 100%;
-      }
+    &:nth-child(odd) {
+      .chars-container{ display: none !important; }
     }
 
+   }
 
-  }
+  
+  .dotlootie-wrap { display: none !important; }
+}
+  
 
 </style>
-
+       <script
+  src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
+  type="module"
+></script>
 <!-- <script type="module" src="/src/libs/animation/chars.js"></script> -->

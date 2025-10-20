@@ -8,38 +8,70 @@ const menuItems = await getNavMenu();
     <figure>
         <a href="/"><img src={LogoEmber.src} alt="Logotipo Ember" loading="lazy" width="172" height="80"/></a>
     </figure>
-    <nav>
+
+    <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+    </button>
+
+    <nav id="main-nav">
+        <button id="menu-close" class="menu-close" aria-label="Cerrar menú">&times;</button>
+        
         <menu>
-           { menuItems.map((item: any) => {
-            const urlPath = new URL(item.url).pathname;
-            return (
-              <li >
-                <a href={urlPath}>{item.title}</a>
-              </li>
-            );
-          })}
+            { menuItems.map((item: any) => {
+             const urlPath = new URL(item.url).pathname;
+             return (
+               <li >
+                 <a href={urlPath}>{item.title}</a>
+               </li>
+             );
+            })}
         </menu>
     </nav>
 </header>
+
+<script>
+    const nav = document.getElementById('main-nav');
+    const toggleBtn = document.getElementById('menu-toggle');
+    const closeBtn = document.getElementById('menu-close');
+
+    // La función que maneja el toggle
+    function toggleMenu() {
+        // toggle() añade la clase si no está, o la quita si ya está
+        nav?.classList.toggle('is-open');
+        
+        // Actualiza el estado ARIA para accesibilidad
+        const isOpen = nav?.classList.contains('is-open');
+        toggleBtn?.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    // Asignamos la misma función a ambos botones
+    toggleBtn?.addEventListener('click', toggleMenu);
+    closeBtn?.addEventListener('click', toggleMenu);
+</script>
+
 
 <style>
     header {    
         display: flex;
         background-color: var(--color-accent);
         justify-content: space-between;
+        align-items: center; 
         padding-inline: 5rem;
         padding-block: 1.5rem;
-
-       
+        position: relative; /* Contexto para z-index */
+        
         > figure {
             display: flex;
             align-items: center;
             justify-content: center;
             inline-size: auto;
             block-size: 40px;
+           
             
             & a {
-                flex: 1
+                flex: 1;
                 inline-size: auto;
                 block-size: 100%;
             
@@ -66,9 +98,95 @@ const menuItems = await getNavMenu();
                     text-decoration: none;
                 }
             }
-
-           
         }
-        
+    }
+
+    /* --- ESTILOS RESPONSIVE --- */
+
+    .menu-toggle,
+    .menu-close {
+        display: none; /* Ocultos por defecto (en desktop) */
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+    }
+
+    /* Estilo de la Hamburguesa */
+    .menu-toggle {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .hamburger-bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: var(--color-base, black); /* Fallback */
+    }
+
+    /* Estilo del botón 'X' */
+    .menu-close {
+        position: absolute;
+        top: 1rem;
+        right: 1.5rem;
+        font-size: 2.5rem;
+        color: var(--color-base, black);
+        line-height: 1;
+    }
+
+
+    /* Media Query para pantallas pequeñas (móviles) */
+    @media (max-width: 768px) {
+        header {
+            padding-inline: 1.5rem; /* Menos padding en móvil */
+        }
+
+        .menu-toggle {
+            display: flex; /* Muestra la hamburguesa */
+        }
+
+        header > nav {
+            /* El panel lateral */
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: min(80vw, 320px); /* 80% del ancho, con un máximo de 320px */
+            
+            background-color: var(--color-accent);
+            box-shadow: -5px 0 15px rgba(0,0,0,0.15);
+            
+            /* Oculto por defecto (desplazado a la derecha) */
+            transform: translateX(100%);
+            /* transition: transform 0.3s ease-in-out; */
+            
+            /* Layout interno del panel */
+            display: flex;
+            padding: 6rem 2rem 2rem; /* Espacio para el botón 'X' y los links */
+            z-index: 9; /* Debajo de los botones, pero sobre el contenido de la página */
+          
+        }
+
+        /* Estado abierto: se aplica con JS */
+        header > nav.is-open {
+            transform: translateX(0); /* Muestra el panel deslizándolo a la izquierda */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .menu-close {
+            display: block; /* Muestra el botón 'X' */
+        }
+
+        header > nav > menu {
+            /* Links en columna vertical */
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        header > nav > menu a {
+            font-size: 1.25rem; /* Texto más grande para mejor legibilidad */
+            display: block; /* Ocupa todo el ancho para facilitar el toque */
+        }
     }
 </style>

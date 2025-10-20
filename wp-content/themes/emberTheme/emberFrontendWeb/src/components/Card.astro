@@ -8,15 +8,15 @@ interface CardProps {
   buttonText: string;
   url?: string;
   target?: string
-  appearance?: "red" | "yellow" | "orange" | "transparent";
+  
 }
 
-const { id, title, description, buttonText, url, target, appearance } = Astro.props as CardProps;
+const { id, title, description, buttonText, url, target } = Astro.props as CardProps;
 ---
 
 <div 
   id={id}
-  class:list={["card", `card--${appearance}`]}
+  class="card"
 >
   <h3>{title}</h3>
   <div class="description-card" set:html={description}/>

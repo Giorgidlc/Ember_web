@@ -1,20 +1,30 @@
 ---
-const { titleHero, descriptionHero } = Astro.props 
+const { titleHero, descriptionHero, isContact} = Astro.props 
 ---
 <section>
   <svg
-    class:list={["bg", "bg--color-base"]}
+     class:list={[
+      'bg',
+      { 'bg--contact': isContact }   
+    ]}
     fill="none"
     viewBox="0 0 1440 838"
     preserveAspectRatio="none"
   >
     <path fill="currentColor" d="M0 0h1440v800L0 838V0Z" />
   </svg>
-  <header class="inner">
+  <header class:list={["inner", {"content-color": isContact}]}>
     <h1 class="split">{ titleHero }</h1>
     {descriptionHero && <p class="split">{descriptionHero}</p>}
   </header>
-  
+  <figure class="dotlootie-wrap--hero">
+    <dotlottie-wc
+      src="/src/assets/lottie/writng.lottie"
+      class="dotlootie-hero"
+      autoplay
+      loop
+    />
+  </figure>
   
 </section>
 
@@ -27,6 +37,10 @@ const { titleHero, descriptionHero } = Astro.props
     block-size: 90dvh;
     overflow: hidden;  
     
+    header {
+      z-index: 1;
+    }
+
     h1 {
       font-size: var(--fontSize-xx-large);
       text-wrap: balance;
@@ -37,6 +51,14 @@ const { titleHero, descriptionHero } = Astro.props
     p {
       font-size: var(--fontSize-medium);
     }
+
+    .dotlootie-wrap--hero {
+      position: absolute;
+      top: 20rem;
+      left: 70rem;
+      width: 56.5625rem;
+      height: 50.375rem;
+    }    
   }
 
   .bg {
@@ -48,14 +70,12 @@ const { titleHero, descriptionHero } = Astro.props
     pointer-events: none;   
     color: var(--color-accent);
   }
-
- /*  .bg--color-base {
-    position: absolute;
-    inset: 0;               
-    width: 100%;
-    height: 100%;
-    z-index: -1;            
-    pointer-events: none;   
+  
+  .bg--contact {
     color: var(--color-base);
-  } */
+  }
+
+  .content-color {
+    color: var(--color-contrast-2)
+  }
 </style>

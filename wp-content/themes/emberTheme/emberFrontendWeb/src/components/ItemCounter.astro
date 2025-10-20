@@ -3,26 +3,25 @@ const { number } = Astro.props;
 ---
 
 <div class="item-counter">
-   <div id="counter">0</div>
+   <span id="counter">0</span>
 </div>
 
 <style>
   .item-counter {
-    position: relative;
+   
     display: flex;
+    align-items: end;
     border: solid clamp(1rem, 0.597rem + 2.01vw, 2.5rem) var(--color-base);
     border-radius: 30px 0px 30px 0px;
     flex: 1;
     aspect-ratio: 1/1;
     ;
 
-    div {
-      position: absolute;
+    span {
       font-family: 'Unbounded Variable';
-      left: -22px;
-      bottom: 0;
       font-size: clamp(8.5rem, 4.339rem + 20.81vw, 16rem);
       color: var(--color-base);
+      margin: 0 0 -2rem -1rem;
     }    
   }
 </style>
