@@ -194,8 +194,9 @@ const {
         & .dotlootie-container {
            position: absolute;
            width: 100%;
+           transform: scale(3) translateX(-15px);
            height: auto;
-           bottom: 1rem;
+           bottom: 5rem;
            left: -10px;
         }
       }
@@ -222,7 +223,7 @@ const {
 
   .section__cards__wrapper {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 2rem;
 
     > .card:nth-child(5n + 1) {
@@ -263,17 +264,24 @@ const {
     &:nth-child(odd) {
       .chars-container{ display: none !important; }
     }
+     &:nth-child(even) {
+      .chars-container{ display: none !important; }
+    }
 
-   }
-
-  
+   }  
   .dotlootie-wrap { display: none !important; }
+
+  .section__cards__wrapper {
+   
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  }
+    
 }
   
 
 </style>
-       <script
+<script
   src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
   type="module"
 ></script>
-<!-- <script type="module" src="/src/libs/animation/chars.js"></script> -->
+<script type="module" src="/src/libs/animation/chars.js"></script>

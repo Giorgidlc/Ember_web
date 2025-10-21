@@ -22,7 +22,7 @@ const menuItems = await getNavMenu();
             { menuItems.map((item: any) => {
              const urlPath = new URL(item.url).pathname;
              return (
-               <li >
+               <li>
                  <a href={urlPath}>{item.title}</a>
                </li>
              );
@@ -75,10 +75,10 @@ const menuItems = await getNavMenu();
                 inline-size: auto;
                 block-size: 100%;
             
-                > img {
+                > img {v
                     inline-size: auto;
                     max-block-size: 100%;
-                    object-fit: cover;
+                    object-fit: contain;
                 }
             }
         }
@@ -91,11 +91,19 @@ const menuItems = await getNavMenu();
                 display: flex;
                 font-family: 'Geologica';
                 list-style-type: none;
-                gap: 3rem;
+                gap: clamp(1.5rem, -0.074rem + 3.28vw, 3rem);
 
-                & a {
+                & li:hover {
+                       transform: scale(1.25) rotate(-3deg);
+                       transition: .3s all ease-out;
+                    
+                    }
+
+                & li a {
                     color: var(--color-base);
                     text-decoration: none;
+
+                    
                 }
             }
         }

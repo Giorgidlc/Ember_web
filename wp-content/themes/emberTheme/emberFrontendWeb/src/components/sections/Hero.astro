@@ -16,15 +16,16 @@ const { titleHero, descriptionHero, isContact} = Astro.props
   <header class:list={["inner", {"content-color": isContact}]}>
     <h1 class="split">{ titleHero }</h1>
     {descriptionHero && <p class="split">{descriptionHero}</p>}
+    <figure class="dotlootie-wrap--hero">
+      <dotlottie-wc
+        src="/src/assets/lottie/writng.lottie"
+        class="dotlootie-hero"
+        autoplay
+        loop
+      />
+    </figure>
   </header>
-  <figure class="dotlootie-wrap--hero">
-    <dotlottie-wc
-      src="/src/assets/lottie/writng.lottie"
-      class="dotlootie-hero"
-      autoplay
-      loop
-    />
-  </figure>
+  
   
 </section>
 
@@ -38,27 +39,33 @@ const { titleHero, descriptionHero, isContact} = Astro.props
     overflow: hidden;  
     
     header {
-      z-index: 1;
-    }
+      position: relative;
+      z-index: 9;
 
-    h1 {
-      font-size: var(--fontSize-xx-large);
-      text-wrap: balance;
-      max-inline-size: 16ch;
-      margin-block-end: 2rem;
-    }
+      h1 {
+        font-size: var(--fontSize-xx-large);
+        text-wrap: balance;
+        max-inline-size: 16ch;
+        margin-block-end: 2rem;
+        anchor-name: --illustrator-hero;
 
-    p {
-      font-size: var(--fontSize-medium);
-    }
+      }
 
-    .dotlootie-wrap--hero {
-      position: absolute;
-      top: 20rem;
-      left: 70rem;
-      width: 56.5625rem;
-      height: 50.375rem;
-    }    
+      p {
+        font-size: var(--fontSize-medium);
+      }
+
+      .dotlootie-wrap--hero {
+        position: absolute;
+        width: 60rem;
+        height: auto;
+        position-anchor: --illustrator-hero;
+        bottom: anchor(180%);
+        left: anchor(left);
+        transform: translateX(clamp(-7.188rem, -54.073rem + 97.68vw, 37.5rem));
+        z-index: -1;
+      }    
+    }
   }
 
   .bg {
