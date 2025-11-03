@@ -7,7 +7,7 @@ import Navigation from "@/components/Navigation.astro";
 import "@styles/global-styles.css";
 
 
-const { pageTitle } = Astro.props;
+const { pageTitle, slug } = Astro.props;
 
 
 ---
@@ -22,7 +22,9 @@ const { pageTitle } = Astro.props;
     <title>{pageTitle}</title>
   </head>
   <body>
-    <Navigation />
+    <Navigation 
+     isEU={ slug === 'oportunidades-europeas' }
+    />
     <slot />
     <script src="/src/libs/animation/splitText.js"></script>
   </body>

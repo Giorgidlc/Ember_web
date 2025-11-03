@@ -23,6 +23,7 @@ const {
   pageTitle,
   heroTitle,
   heroDescription,
+  heroImage,
   introTitle,
   introDescription,
   sectionTitle,
@@ -41,15 +42,23 @@ const {
   "/src/assets/chars/char6.svg"
 ];
 
+const aboutDot = [
+  "/src/assets/lottie/formacion.lottie",  
+  "/src/assets/lottie/proyectos-financiacion.lottie",
+  "/src/assets/lottie/implementacion.lottie",
+  "/src/assets/lottie/eu.lottie",
+]
+
 ---
 
 <PageLayout
   pageTitle={pageTitle}
   heroTitle={heroTitle}
   heroDescription={heroDescription}
+  dotHero={heroImage}
   slug={slug}     
 >
- 
+
   {slug === "que-hacemos" && (
   <Intro introTitle={introTitle} description={introDescription} />
 
@@ -65,14 +74,15 @@ const {
             title={service.serviceTitle}
             description={service.serviceDescription}  
           />
-           <figure class="dotlootie-wrap">
-            <dotlottie-wc
-            src="/src/assets/lottie/writng.lottie"
-            class="dotlootie-container"
-            autoplay
-            loop
-          />
-           </figure>
+            <figure class="dotlootie-wrap">
+              <dotlottie-wc
+                
+                src={aboutDot[i % aboutDot.length]}
+                class="dotlootie-container"
+                autoplay
+                loop
+              />
+            </figure>         
         </article>
       ))}
     </div>
@@ -133,7 +143,7 @@ const {
           />
           <figure class="dotlootie-wrap">
             <dotlottie-wc
-            src="/src/assets/lottie/writng.lottie"
+            src="/src/assets/lottie/fireIndex.lottie"
             class="dotlootie-container"
             autoplay
             loop

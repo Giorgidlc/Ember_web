@@ -17,8 +17,10 @@
 :root {
   --color-base: #ECECE3;
   --color-accent: #F28729;
+  --color-accent-2: #034EA2;
   --color-contrast-1: #D93D04;
   --color-contrast-2: #712B2B;
+  
 
   --fontSize-xx-large: clamp(2.75rem, 2.314rem + 2.18vw, 4.375rem);
   --fontSize-x-large: clamp(1.813rem, 1.561rem + 1.26vw, 2.75rem);

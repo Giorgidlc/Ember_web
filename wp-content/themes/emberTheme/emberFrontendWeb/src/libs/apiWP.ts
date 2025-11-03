@@ -24,7 +24,6 @@ export async function getPageBySlug(pageSlug: string): Promise<PageData | null> 
 
     // 2. Extraemos los IDs de los service_cards
     const serviceIds: number[] = page.acf?.service_cards || [];
-    console.log("Service IDs:", serviceIds);
 
     let relatedEndpoint = endpoints.services; // Valor por defecto
 
@@ -43,7 +42,7 @@ export async function getPageBySlug(pageSlug: string): Promise<PageData | null> 
       );
       if (svcRes.ok) services = await svcRes.json();
     }
-    console.log("Fetched Services:", services);
+ 
     // 4. Ordenamos los servicios según el orden de ACF
     const orderedServices: ServiceCard[] = serviceIds
       .map((id) => services.find((s) => s.id === id))
@@ -57,7 +56,7 @@ export async function getPageBySlug(pageSlug: string): Promise<PageData | null> 
         serviceExcerpt: s.excerpt?.rendered || "",
         serviceButton: createButton("service", s.acf?.service_button),
       }));
-    console.log("Ordered Services:", orderedServices);
+   
 
     // 5. Armamos el objeto final
   
@@ -69,6 +68,7 @@ export async function getPageBySlug(pageSlug: string): Promise<PageData | null> 
       heroTitle: page.acf?.hero_title || "",
       heroDescription: page.acf?.hero_description || "",
       heroButton: createButton("hero", page.acf?.hero_button),
+      heroImage: page.acf?.test_dothero || "",
       counterTitle: page.acf?.section_counter_title || "",
       numberProjects: page.acf?.number_project_counter || 0,
       sectionTitle: page.acf?.section_title || "",
@@ -141,7 +141,7 @@ export async function getPostBySlug(postSlug: string) {
         featuredImage,
       }
     });
-    // console.log("Fetched post data:",postInfo);
+  
     return postInfo;
   } catch (error) {
     console.error("Error fetching post data:", error);
@@ -263,7 +263,7 @@ export async function getAllSlugEUPrograms({ perPage = 100 }: { perPage?: number
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const slugServices = await response.json();
     if (!Array.isArray(slugServices)) throw new Error("Unexpected response format.");
-    console.log("Fetched slugs:", slugServices);
+   
     return slugServices.map((slugService: any) => slugService.slug);
   } catch (error) {
     console.error("Error fetching slugs:", error);

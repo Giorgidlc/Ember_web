@@ -3,8 +3,15 @@ import LogoEmber from '@assets/logoEmber.svg'
 import { getNavMenu } from '@libs/apiWP'
 
 const menuItems = await getNavMenu();
+
+const { isEU } = Astro.props
 ---
-<header>
+<header
+     class:list={[
+      'bg',
+      { 'bg--eu': isEU  }  
+    ]}
+>
     <figure>
         <a href="/"><img src={LogoEmber.src} alt="Logotipo Ember" loading="lazy" width="172" height="80"/></a>
     </figure>
@@ -55,7 +62,6 @@ const menuItems = await getNavMenu();
 <style>
     header {    
         display: flex;
-        background-color: var(--color-accent);
         justify-content: space-between;
         align-items: center; 
         padding-inline: 5rem;
@@ -107,6 +113,14 @@ const menuItems = await getNavMenu();
                 }
             }
         }
+    }
+
+    .bg {
+        background-color: var(--color-accent);
+    }
+
+    .bg--eu {
+        background-color: var(--color-accent-2);
     }
 
     /* --- ESTILOS RESPONSIVE --- */

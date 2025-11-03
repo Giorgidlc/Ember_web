@@ -18,11 +18,15 @@ const slugsPost = await getAllSlugPosts({ perPage: 3 });
 const slugPost = await Promise.all(
   slugsPost.map((slug: string) => getPostBySlug(slug))
 );
-//console.log("Slug de index: ", slugPost)
+
+console.log(page)
 ---
 
 <BaseLayout pageTitle="Ember">
-  <Hero titleHero={page?.heroTitle} />
+  <Hero 
+    titleHero={page?.heroTitle} 
+    dotHero="/src/assets/lottie/fireIndex.lottie"
+  />
   <main>
     <Intro introTitle={page?.introTitle} />
     <article class="section__cards">
@@ -123,20 +127,3 @@ const slugPost = await Promise.all(
     }
   }
 </style>
-
-
-<!-- <script>
-  import gsap from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger)
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      scrub: 1,
-    }
-  })
-
-  tl.to('.section__cards', { opacity: 0})
-
-</script> -->

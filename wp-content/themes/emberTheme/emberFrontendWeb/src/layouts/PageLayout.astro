@@ -9,16 +9,19 @@ const {
   pageTitle = "", 
   heroTitle = "", 
   heroDescription = "", 
+  dotHero = "",
   slug,
 } = Astro.props;
 
 ---
 
-<BaseLayout pageTitle={pageTitle} >
+<BaseLayout pageTitle={pageTitle} slug={ slug }>
   <Hero 
     titleHero={heroTitle} 
     descriptionHero={heroDescription}
-    isContact={ slug === 'contacto'} 
+    dotHero={dotHero}
+    isContact={ slug === 'contacto' } 
+    isEU={ slug === 'oportunidades-europeas' }
   />
   
   <slot />  

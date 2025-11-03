@@ -35,6 +35,7 @@ export interface PageData {
   heroTitle: string;
   heroDescription: string;
   heroButton?: ButtonData | null;
+  heroImage?: string;
   counterTitle?: string;
   numberProjects?: number;
   sectionTitle?: string;

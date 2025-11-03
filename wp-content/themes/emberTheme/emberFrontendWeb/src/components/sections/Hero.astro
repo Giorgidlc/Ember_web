@@ -1,11 +1,12 @@
 ---
-const { titleHero, descriptionHero, isContact} = Astro.props 
+const { titleHero, descriptionHero, isContact, isEU, dotHero} = Astro.props 
 ---
 <section>
   <svg
      class:list={[
       'bg',
-      { 'bg--contact': isContact }   
+      { 'bg--contact': isContact },
+      { 'bg--eu': isEU  }  
     ]}
     fill="none"
     viewBox="0 0 1440 838"
@@ -18,7 +19,8 @@ const { titleHero, descriptionHero, isContact} = Astro.props
     {descriptionHero && <p class="split">{descriptionHero}</p>}
     <figure class="dotlootie-wrap--hero">
       <dotlottie-wc
-        src="/src/assets/lottie/writng.lottie"
+        id={dotHero}
+        src={dotHero}
         class="dotlootie-hero"
         autoplay
         loop
@@ -45,9 +47,10 @@ const { titleHero, descriptionHero, isContact} = Astro.props
       h1 {
         font-size: var(--fontSize-xx-large);
         text-wrap: balance;
-        max-inline-size: 16ch;
+        max-inline-size: 15ch;
         margin-block-end: 2rem;
         anchor-name: --illustrator-hero;
+        z-index: 10;
 
       }
 
@@ -63,7 +66,7 @@ const { titleHero, descriptionHero, isContact} = Astro.props
         bottom: anchor(180%);
         left: anchor(left);
         transform: translateX(clamp(-7.188rem, -54.073rem + 97.68vw, 37.5rem));
-        z-index: -1;
+        background-color: rgba(100,150, 200, 30%);
       }    
     }
   }
@@ -81,6 +84,10 @@ const { titleHero, descriptionHero, isContact} = Astro.props
   .bg--contact {
     color: var(--color-base);
   }
+
+  .bg--eu {
+    color: var(--color-accent-2);
+  } 
 
   .content-color {
     color: var(--color-contrast-2)
