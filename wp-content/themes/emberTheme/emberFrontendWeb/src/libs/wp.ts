@@ -364,3 +364,112 @@ export const getInfoPost = async (slug: string) => {
     throw error;
   }
 }
+
+/* 
+export async function getServiceBySlug(serviceSlug: string) {
+  try {
+    const response = await fetch(`${endpoints.services}?slug=${serviceSlug}&_embed`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+    if (Array.isArray(data) && data.length === 0) throw new Error("No service found with the given slug.");
+
+    const [serviceInfo] = data.map((service: any) => {
+
+      const {
+        id: serviceId,
+        slug: serviceSlug,
+        title: { rendered: serviceTitle },
+        excerpt: { rendered: serviceExcerpt },
+        acf: {
+          service_title: serviceName,
+          service_description: serviceDescription,
+          service_button,
+        } = {},
+
+      } = service
+
+      const serviceButton = createButton("service", service_button);
+
+      return {
+        serviceId,
+        serviceSlug,
+        serviceTitle,
+        serviceExcerpt,
+        serviceName,
+        serviceDescription,
+        serviceButton,
+      }
+    })
+    return serviceInfo;
+  } catch (error) {
+    console.error("Error fetching service data:", error);
+    return null;
+  }
+}
+
+export async function getAllSlugSevices({ perPage = 100 }: { perPage?: number } = {}) {
+  try {
+    const response = await fetch(`${endpoints.services}?per_page=${perPage}&_fields=slug`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const slugServices = await response.json();
+    if (!Array.isArray(slugServices)) throw new Error("Unexpected response format.");
+
+    return slugServices.map((slugService: any) => slugService.slug);
+  } catch (error) {
+    console.error("Error fetching slugs:", error);
+    return [];
+  }
+}
+
+export async function getEUProgramsBySlug(programSlug: string) {
+  try {
+    const response = await fetch(`${endpoints.programs}?slug=${programSlug}&_embed`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+    if (Array.isArray(data) && data.length === 0) throw new Error("No EU program found with the given slug.");
+    const [programInfo] = data.map((program: any) => {
+      const {
+        id: serviceId,
+        slug: serviceSlug,
+        title: { rendered: serviceTitle },
+        excerpt: { rendered: serviceExcerpt },
+        acf: {
+          service_title: serviceName,
+          service_description: serviceDescription,
+          service_button,
+        } = {},
+
+      } = program
+
+      const serviceButton = createButton("service", service_button);
+
+      return {
+        serviceId,
+        serviceSlug,
+        serviceTitle,
+        serviceExcerpt,
+        serviceName,
+        serviceDescription,
+        serviceButton,
+      }
+    })
+    return programInfo;
+  } catch (error) {
+    console.error("Error fetching service data:", error);
+    return null;
+  }
+} */
+
+/* export async function getAllSlugEUPrograms({ perPage = 100 }: { perPage?: number } = {}) {
+  try {
+    const response = await fetch(`${endpoints.services}?per_page=${perPage}&_fields=slug`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const slugServices = await response.json();
+    if (!Array.isArray(slugServices)) throw new Error("Unexpected response format.");
+   
+    return slugServices.map((slugService: any) => slugService.slug);
+  } catch (error) {
+    console.error("Error fetching slugs:", error);
+    return [];
+  }
+} */

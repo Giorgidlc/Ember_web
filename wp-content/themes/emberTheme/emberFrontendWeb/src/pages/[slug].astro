@@ -7,16 +7,31 @@ import Card from "@/components/Card.astro";
 
 import { getAllSlugPages, getPageBySlug, } from "@/libs/apiWP";
 
+
 export async function getStaticPaths() {
-  const slugs = await getAllSlugPages();
-  return slugs.map((slug: string) => ({ params: { slug } }));
+  const locales = ['es', 'en']; // Define explícitamente los idiomas que soportas
+  const allPaths = [];
+
+  for (const currentLang of locales) { // Usamos currentLang para evitar colisiones
+    const slugs = await getAllSlugPages({ lang: currentLang }); // <--- Aquí pasamos 'currentLang'
+    for (const slug of slugs) {
+      allPaths.push({
+        params: { slug: slug },
+        props: { lang: currentLang } // <--- Pasamos 'currentLang' como prop
+      });
+    }
+  }
+
+  return allPaths;
 }
 
-const { slug } = Astro.params;
-const page = await getPageBySlug(slug);
 
+const { slug } = Astro.params;
+const { lang } = Astro.props;
+const page = await getPageBySlug(slug, lang);
+console.log("SLUG DE PÁGINA:", page)
 if (!page) {
-  return Astro.redirect("/404");
+   return Astro.redirect(`/${lang}/404`);
 }
 
 const {
@@ -49,6 +64,11 @@ const aboutDot = [
   "/src/assets/lottie/eu.lottie",
 ]
 
+const howWeAreDot = [
+  "/src/assets/lottie/fireIndex.lottie",  
+  "/src/assets/lottie/trabajamos.lottie",
+  "/src/assets/lottie/talentoJoven.lottie",
+]
 ---
 
 <PageLayout
@@ -60,6 +80,7 @@ const aboutDot = [
 >
 
   {slug === "que-hacemos" && (
+  <div slot="que-hacemos">
   <Intro introTitle={introTitle} description={introDescription} />
 
   <section class="inner sevices-container">
@@ -76,7 +97,6 @@ const aboutDot = [
           />
             <figure class="dotlootie-wrap">
               <dotlottie-wc
-                
                 src={aboutDot[i % aboutDot.length]}
                 class="dotlootie-container"
                 autoplay
@@ -86,24 +106,37 @@ const aboutDot = [
         </article>
       ))}
     </div>
-  </section> 
+  </section>
+  </div> 
   )}
 
-  
-
-
   {slug === "quienes-somos" && (
-    <article class="inner">
-      {contentBlocks?.map((block: any) => (
-      <ServiceItem
-        title={block.block_title}
-        description={block.block_description}
-      />
+    <div slot="quienes-somos">
+    <section class="inner">
+      <div class="sevices-wrapper">
+      {contentBlocks?.map((block: any, i: any) => (
+      <article class="item-block">
+        <ServiceItem
+          title={block.block_title}
+          description={block.block_description}
+        />
+        <figure class="dotlootie-wrap">
+          <dotlottie-wc
+            src={howWeAreDot[i % howWeAreDot.length]}
+            class="dotlootie-container"
+            autoplay
+            loop
+           />
+        </figure>
+      </article>
     ))}
-    </article>
+    </div>
+    </section>
+    </div>
   )}
 
  {slug === "oportunidades-europeas" && (
+  <div slot="oportunidades-europeas"></div>
     <section class="section__cards">
       <article class="inner section__cards__wrapper">
         {
@@ -141,14 +174,6 @@ const aboutDot = [
             title={program.serviceTitle}
             description={program.serviceDescription}  
           />
-          <figure class="dotlootie-wrap">
-            <dotlottie-wc
-            src="/src/assets/lottie/fireIndex.lottie"
-            class="dotlootie-container"
-            autoplay
-            loop
-          />
-          </figure>
         </article>
       ))}
     </div>
@@ -290,8 +315,4 @@ const aboutDot = [
   
 
 </style>
-<script
-  src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
-  type="module"
-></script>
 <script type="module" src="/src/libs/animation/chars.js"></script>

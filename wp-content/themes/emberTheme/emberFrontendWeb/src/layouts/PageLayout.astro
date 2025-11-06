@@ -1,8 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Hero from "@/components/sections/Hero.astro";
-import Footer from "@/components/sections/Footer.astro";
-
 
 
 const { 
@@ -12,7 +10,6 @@ const {
   dotHero = "",
   slug,
 } = Astro.props;
-
 ---
 
 <BaseLayout pageTitle={pageTitle} slug={ slug }>
@@ -22,13 +19,11 @@ const {
     dotHero={dotHero}
     isContact={ slug === 'contacto' } 
     isEU={ slug === 'oportunidades-europeas' }
-  />
-  
-  <slot />  
+  /> 
   <slot name="que-hacemos" />
   <slot name="quienes-somos" />
   <slot name="oportunidades-europeas"/>
-
-  <Footer />
-
+  <slot name="aviso-legal"/>
+  <slot name="politica-privacidad"/>
+  <slot name="politica-cookies"/>
 </BaseLayout>

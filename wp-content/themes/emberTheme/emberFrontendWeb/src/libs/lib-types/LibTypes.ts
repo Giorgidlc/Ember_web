@@ -3,7 +3,7 @@ export interface Endpoints {
   pages: string;
   services: string;
   programs: string;
-  menu: string;
+  menus: string;
 }
 export type Section = "hero" | "section" | "service";
 
@@ -31,6 +31,7 @@ export interface PageData {
   pageId: number;
   pageSlug: string;
   pageTitle: string;
+  PageContent: string | null;
   PageExcerpt: string;
   heroTitle: string;
   heroDescription: string;

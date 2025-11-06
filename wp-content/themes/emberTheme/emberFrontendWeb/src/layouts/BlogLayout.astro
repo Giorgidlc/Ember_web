@@ -1,21 +1,13 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Hero from "@/components/sections/Hero.astro";
-import Footer from "@/components/sections/Footer.astro";
-
 
 const { pageTitle = "", heroTitle = "", heroDescription = "", } = Astro.props;
 ---
-
 <BaseLayout pageTitle={pageTitle} >
-  
   <Hero 
     titleHero={heroTitle} 
     descriptionHero={heroDescription} 
   />
-  
-  <slot />  
-
-  <Footer />
-
+  <slot /> 
 </BaseLayout>

@@ -1,0 +1,49 @@
+---
+
+import { getNavMenu } from '@libs/apiWP'
+
+const menuItems = await getNavMenu('legal-information-menu');
+---
+<nav>
+  <menu>
+    { menuItems.map((item: any) => {
+       const urlPath = new URL(item.url).pathname;
+      return (
+        <li>
+          <a href={urlPath}>{item.title}</a>
+        </li>
+      );
+    })}
+  </menu>
+</nav>
+
+<style>
+  nav {
+    display: grid;
+    place-content: center; 
+    background-color: var(--color-base);
+    padding-block:2rem;
+    inline-size: 100vw;
+
+    & menu {
+        display: flex;
+        list-style-type: none;
+        gap: clamp(1.5rem, -0.074rem + 3.28vw, 3rem);
+  
+        & li{
+            transform: scale(1);
+            transition: .3s transform ease-out;  
+            &:hover {
+               transform: scale(1.25);
+               filter: brightness(2);
+            }
+        }
+        & li a {
+            font-size: 13px;
+            text-align: center;
+            color: var(--color-contrast-2);
+            text-decoration: none;
+        }
+    }
+  }
+</style>

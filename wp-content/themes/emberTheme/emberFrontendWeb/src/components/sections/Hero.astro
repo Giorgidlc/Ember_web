@@ -42,7 +42,7 @@ const { titleHero, descriptionHero, isContact, isEU, dotHero} = Astro.props
     
     header {
       position: relative;
-      z-index: 9;
+      z-index: 1;
 
       h1 {
         font-size: var(--fontSize-xx-large);
@@ -50,8 +50,6 @@ const { titleHero, descriptionHero, isContact, isEU, dotHero} = Astro.props
         max-inline-size: 15ch;
         margin-block-end: 2rem;
         anchor-name: --illustrator-hero;
-        z-index: 10;
-
       }
 
       p {
@@ -60,13 +58,14 @@ const { titleHero, descriptionHero, isContact, isEU, dotHero} = Astro.props
 
       .dotlootie-wrap--hero {
         position: absolute;
-        width: 60rem;
+        width: max(20rem, 60rem);
         height: auto;
         position-anchor: --illustrator-hero;
         bottom: anchor(180%);
         left: anchor(left);
         transform: translateX(clamp(-7.188rem, -54.073rem + 97.68vw, 37.5rem));
-        background-color: rgba(100,150, 200, 30%);
+        z-index: -1;
+      /*   background-color: rgba(100,150, 200, 30%); */
       }    
     }
   }

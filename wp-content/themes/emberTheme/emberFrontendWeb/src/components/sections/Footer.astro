@@ -1,5 +1,6 @@
 ---
 import logoEmber from "@assets/logoEmber.svg";
+import LegalInformation from "../LegalInformation.astro";
 ---
 
 <footer>
@@ -18,14 +19,16 @@ import logoEmber from "@assets/logoEmber.svg";
       <img
         src={logoEmber.src}
         alt="Logo Ember"
-        loading="lazy"
+        loading="eager"
         width="200"
         height="150"
       />
     </div>
   </section>
+  <LegalInformation />
   <figure>
     <img 
+      loading="lazy"
       width="1000"
       height="100"
       src="http://localhost:8890/wp-content/uploads/2025/09/CONBANDERA_KITDIGITAL-fondo-transparente.webp" 
@@ -41,8 +44,7 @@ import logoEmber from "@assets/logoEmber.svg";
     flex-direction: column;
     align-items: center;
     color: var(--color-base);
-    padding-inline: var(--space-inline);
-    padding-block: var(--space-block);
+   
     overflow: hidden;
 
     section {
@@ -50,6 +52,8 @@ import logoEmber from "@assets/logoEmber.svg";
       justify-content: space-between;
       flex-wrap: wrap;
       margin-block-end: var(--space-block);
+      padding-inline: var(--space-inline);
+      padding-block-start: var(--space-block);
 
       >:nth-child(1) {
         display: flex;
@@ -79,13 +83,11 @@ import logoEmber from "@assets/logoEmber.svg";
     }
 
     figure {
-      position: absolute;
-      bottom: 0;
       display: flex;
       inline-size: 100%;
       background-color: var(--color-base);
       padding-inline: 1rem;
-      padding-block: 1.5rem;
+      padding-block-end: 1rem;
 
       img {
         flex: 1;
