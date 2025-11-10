@@ -78,7 +78,7 @@ const howWeAreDot = [
             <img class="chars" src={chars[i % chars.length]} alt={`char-${i}`} />
           </figure>
           <ServiceItem
-            id={service.serviceId}
+            id={service.serviceSlug}
             title={service.serviceTitle}
             description={service.serviceDescription}  
           />
@@ -157,7 +157,7 @@ const howWeAreDot = [
             <img class="chars" src={chars[i % chars.length]} alt={`char-${i}`} />
           </figure>
           <ServiceItem
-            id={program.serviceId}
+            id={program.serviceSlug}
             title={program.serviceTitle}
             description={program.serviceDescription}  
           />

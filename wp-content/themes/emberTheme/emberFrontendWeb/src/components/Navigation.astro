@@ -7,7 +7,10 @@ import LangSwitch from '@components/LangSwitch.astro';
 const { lang } = Astro.props;        
 
 const menuItems = await getNavMenu('main-menu', lang);
-const { isEU } = Astro.props
+const { isEU } = Astro.props;
+
+// Definir la ruta del logo según el idioma
+const logoHref = lang === 'es' ? '/' : '/en/';
 ---
 <header
      class:list={[
@@ -16,7 +19,7 @@ const { isEU } = Astro.props
     ]}
 >
     <figure>
-        <a href={lang}><img src={LogoEmber.src} alt="Logotipo Ember" loading="eager" width="172" height="80"/></a>
+        <a href={logoHref}><img src={LogoEmber.src} alt="Logotipo Ember" loading="eager" width="172" height="80"/></a>
     </figure>
 
     <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">

@@ -27,8 +27,8 @@ const {
     titleHero={heroTitle} 
     descriptionHero={heroDescription}
     dotHero={dotHero}
-    isContact={ slug === 'contacto' } 
-    isEU={ slug === 'oportunidades-europeas' }
+    isContact={ slug === 'contacto' || slug === 'contact' } 
+    isEU={ slug === 'oportunidades-europeas' || slug === 'european-opportunities'}
   /> 
   <slot name="que-hacemos" />
   <slot name="quienes-somos" />

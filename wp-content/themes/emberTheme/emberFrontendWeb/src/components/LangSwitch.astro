@@ -1,4 +1,6 @@
 ---
+import { getAlternateRoute } from '@/utils/routeMapping';
+
 export interface Props {
   lang: 'es' | 'en';
 }
@@ -9,20 +11,8 @@ const { pathname } = Astro.url;
 const otherLang = lang === 'es' ? 'en' : 'es';
 const otherLangLabel = lang === 'es' ? 'EN' : 'ES';
 
-let otherPath = '/';
-
-if (lang === 'es') {
-  // Estamos en 'es', queremos ir a 'en'.
-  // 'pathname' es /proyectos/ -> queremos /en/proyectos/
-  // 'pathname' es / (homepage) -> queremos /en/
-  otherPath = `/${otherLang}${pathname}`; // Añade /en/ al path actual
-
-} else {
-  // Estamos en 'en', queremos ir a 'es'.
-  // 'pathname' es /en/proyectos/ -> queremos /proyectos/
-  // 'pathname' es /en/ (homepage) -> queremos /
-  otherPath = pathname.replace(`/${lang}/`, '/'); // Quita /en/ del path
-}
+// Usar la función de mapeo para obtener la ruta alternativa correcta
+const otherPath = getAlternateRoute(pathname, lang);
 ---
 
 <a href={otherPath} class="lang-switch" hreflang={otherLang}>

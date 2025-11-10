@@ -171,12 +171,10 @@ export const getNavMenu = async (
 ) => {
   const fullSlug = `${baseSlug}_${lang}`; 
 
-  console.log('Fetching menu with slug:', fullSlug);
-
   const res = await fetch(
     `${endpoints.menus}/${fullSlug}`
   );
-  console.log('Menu fetch response status:', res);
+
   if (!res.ok) {
     const errorBody = await res.text();
     throw new Error(`HTTP error! Status: ${res.status}. Body: ${errorBody}`);
@@ -185,9 +183,7 @@ export const getNavMenu = async (
   const items = await res.json();
   if (!Array.isArray(items) || !items.length)
     throw new Error(`No items found for menu "${fullSlug}"`);
-
-  console.log(`Fetched ${items.length} items for menu "${fullSlug}"`);
-
+  
   return items.map((i: any) => ({
     label: i.title,
     href:  i.url.replace(/^https?:\/\/[^/]+/, '') || '/',

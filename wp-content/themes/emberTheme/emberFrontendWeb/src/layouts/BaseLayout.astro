@@ -22,7 +22,7 @@ const { lang, pageTitle, slug } = Astro.props;
     <title>{pageTitle}</title>
   </head>
   <body>
-    <Navigation isEU={slug === "oportunidades-europeas"}  lang={lang} />
+    <Navigation isEU={slug === "oportunidades-europeas" || slug === 'european-opportunities'}  lang={lang} />
     <slot />
     <Footer lang={lang} />
     <script src="/src/libs/animation/splitText.js"></script>
