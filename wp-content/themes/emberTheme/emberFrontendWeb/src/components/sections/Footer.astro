@@ -1,6 +1,7 @@
 ---
 import logoEmber from "@assets/logoEmber.svg";
 import LegalInformation from "../LegalInformation.astro";
+import { Image } from 'astro:assets';
 ---
 
 <footer>
@@ -27,13 +28,20 @@ import LegalInformation from "../LegalInformation.astro";
   </section>
   <LegalInformation />
   <figure>
-    <img 
+
+  <Image
+    src="http://localhost:8890/wp-content/uploads/2025/09/CONBANDERA_KITDIGITAL-fondo-transparente.webp" 
+    alt="Banner kit digital"
+    width="1000"
+    height="100"
+  />
+   <!--  <img 
       loading="lazy"
       width="1000"
       height="100"
-      src="http://localhost:8890/wp-content/uploads/2025/09/CONBANDERA_KITDIGITAL-fondo-transparente.webp" 
+      src= {kitdigital.src}
       alt="Banner Kit digital" 
-    />
+    /> -->
   </figure>
 </footer>
 

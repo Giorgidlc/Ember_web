@@ -2,18 +2,18 @@
 import BlogLayout from "@/layouts/BlogLayout.astro";
 import { getAllSlugPosts, getPostBySlug } from "@/libs/apiWP";
 
-const lang = Astro.currentLocale as 'es' | 'en';
+
 
 export async function getStaticPaths() {
-  const slugs = await getAllSlugPosts({ lang });
+  const slugs = await getAllSlugPosts({});
   return slugs.map((slug: string) => ({
-    params: { slug },
+    params: { slug }
   }));
 }
 
 const { slug } = Astro.params;
 
-const post = await getPostBySlug(slug, lang);
+const post = await getPostBySlug(slug);
 if (!post) {
   return Astro.redirect("/404");
 }

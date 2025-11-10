@@ -45,6 +45,11 @@
     color: inherit;
     white-space: pre-line;
   }
+
+  p {
+    line-height: 1.6;
+    font-weight: 300 !important;
+  }
 }
 
 .inner {

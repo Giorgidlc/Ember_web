@@ -7,32 +7,23 @@ import Card from "@/components/Card.astro";
 
 import { getAllSlugPages, getPageBySlug, } from "@/libs/apiWP";
 
-
 export async function getStaticPaths() {
-  const locales = ['es', 'en']; // Define explícitamente los idiomas que soportas
-  const allPaths = [];
-
-  for (const currentLang of locales) { // Usamos currentLang para evitar colisiones
-    const slugs = await getAllSlugPages({ lang: currentLang }); // <--- Aquí pasamos 'currentLang'
-    for (const slug of slugs) {
-      allPaths.push({
-        params: { slug: slug },
-        props: { lang: currentLang } // <--- Pasamos 'currentLang' como prop
-      });
-    }
-  }
-
-  return allPaths;
+  const slugs = await getAllSlugPages({ lang: 'es' });
+  console.log( "ESTO ES EL SLUG DE [SLUGS] Español",slugs)
+  return slugs.map(slug => ({ params: { slug }, props: { lang: 'es' } }));
 }
-
 
 const { slug } = Astro.params;
 const { lang } = Astro.props;
+
+
+console.log('[slug].astro  –  slug:', slug, 'lang:', lang);
+
 const page = await getPageBySlug(slug, lang);
-console.log("SLUG DE PÁGINA:", page)
-if (!page) {
-   return Astro.redirect(`/${lang}/404`);
-}
+
+console.log('page devuelto:', page);   // null ?
+
+if (!page) return Astro.redirect('/404');
 
 const {
   pageTitle,
@@ -135,7 +126,7 @@ const howWeAreDot = [
     </div>
   )}
 
- {slug === "oportunidades-europeas" && (
+ {slug === "oportunidades-europeas"  && (
   <div slot="oportunidades-europeas"></div>
     <section class="section__cards">
       <article class="inner section__cards__wrapper">

@@ -1,0 +1,130 @@
+---
+import PageIndexLayout from "@layouts/PageIndexLayout.astro";
+import Intro from "@/components/sections/Intro.astro";
+import Card from "@/components/Card.astro";
+import Button from "@/components/Button.astro";
+import Counter from "@/components/sections/Counter.astro";
+import BlogCards from "@/components/sections/BlogCards.astro";
+
+
+import { getPageBySlug, getAllSlugPosts, getPostBySlug } from "@/libs/apiWP";
+
+const slugIndex = "home"
+const lang = "en"
+const page = await getPageBySlug(slugIndex, lang)
+console.log(page)
+
+const slugsPost = await getAllSlugPosts({ perPage: 3, lang: lang });
+
+const slugPost = await Promise.all(
+  slugsPost.map((slug: string) => getPostBySlug(slug, lang))
+);
+
+---
+
+<PageIndexLayout 
+  pageTitle="Ember Projects"
+  heroTitle={page?.heroTitle}
+  heroDescription={page?.heroDescription}
+  dotHero={page?.heroImage}
+  slug={slugIndex}  
+>
+  <main>
+    <Intro introTitle={page?.introTitle} />
+    <article class="section__cards">
+      <section class="inner section__cards__wrapper">
+        {
+          page?.serviceCards?.map((service: any) => (
+            <Card
+              id={service.serviceId}
+              title={service.serviceName}
+              description={service.serviceExcerpt}
+              buttonText={service.serviceButton.buttonText}
+              url={service.serviceButton.buttonHref}
+              target={service.serviceButton.buttonTarget}
+            />
+          ))
+        }
+      </section>
+      <div class="inner">
+        <h2 class="split">{page?.sectionTitle}</h2>
+        <Button
+          buttonText={page?.sectionButton?.buttonText ?? ""}
+          href={page?.sectionButton?.buttonHref}
+          target={page?.sectionButton?.buttonTarget}
+        />
+      </div>
+    </article>
+    <Counter
+      titleCounter={page?.counterTitle}
+      projectCounter={page?.numberProjects}
+    />
+        <BlogCards posts={slugPost} />
+  </main>
+</PageIndexLayout>
+
+<style>
+  main {
+    margin-block-end: var(--space-block);
+    display: flex;
+    flex-direction: column;
+
+    max-inline-size: 100%;
+    gap: var(--space-block);
+  }
+
+  .section__cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-block);
+  }
+  .section__cards__wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+    gap: 2rem;
+
+    > .card:nth-child(1) {
+      background-color: var(--color-contrast-2);
+    }
+
+    > .card:nth-child(2) {
+      background-color: var(--color-accent);
+    }
+
+    > .card:nth-child(3) {
+      background-color: var(--color-contrast-1);
+    }
+
+    > .card:nth-child(4) {
+      border: solid 2px var(--color-contrast-2);
+      background-color: var(--color-base);
+      > h3 {
+        color: var(--color-contrast-2);
+      }
+      > .description-card {
+        color: var(--color-contrast-2);
+      }
+
+      > a {
+        border: solid 2px var(--color-contrast-2);
+      }
+    }
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    h2 {
+      font-size: var(--fontSize-x-large);
+      color: var(--color-contrast-2);
+      max-inline-size: 16ch;
+    }
+  }
+  @media (width < 480px) {
+    .section__cards__wrapper {
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    }
+  }
+</style>

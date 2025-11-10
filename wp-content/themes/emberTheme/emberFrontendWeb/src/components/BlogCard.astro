@@ -7,7 +7,7 @@ const { id, title, description, buttonText="Leer más", hrefPost, imgSrc, imgAlt
 <div id={id} class="blog-card">
   <div class="blog-card__container">
     <figure>
-      <img src={imgSrc} alt={imgAlt} loading="lazy" width="350" height="400" />
+      <img src={imgSrc} alt={imgAlt} loading="lazy" decoding="async" width="350" height="400" />
     </figure>
     <div class="info-card-blog">
       <h4>{title}</h4>

@@ -8,14 +8,16 @@ import BlogCards from "@/components/sections/BlogCards.astro";
 
 
 import { getPageBySlug, getAllSlugPosts, getPostBySlug } from "@/libs/apiWP";
-const lang = Astro.currentLocale as 'es' | 'en';
-const slugIndex = 'inicio'
-const page = await getPageBySlug(slugIndex, lang)
 
-const slugsPost = await getAllSlugPosts({ perPage: 3, lang });
+const slugIndex = 'inicio'
+const lang = "es"
+const page = await getPageBySlug(slugIndex, lang)
+console.log(page)
+
+const slugsPost = await getAllSlugPosts({ perPage: 3, lang: lang });
 
 const slugPost = await Promise.all(
-  slugsPost.map((slug: string) => getPostBySlug(slug,lang))
+  slugsPost.map((slug: string) => getPostBySlug(slug, lang))
 );
 
 ---
