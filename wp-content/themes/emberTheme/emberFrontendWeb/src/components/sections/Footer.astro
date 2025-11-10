@@ -2,6 +2,7 @@
 import logoEmber from "@assets/logoEmber.svg";
 import LegalInformation from "../LegalInformation.astro";
 import { Image } from 'astro:assets';
+const { lang } = Astro.props;
 ---
 
 <footer>
@@ -26,7 +27,7 @@ import { Image } from 'astro:assets';
       />
     </div>
   </section>
-  <LegalInformation />
+  <LegalInformation lang={lang} />
   <figure>
 
   <Image

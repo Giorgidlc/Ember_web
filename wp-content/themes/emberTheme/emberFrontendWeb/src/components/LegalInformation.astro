@@ -2,19 +2,30 @@
 
 import { getNavMenu } from '@libs/apiWP'
 
-const menuItems = await getNavMenu('legal-information-menu');
+const { lang } = Astro.props;    
+
+const legalMenuItems = await getNavMenu('legal-information-menu', lang);
 ---
 <nav>
-  <menu>
+
+    <menu>
+            { legalMenuItems.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
+        </menu>
+        
+<!--   <menu>
     { menuItems.map((item: any) => {
        const urlPath = new URL(item.url).pathname;
       return (
         <li>
-          <a href={urlPath}>{item.title}</a>
+          <a href={urlPath}>{item.label}</a>
         </li>
       );
     })}
-  </menu>
+  </menu> -->
 </nav>
 
 <style>

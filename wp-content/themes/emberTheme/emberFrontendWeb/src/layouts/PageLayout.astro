@@ -2,8 +2,18 @@
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Hero from "@/components/sections/Hero.astro";
 
+export interface Props {
+  lang: 'es' | 'en';
+  pageTitle: string;
+  heroTitle?: string;
+  heroDescription?: string;
+  dotHero?: string;
+  slug?: string;
+}
+
 
 const { 
+  lang,
   pageTitle = "", 
   heroTitle = "", 
   heroDescription = "", 
@@ -12,7 +22,7 @@ const {
 } = Astro.props;
 ---
 
-<BaseLayout pageTitle={pageTitle} slug={ slug }>
+<BaseLayout pageTitle={ pageTitle } slug={ slug } lang={ lang } >
   <Hero 
     titleHero={heroTitle} 
     descriptionHero={heroDescription}

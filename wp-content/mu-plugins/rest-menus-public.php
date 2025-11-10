@@ -11,7 +11,7 @@ add_action('rest_api_init', function () {
      * La parte '(?P<slug>[a-zA-Z0-9-]+)' crea un parámetro llamado 'slug'
      * que acepta letras, números y guiones (lo habitual en un slug).
      */
-    register_rest_route('wp/v2', '/menu-public/(?P<slug>[a-zA-Z0-9-]+)', [
+    register_rest_route('wp/v2', '/menu-public/(?P<slug>[a-zA-Z0-9-_]+)', [
         'methods' => 'GET',
         'callback' => function($request) {
             
@@ -43,3 +43,5 @@ add_action('rest_api_init', function () {
         'permission_callback' => '__return_true', 
     ]);
 });
+
+

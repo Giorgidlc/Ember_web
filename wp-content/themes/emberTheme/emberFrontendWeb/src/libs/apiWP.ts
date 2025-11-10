@@ -165,14 +165,31 @@ export async function getAllSlugPosts({ perPage = 100, lang}: { perPage?: number
   }
 }
 
+export const getNavMenu = async (
+  baseSlug: string,    
+  lang: 'es' | 'en'
+) => {
+  const fullSlug = `${baseSlug}_${lang}`; 
 
-export const getNavMenu = async (menuSlug: string ) => {
+  console.log('Fetching menu with slug:', fullSlug);
 
-  const res = await fetch(`${endpoints.menus}/${menuSlug}?&_fields=title,url`);
-  if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+  const res = await fetch(
+    `${endpoints.menus}/${fullSlug}`
+  );
+  console.log('Menu fetch response status:', res);
+  if (!res.ok) {
+    const errorBody = await res.text();
+    throw new Error(`HTTP error! Status: ${res.status}. Body: ${errorBody}`);
+  }
 
-  const menu = await res.json();
-  if (!menu.length) throw new Error("No menu items found");
+  const items = await res.json();
+  if (!Array.isArray(items) || !items.length)
+    throw new Error(`No items found for menu "${fullSlug}"`);
 
-  return menu; 
-}
+  console.log(`Fetched ${items.length} items for menu "${fullSlug}"`);
+
+  return items.map((i: any) => ({
+    label: i.title,
+    href:  i.url.replace(/^https?:\/\/[^/]+/, '') || '/',
+  }));
+};

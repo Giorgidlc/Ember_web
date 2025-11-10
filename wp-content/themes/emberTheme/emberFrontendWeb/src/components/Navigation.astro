@@ -1,19 +1,22 @@
 ---
 import LogoEmber from '@assets/logoEmber.svg'
 import { getNavMenu } from '@libs/apiWP'
+import LangSwitch from '@components/LangSwitch.astro';
 
-const menuItems = await getNavMenu('main-menu');
 
+const { lang } = Astro.props;        
+
+const menuItems = await getNavMenu('main-menu', lang);
 const { isEU } = Astro.props
 ---
 <header
      class:list={[
       'bg',
-      { 'bg--eu': isEU  }  
+      { 'bg--eu': isEU  }   
     ]}
 >
     <figure>
-        <a href="/"><img src={LogoEmber.src} alt="Logotipo Ember" loading="eager" width="172" height="80"/></a>
+        <a href={lang}><img src={LogoEmber.src} alt="Logotipo Ember" loading="eager" width="172" height="80"/></a>
     </figure>
 
     <button id="menu-toggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="main-nav">
@@ -24,16 +27,15 @@ const { isEU } = Astro.props
 
     <nav id="main-nav">
         <button id="menu-close" class="menu-close" aria-label="Cerrar menú">&times;</button>
-        
+
         <menu>
-            { menuItems.map((item: any) => {
-             const urlPath = new URL(item.url).pathname;
-             return (
-               <li>
-                 <a href={urlPath}>{item.title}</a>
-               </li>
-             );
-            })}
+            { menuItems.map((item) => (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
+
+            <LangSwitch  lang={lang}/>
         </menu>
     </nav>
 </header>
@@ -94,6 +96,7 @@ const { isEU } = Astro.props
 
             & menu {
                 display: flex;
+                align-items: center;
                 font-family: 'Geologica';
                 list-style-type: none;
                 gap: clamp(1.5rem, -0.074rem + 3.28vw, 3rem);

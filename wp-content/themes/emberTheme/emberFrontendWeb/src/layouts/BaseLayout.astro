@@ -1,5 +1,6 @@
 ---
 export interface Props {
+  lang: 'es' | 'en';
   pageTitle: string;
   slug?: string;
 }
@@ -8,11 +9,11 @@ import Footer from "@/components/sections/Footer.astro";
 
 import "@styles/global-styles.css";
 
-const { pageTitle, slug } = Astro.props;
+const { lang, pageTitle, slug } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -21,9 +22,9 @@ const { pageTitle, slug } = Astro.props;
     <title>{pageTitle}</title>
   </head>
   <body>
-    <Navigation isEU={slug === "oportunidades-europeas"} />
+    <Navigation isEU={slug === "oportunidades-europeas"}  lang={lang} />
     <slot />
-    <Footer/>
+    <Footer lang={lang} />
     <script src="/src/libs/animation/splitText.js"></script>
     <script
       src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
