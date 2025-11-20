@@ -1,0 +1,65 @@
+---
+import ItemCounter from "@ui/ItemCounter.astro"
+const { titleCounter, projectCounter } = Astro.props
+---
+<article>
+  <svg
+    class="bg"
+    fill="none"
+    viewBox="0 0 1440 838"
+    preserveAspectRatio="none"
+  >
+    <path fill="currentColor" d="M0 0h1440v800L0 838V0Z" />
+  </svg>
+  <section class="inner">
+    <div class="column">
+      <ItemCounter  number={Number(projectCounter)}/>
+    </div>
+    <div class="column">
+      <h2>{titleCounter}</h2>
+    </div> 
+  </section>
+  
+  
+</article>
+
+<style>
+
+  article {
+    position: relative;
+    display: flex;
+    padding-block: var(--space-block);
+   
+  }
+
+  section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    .column {
+      display: flex;
+      flex: 2;
+      align-items: end;
+      
+       
+    }
+  }
+
+  h2 {
+    font-size: var(--fontSize-x-large);
+    color: var(--color-base);
+    text-wrap: balance;
+    margin-block-end: 2rem;
+  }
+
+  .bg {
+    position: absolute;
+    inset: 0;               
+    width: 100%;
+    height: 100%;
+    z-index: -1;            
+    pointer-events: none;   
+    color: var(--color-contrast-2);
+  }
+</style>

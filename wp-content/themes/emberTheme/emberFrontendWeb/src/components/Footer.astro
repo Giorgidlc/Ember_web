@@ -1,0 +1,118 @@
+---
+import logoEmber from "@assets/logoEmber.svg";
+import LegalInformation from "@components/LegalInformation.astro";
+import { Image } from 'astro:assets';
+const { lang } = Astro.props;
+---
+
+<footer>
+  <svg class="bg" fill="none" viewBox="0 0 1440 838" preserveAspectRatio="none">
+    <path fill="currentColor" d="M0 58.427 1440 0v1000H0V58.427Z"></path>
+  </svg>
+  <section class="inner">
+    <div class="column">
+      <h2>Contacta con nosotros</h2>
+      <div>
+        <p>+34 601 253 603</p>
+        <p>hablamos@ember.com</p>
+      </div>
+    </div>
+    <div class="column">
+      <img
+        src={logoEmber.src}
+        alt="Logo Ember"
+        loading="eager"
+        width="200"
+        height="150"
+      />
+    </div>
+  </section>
+  <LegalInformation lang={lang} />
+  <figure>
+
+  <Image
+    src="http://localhost:8890/wp-content/uploads/2025/09/CONBANDERA_KITDIGITAL-fondo-transparente.webp" 
+    alt="Banner kit digital"
+    width="1000"
+    height="100"
+  />
+   <!--  <img 
+      loading="lazy"
+      width="1000"
+      height="100"
+      src= {kitdigital.src}
+      alt="Banner Kit digital" 
+    /> -->
+  </figure>
+</footer>
+
+<style>
+  footer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--color-base);
+   
+    overflow: hidden;
+
+    section {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-block-end: var(--space-block);
+      padding-inline: var(--space-inline);
+      padding-block-start: var(--space-block);
+
+      >:nth-child(1) {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+      >:nth-child(2) {
+        display: flex;
+        justify-content: end;
+        flex: 1 2 auto;
+  
+      }
+
+      h2 {
+        font-size: var(--fontSize-x-large);
+        text-wrap: balance;
+        max-inline-size: 13ch;
+      }
+
+      p {
+        margin-block-end: 1rem;
+      }
+
+      img {
+        color: var(--color-base);
+      }
+    }
+
+    figure {
+      display: flex;
+      inline-size: 100%;
+      background-color: var(--color-base);
+      padding-inline: 1rem;
+      padding-block-end: 1rem;
+
+      img {
+        flex: 1;
+        max-inline-size: 100%;
+        object-fit: contain;
+      }
+    }
+  }
+
+  .bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    color: var(--color-accent);
+  }
+</style>

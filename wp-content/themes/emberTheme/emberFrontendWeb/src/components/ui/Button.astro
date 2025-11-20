@@ -1,0 +1,93 @@
+---
+export interface Props {
+  href?: string;
+  buttonText: string;
+  target?: string;
+  variant?: "primary" | "secondary" | "transparent";
+}
+
+const { href, buttonText, target, variant = "primary" } = Astro.props;
+---
+
+{href
+  ? (
+  <a 
+  href={href} 
+  class:list={["btn", `btn--${variant}`]}
+  target={target}
+>
+    {buttonText}
+  <span>
+    <svg aria-hidden="true" fill="none" viewBox="0 0 18 18"
+      ><path
+        fill="currentColor"
+        d="M8.25 17.5V9.75H.5v-1.5h7.75V.5h1.5v7.75h7.75v1.5H9.75v7.75h-1.5Z"
+      ></path>
+    </svg>
+  </span>
+</a>
+) : (
+    <button 
+      type="button" 
+      class:list={["btn", `btn--${variant}`]}
+    >
+      {buttonText}
+      <span>
+        <svg aria-hidden="true" fill="none" viewBox="0 0 18 18">
+          <path
+            fill="currentColor"
+            d="M8.25 17.5V9.75H.5v-1.5h7.75V.5h1.5v7.75h7.75v1.5H9.75v7.75h-1.5Z"
+          ></path>
+        </svg>
+      </span>
+    </button>
+  )
+}
+
+<style>
+  .btn {
+    --btn-bg-primary: var(--color-contrast-1);
+    --btn-bg-secondary: var(--color-base);
+    --btn-bg-trasparent: transparent;
+
+    --btn-color-text-primary: var(--color-base);
+    --btn-color-text-secondary: var(--color-contrast-2);
+    --btn-color-text-trasparent: var(--color-contrast-2);
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    border-radius: 0px 30px 0px 30px;
+    padding: 16px 20px;
+    inline-size: fit-content;
+    transition: all ease-in-out .3s;
+    border: none;
+
+    span {
+      inline-size: 1rem;
+      block-size: 1rem;
+    }
+
+    &:hover {
+      /* color: var(--color-base);
+      background-color: var(--color-contrast-2); */
+      filter: brightness(1.1);
+      scale: 1.1;
+    }
+  }
+
+  .btn--primary {
+    background: var(--btn-bg-primary);
+    color: var(--btn-color-text-primary);
+  }
+  .btn--secondary {
+    background: var(--btn-bg-secondary);
+    color: var(--btn-color-text-secondary);
+  }
+  .btn--transparent {
+    background: var(--btn-bg-transparent);
+    color: var(--btn-color-text-trasparent);
+    border: solid 2px var(--btn-color-text-trasparent);
+  }
+</style>
