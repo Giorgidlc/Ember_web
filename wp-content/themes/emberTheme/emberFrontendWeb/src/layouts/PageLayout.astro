@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
-import Hero from "@/components/sections/Hero.astro";
+import Hero from "@components/Hero.astro";
 
 export interface Props {
   lang: 'es' | 'en';
@@ -30,10 +30,19 @@ const {
     isContact={ slug === 'contacto' || slug === 'contact' } 
     isEU={ slug === 'oportunidades-europeas' || slug === 'european-opportunities'}
   /> 
+  <div class="over">
   <slot name="que-hacemos" />
   <slot name="quienes-somos" />
   <slot name="oportunidades-europeas"/>
   <slot name="aviso-legal"/>
   <slot name="politica-privacidad"/>
   <slot name="politica-cookies"/>
+</div>
 </BaseLayout>
+
+
+<style>
+  .over {
+    overflow: hidden;
+  }
+</style>

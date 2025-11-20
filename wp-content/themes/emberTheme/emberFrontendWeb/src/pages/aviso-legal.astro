@@ -1,14 +1,11 @@
 ---
-import PageLayout from "@/layouts/PageLayout.astro";
+import PageLayout from "@layouts/PageLayout.astro";
 import { getPageBySlug, } from "@/libs/apiWP";
 
 
 const lang = Astro.currentLocale as 'es' | 'en';
 const slug = lang === 'es' ? 'aviso-legal' : 'cookie-policy';
 const page = await getPageBySlug(slug, lang);
-
-console.log(page)
-
 ---
 
 <PageLayout
