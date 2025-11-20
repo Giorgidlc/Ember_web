@@ -1,0 +1,94 @@
+---
+const { titleHero, descriptionHero, isContact, isEU, dotHero} = Astro.props 
+---
+<section>
+  <svg
+     class:list={[
+      'bg',
+      { 'bg--contact': isContact },
+      { 'bg--eu': isEU  }  
+    ]}
+    fill="none"
+    viewBox="0 0 1440 838"
+    preserveAspectRatio="none"
+  >
+    <path fill="currentColor" d="M0 0h1440v800L0 838V0Z" />
+  </svg>
+  <header class:list={["inner", {"content-color": isContact}]}>
+    <h1 class="split">{ titleHero }</h1>
+    {descriptionHero && <p class="split">{descriptionHero}</p>}
+    <figure class="dotlootie-wrap--hero">
+      <dotlottie-wc
+        id={dotHero}
+        src={dotHero}
+        class="dotlootie-hero"
+        autoplay
+        loop
+      />
+    </figure>
+  </header>
+  
+  
+</section>
+
+<style>
+  section {
+    position: relative;      
+    display: flex;
+    align-items: center;
+    color: var(--color-base);
+    block-size: 90dvh;
+    overflow: hidden;  
+    
+    header {
+      position: relative;
+      z-index: 1;
+
+      h1 {
+        font-size: var(--fontSize-xx-large);
+        text-wrap: balance;
+        max-inline-size: 15ch;
+        margin-block-end: 2rem;
+        anchor-name: --illustrator-hero;
+      }
+
+      p {
+        font-size: var(--fontSize-medium);
+      }
+
+      .dotlootie-wrap--hero {
+        position: absolute;
+        width: max(20rem, 60rem);
+        height: auto;
+        position-anchor: --illustrator-hero;
+        bottom: anchor(180%);
+        left: anchor(left);
+        transform: translateX(clamp(-7.188rem, -54.073rem + 97.68vw, 37.5rem));
+        z-index: -1;
+      /*   background-color: rgba(100,150, 200, 30%); */
+      }    
+    }
+  }
+
+  .bg {
+    position: absolute;
+    inset: 0;               
+    width: 100%;
+    height: 100%;
+    z-index: -1;            
+    pointer-events: none;   
+    color: var(--color-accent);
+  }
+  
+  .bg--contact {
+    color: var(--color-base);
+  }
+
+  .bg--eu {
+    color: var(--color-accent-2);
+  } 
+
+  .content-color {
+    color: var(--color-contrast-2)
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+import BlogCard from "@ui/BlogCard.astro";
+
+const { posts } = Astro.props;
+---
+
+<article>
+  <section class="inner">
+   {posts.map((post: any) => (
+      <BlogCard
+        imgSrc={post.featuredImage}
+        title={post.postTitle}
+        description={post.postExcerpt}
+        buttonText="Leer más"
+        hrefPost={`/blog/${post.postSlug}`}
+      />
+    ))}
+  </section>
+</article>
+
+<style>
+  section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+
+  @media (width < 480px) {
+    section {
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    }
+  }
+</style>

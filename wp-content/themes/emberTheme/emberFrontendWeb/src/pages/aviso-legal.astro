@@ -1,0 +1,23 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import { getPageBySlug, } from "@/libs/apiWP";
+
+
+const lang = Astro.currentLocale as 'es' | 'en';
+const slug = lang === 'es' ? 'aviso-legal' : 'cookie-policy';
+const page = await getPageBySlug(slug, lang);
+---
+
+<PageLayout
+  pageTitle={page?.pageTitle}
+  heroTitle={page?.heroTitle}
+  heroDescription={page?.heroDescription}
+  dotHero={page?.heroImage}
+  slug={page?.pageSlug} 
+>
+  <section class="inner s-html-content" slot="aviso-legal">
+    <div class="setContent" set:html={page?.PageContent}/>
+  </section>
+  
+</PageLayout>
+

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/Hero.astro";
+
+const { pageTitle = "", heroTitle = "", heroDescription = "", } = Astro.props;
+---
+<BaseLayout pageTitle={pageTitle} >
+  <Hero 
+    titleHero={heroTitle} 
+    descriptionHero={heroDescription} 
+  />
+  <slot /> 
+</BaseLayout>

@@ -1,19 +1,40 @@
+---
+export interface Props {
+  lang: 'es' | 'en';
+  pageTitle: string;
+  slug?: string;
+}
+import Navigation from "@ui/Navigation.astro";
+import Footer from "@components/Footer.astro";
+
+import "@styles/global-styles.css";
+
+const { lang, pageTitle, slug } = Astro.props;
+---
+
 <!doctype html>
-<html lang="es">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<title>Ember</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <Navigation isEU={slug === "oportunidades-europeas" || slug === 'european-opportunities'}  lang={lang} />
+    <slot />
+    <Footer lang={lang} />
+    <script src="/src/libs/animation/splitText.js"></script>
+    <script
+      src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
+      type="module">
+    </script>
+  </body>
 </html>
 
-
 <style>
-	body {
-		background-color: var(--color-base);
-	}
+  body {
+    background-color: var(--color-base);
+  }
 </style>

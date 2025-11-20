@@ -1,0 +1,54 @@
+---
+import Button from "@ui/Button.astro";
+
+const { title, description, buttonText, link, target } = Astro.props;
+---
+
+<article>
+  <svg class="bg" fill="none" viewBox="0 0 1440 838" preserveAspectRatio="none">
+    <path fill="currentColor" d="M0 0h1440v800L0 838V0Z"></path>
+  </svg>
+  <div class="inner">
+    <h2 class="split">{title}</h2>
+    <p>{description}</p>
+    <Button buttonText={buttonText} href={link} target={target} />
+  </div>
+</article>
+
+<style>
+
+  article {
+    position: relative;
+    display: flex;
+    padding-block: var(--space-block);
+   
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    > h2 {
+      font-size: var(--fontSize-x-large);
+      color: var(--color-base);
+      max-inline-size: 24ch;
+    }
+
+    > p {
+      font-size: var(--fontSize-medium);
+      color: var(--color-base);
+      max-inline-size: 39ch;
+    }
+  }
+
+   .bg {
+    position: absolute;
+    inset: 0;               
+    width: 100%;
+    height: 100%;
+    z-index: -1;            
+    pointer-events: none;   
+    color: var(--color-contrast-2);
+  }
+</style>

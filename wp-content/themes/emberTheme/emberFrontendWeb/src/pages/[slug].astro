@@ -1,0 +1,304 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import Intro from "@components/Intro.astro";
+import ServiceItem from "@ui/ServiceItem.astro";
+import HighlightSection from "@components/HighlightSection.astro";
+import Card from "@ui/Card.astro";
+
+import { getAllSlugPages, getPageBySlug, } from "@/libs/apiWP";
+
+export async function getStaticPaths() {
+  const slugs = await getAllSlugPages({ lang: 'es' });
+  return slugs.map(slug => ({ params: { slug }, props: { lang: 'es' } }));
+}
+
+const { slug } = Astro.params;
+const { lang } = Astro.props;
+
+const page = await getPageBySlug(slug, lang);
+
+if (!page) return Astro.redirect('/404');
+
+const {
+  pageTitle,
+  heroTitle,
+  heroDescription,
+  heroImage,
+  introTitle,
+  introDescription,
+  sectionTitle,
+  setionDescription,
+  sectionButton,
+  contentBlocks,
+  serviceCards,
+} = page;
+
+ const chars = [
+  "/src/assets/chars/char1.svg",
+  "/src/assets/chars/char2.svg",
+  "/src/assets/chars/char3.svg",
+  "/src/assets/chars/char4.svg",
+  "/src/assets/chars/char5.svg",
+  "/src/assets/chars/char6.svg"
+];
+
+const aboutDot = [
+  "/src/assets/lottie/formacion.lottie",  
+  "/src/assets/lottie/proyectos-financiacion.lottie",
+  "/src/assets/lottie/implementacion.lottie",
+  "/src/assets/lottie/eu.lottie",
+]
+
+const howWeAreDot = [
+  "/src/assets/lottie/fireIndex.lottie",  
+  "/src/assets/lottie/trabajamos.lottie",
+  "/src/assets/lottie/talentoJoven.lottie",
+]
+---
+
+<PageLayout
+  lang="es"
+  pageTitle={pageTitle}
+  heroTitle={heroTitle}
+  heroDescription={heroDescription}
+  dotHero={heroImage}
+  slug={slug}     
+>
+
+  {slug === "que-hacemos" && (
+  <div slot="que-hacemos">
+  <Intro introTitle={introTitle} description={introDescription} />
+
+  <section class="inner sevices-container">
+    <div class="sevices-wrapper">
+      {serviceCards?.map((service:any, i:any) => (
+        <article class="item-block">
+          <figure class="chars-container">
+            <img class="chars" src={chars[i % chars.length]} alt={`char-${i}`} />
+          </figure>
+          <ServiceItem
+            id={service.serviceSlug}
+            title={service.serviceTitle}
+            description={service.serviceDescription}  
+          />
+            <figure class="dotlootie-wrap">
+              <dotlottie-wc
+                src={aboutDot[i % aboutDot.length]}
+                class="dotlootie-container"
+                autoplay
+                loop
+              />
+            </figure>         
+        </article>
+      ))}
+    </div>
+  </section>
+  </div> 
+  )}
+
+  {slug === "quienes-somos" && (
+    <div slot="quienes-somos">
+    <section class="inner">
+      <div class="sevices-wrapper">
+      {contentBlocks?.map((block: any, i: any) => (
+      <article class="item-block">
+        <ServiceItem
+          title={block.block_title}
+          description={block.block_description}
+        />
+        <figure class="dotlootie-wrap">
+          <dotlottie-wc
+            src={howWeAreDot[i % howWeAreDot.length]}
+            class="dotlootie-container"
+            autoplay
+            loop
+           />
+        </figure>
+      </article>
+    ))}
+    </div>
+    </section>
+    </div>
+  )}
+
+ {slug === "oportunidades-europeas"  && (
+  <div slot="oportunidades-europeas"></div>
+    <section class="section__cards">
+      <article class="inner section__cards__wrapper">
+        {
+          serviceCards?.map((program: any) => (
+            <Card
+              id={program.serviceId}
+              title={program.serviceName}
+              description={program.serviceExcerpt}
+              buttonText={program.serviceButton?.buttonText ?? ""}
+              url={program.serviceButton.buttonHref}
+              target={program.serviceButton.buttonTarget}
+            />
+          ))
+        }
+      </article>
+    </section> 
+
+    <HighlightSection
+         title={sectionTitle}
+         description={setionDescription}
+         buttonText={sectionButton?.buttonText}
+         link={sectionButton?.buttonHref}
+         target={sectionButton?.buttonTarget}
+    /> 
+
+    <section class="inner">
+     <div class="sevices-wrapper">
+      {serviceCards?.map((program:any, i:any) => (
+        <article class="item-block">
+          <figure class="chars-container">
+            <img class="chars" src={chars[i % chars.length]} alt={`char-${i}`} />
+          </figure>
+          <ServiceItem
+            id={program.serviceSlug}
+            title={program.serviceTitle}
+            description={program.serviceDescription}  
+          />
+        </article>
+      ))}
+    </div>
+    </section> 
+  )} 
+
+</PageLayout>
+
+
+<style>
+  section {
+    padding-block:var(--space-block);
+  }
+
+  
+  .sevices-container {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  
+  .sevices-wrapper {
+    position: relative;
+    display: grid;
+    gap: 2rem;
+    inline-size: 100%;
+
+    & .item-block {
+      position: relative;
+      display: grid; 
+      grid-template-columns: 18% 60% 18%;
+      justify-content: space-between;
+
+      & .chars-container {
+        margin-block-start: 3rem;
+        display: flex;
+        max-block-size: 12rem;
+        grid-column: 1;
+
+      
+        > .chars {
+          flex:1;
+          object-fit: contain;
+          max-inline-size: 100%;
+        }
+      }
+
+      & .dotlootie-wrap {
+        position: relative;
+        display: flex;
+        grid-column: 3;
+    
+        & .dotlootie-container {
+           position: absolute;
+           width: 100%;
+           transform: scale(3) translateX(-15px);
+           height: auto;
+           bottom: 5rem;
+           left: -10px;
+        }
+      }
+
+      &:nth-child(odd) {
+      grid-auto-flow: dense;  
+
+      > .chars-container {
+        grid-column: 3;
+    
+      }  
+      > .dotlootie-wrap {
+        grid-column: 1;
+      }
+    }
+    }
+  }
+
+  .section__cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-block);
+  }
+
+  .section__cards__wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 2rem;
+
+    > .card:nth-child(5n + 1) {
+      background-color: var(--color-contrast-2);
+    }
+
+    > .card:nth-child(5n + 2) {
+      background-color: var(--color-accent);
+    }
+
+    > .card:nth-child(5n + 3) {
+      background-color: var(--color-contrast-1);
+    }
+
+    > .card:nth-child(5n + 4) {
+      border: solid 2px var(--color-contrast-2);
+      background-color: var(--color-base);
+      > h3 {
+        color: var(--color-contrast-2);
+      }
+      > .description-card {
+        color: var(--color-contrast-2);
+      }
+
+      > a {
+        border: solid 2px var(--color-contrast-2);
+      }
+    }
+  }
+  
+
+@media (max-width: 425px) {
+
+   .item-block {
+
+    grid-template-columns: 1fr !important ;
+
+    &:nth-child(odd) {
+      .chars-container{ display: none !important; }
+    }
+     &:nth-child(even) {
+      .chars-container{ display: none !important; }
+    }
+
+   }  
+  .dotlootie-wrap { display: none !important; }
+
+  .section__cards__wrapper {
+   
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  }
+    
+}
+  
+
+</style>
+<script type="module" src="/src/libs/animation/chars.js"></script>

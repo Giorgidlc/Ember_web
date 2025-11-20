@@ -1,17 +1,17 @@
 ---
 import PageIndexLayout from "@layouts/PageIndexLayout.astro";
-import Intro from "@components/Intro.astro";
+import Intro from "@/components/Intro.astro";
+import Counter from "@/components/Counter.astro";
+import BlogCards from "@/components/BlogCards.astro";
 import Card from "@ui/Card.astro";
 import Button from "@ui/Button.astro";
-import Counter from "@components/Counter.astro";
-import BlogCards from "@components/BlogCards.astro";
 
 import '@styles/index-style.css'
 
 import { getPageBySlug, getAllSlugPosts, getPostBySlug } from "@/libs/apiWP";
 
-const slugIndex = 'inicio'
-const lang = "es"
+const slugIndex = "home"
+const lang = "en"
 const page = await getPageBySlug(slugIndex, lang)
 console.log(page)
 
@@ -24,7 +24,7 @@ const slugPost = await Promise.all(
 ---
 
 <PageIndexLayout 
-  lang="es"
+  lang="en"
   pageTitle="Ember Projects"
   heroTitle={page?.heroTitle}
   heroDescription={page?.heroDescription}
@@ -65,3 +65,5 @@ const slugPost = await Promise.all(
   </main>
 </PageIndexLayout>
 
+<style>
+</style>

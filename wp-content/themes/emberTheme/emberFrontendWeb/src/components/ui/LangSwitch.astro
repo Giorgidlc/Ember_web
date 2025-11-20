@@ -1,0 +1,35 @@
+---
+import { getAlternateRoute } from '@/utils/routeMapping';
+
+export interface Props {
+  lang: 'es' | 'en';
+}
+
+const { lang } = Astro.props;
+const { pathname } = Astro.url; 
+
+const otherLang = lang === 'es' ? 'en' : 'es';
+const otherLangLabel = lang === 'es' ? 'EN' : 'ES';
+
+// Usar la función de mapeo para obtener la ruta alternativa correcta
+const otherPath = getAlternateRoute(pathname, lang);
+---
+
+<a href={otherPath} class="lang-switch" hreflang={otherLang}>
+  {otherLangLabel}
+</a>
+
+<style>
+
+  .lang-switch {
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0.5em 0.75em;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: var(--color-base, black); 
+  }
+  .lang-switch:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+</style>

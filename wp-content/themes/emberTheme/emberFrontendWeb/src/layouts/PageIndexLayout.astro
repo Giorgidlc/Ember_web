@@ -1,0 +1,31 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/Hero.astro";
+
+export interface Props {
+  lang: 'es' | 'en';
+  pageTitle: string;
+  heroTitle?: string;
+  heroDescription?: string;
+  dotHero?: string;
+  slug?: string;
+}
+
+const { 
+  lang, 
+  pageTitle = "", 
+  heroTitle = "", 
+  heroDescription = "", 
+  dotHero = "",
+  slug,
+} = Astro.props as Props; 
+---
+
+<BaseLayout lang={lang} pageTitle={pageTitle} slug={slug}>
+  <Hero 
+    titleHero={heroTitle} 
+    descriptionHero={heroDescription}
+    dotHero={dotHero}
+  />  
+  <slot />  
+</BaseLayout>

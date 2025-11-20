@@ -1,0 +1,50 @@
+---
+import Card from "@ui/Card.astro";
+
+interface CardData {
+  id: number | string;
+  title: string;
+  description: string;
+  buttonText: string;
+  url?: string;
+  target?: string;
+}
+
+
+const { services } = Astro.props as { services: CardData[]; };
+---
+
+<article>
+  <section class="inner">
+    {
+      services.map((service) => (
+        <Card
+          id={service.id}
+          title={service.title}
+          description={service.description}
+          buttonText={service.buttonText}
+        />
+      ))
+    }
+  </section>
+</article>
+
+<style>
+  article {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-block);
+  }
+
+  section {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(390px, 1fr));
+    gap: 2rem;
+  }
+
+    @media (width < 480px) {
+      section { 
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      }
+    }
+</style>

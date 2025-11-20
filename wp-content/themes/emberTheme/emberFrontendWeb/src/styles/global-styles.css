@@ -7,46 +7,75 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@layer reset {
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 
+  }
+
+  :root {
+    --color-base: #ECECE3;
+    --color-accent: #F28729;
+    --color-accent-2: #034EA2;
+    --color-contrast-1: #D93D04;
+    --color-contrast-2: #712B2B;
+
+
+    --fontSize-xx-large: clamp(2.75rem, 2.314rem + 2.18vw, 4.375rem);
+    --fontSize-x-large: clamp(1.813rem, 1.561rem + 1.26vw, 2.75rem);
+    --fontSize-large: clamp(1.438rem, 1.337rem + 0.5vw, 1.813rem);
+    --fontSize-medium: clamp(0.938rem, 0.887rem + 0.25vw, 1.125rem);
+
+    --space-inline: clamp(1.25rem, -0.931rem + 10.91vw, 9.375rem);
+    --space-block: clamp(5rem, 3.826rem + 5.87vw, 9.375rem);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  li,
+  a,
+  button {
+    font-family: 'Unbounded Variable', sans-serif;
+    font-weight: 400;
+    color: inherit;
+    white-space: pre-line;
+  }
+
+  p {
+    line-height: 1.6;
+    font-weight: 300 !important;
+  }
 }
-
-:root {
-  --color-base: #ECECE3;
-  --color-accent: #F28729;
-  --color-contrast-1: #D93D04;
-  --color-contrast-2: #712B2B;
-
-  --fontSize-xx-large: clamp(2.75rem, 2.314rem + 2.18vw, 4.375rem);
-  --fontSize-x-large: clamp(1.813rem, 1.561rem + 1.26vw, 2.75rem);
-  --fontSize-large: clamp(1.438rem, 1.337rem + 0.5vw, 1.813rem);
-  --fontSize-medium: clamp(0.938rem, 0.887rem + 0.25vw, 1.125rem);
-  
-  --space-inline: clamp(1.25rem, -0.931rem + 10.91vw, 9.375rem);
-  --space-block: clamp(5rem, 3.826rem + 5.87vw, 9.375rem);
-}
-
-h1,
-h2,
-h3,
-h4,
-p,
-a {
-  font-family: 'Unbounded Variable', sans-serif;
-  font-weight: 400;
-  color: currentColor;
-}
-
 
 .inner {
   inline-size: calc(100% - 18rem * (1 / 1));
-  max-inline-size: calc(120rem - 18rem * (1 / 1));
+  max-inline-size: calc(100rem - 18rem * (1 / 1));
   margin: auto;
+  
+
 }
 
-@media (width < 480px ) {
-  .inner {inline-size: calc(100% - 3rem * (1 / 1));}
+
+@layer html-content {
+
+  .s-html-content {
+    padding-block: var(--space-block);
+
+    >.setContent {
+      color: var(--color-contrast-2);
+      white-space: pre-line;
+    }
+
+  }
+}
+
+@media (width < 480px) {
+  .inner {
+    inline-size: calc(100% - 18rem * (1 / 6));
+  }
 }

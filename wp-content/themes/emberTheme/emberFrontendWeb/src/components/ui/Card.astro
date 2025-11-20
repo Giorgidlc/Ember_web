@@ -1,0 +1,56 @@
+---
+import Button from "@ui/Button.astro";
+
+interface CardProps {
+  id: string;
+  title: string;
+  description: string;
+  buttonText: string;
+  url?: string;
+  target?: string
+  
+}
+
+const { id, title, description, buttonText, url, target } = Astro.props as CardProps;
+---
+
+<div 
+  id={id}
+  class="card"
+>
+  <h3>{title}</h3>
+  <div class="description-card" set:html={description}/>
+  <Button 
+    buttonText={buttonText} 
+    href={url} 
+    target={target} 
+    variant="secondary"
+  />
+</div> 
+
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: .9rem;
+    border-radius: 50px 0px 50px 0px;
+    padding: 2.5rem;
+    background-color: var(--color-accent);
+    min-block-size: 280px;
+
+    & h3 {
+      font-size: var(--fontSize-large);
+      color: var(--color-base);
+      text-transform: uppercase;
+    }
+
+    & .description-card {
+      font-size: var(--fontSize-medium);
+      color: var(--color-base);
+      font-weight: 100;
+      margin-block-end: 1rem;
+    }
+  }
+</style>

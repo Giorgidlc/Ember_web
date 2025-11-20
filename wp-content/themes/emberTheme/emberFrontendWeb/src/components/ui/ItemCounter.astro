@@ -1,0 +1,61 @@
+---
+const { number } = Astro.props;
+---
+
+<div class="item-counter">
+   <span id="counter">0</span>
+</div>
+
+<style>
+  .item-counter {
+   
+    display: flex;
+    align-items: end;
+    border: solid clamp(1rem, 0.597rem + 2.01vw, 2.5rem) var(--color-base);
+    border-radius: 30px 0px 30px 0px;
+    flex: 1;
+    aspect-ratio: 1/1;
+    ;
+
+    span {
+      font-family: 'Unbounded Variable';
+      font-size: clamp(8.5rem, 4.339rem + 20.81vw, 16rem);
+      color: var(--color-base);
+      margin: 0 0 -2rem -1rem;
+    }    
+  }
+</style>
+
+
+<script define:vars={{ number }}>
+  const el = document.getElementById('counter');
+  const final = Number(number);
+  let current = 0;
+
+  const duration = 1500;
+  const stepTime = 16;
+  const steps = Math.floor(duration / stepTime);
+  const increment = final / steps;
+
+  const startCounter = () => {
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= final) {
+        current = final;
+        clearInterval(timer);
+      }
+      el.textContent = Math.round(current).toString();
+    }, stepTime);
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        startCounter();
+        observer.unobserve(entry.target); // Solo se activa una vez
+      }
+    });
+  });
+
+  observer.observe(el);
+</script>
