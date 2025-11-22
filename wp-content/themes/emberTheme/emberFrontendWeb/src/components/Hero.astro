@@ -16,7 +16,7 @@ const { titleHero, descriptionHero, isContact, isEU, dotHero} = Astro.props
   </svg>
   <header class:list={["inner", {"content-color": isContact}]}>
     <h1 class="split">{ titleHero }</h1>
-    {descriptionHero && <p class="split">{descriptionHero}</p>}
+    {descriptionHero && <span  class="split" set:html={descriptionHero}/>}
     <figure class="dotlootie-wrap--hero">
       <dotlottie-wc
         id={dotHero}
@@ -52,7 +52,7 @@ const { titleHero, descriptionHero, isContact, isEU, dotHero} = Astro.props
         anchor-name: --illustrator-hero;
       }
 
-      p {
+      span {
         font-size: var(--fontSize-medium);
       }
 

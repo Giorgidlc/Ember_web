@@ -1,59 +1,54 @@
 ---
-import { getNavMenu } from '@libs/apiWP'
+import { getMenuBySlug } from "@libs/apiWPPods";
+import type { MenuItem } from "@libs/types/apiTypes";
 
-const { lang } = Astro.props;    
+const lang = Astro.currentLocale || "es";
 
-const legalMenuItems = await getNavMenu('legal-information-menu', lang);
+const menuItems: MenuItem[] = await getMenuBySlug("secondary", lang);
 ---
-<nav>
 
-    <menu>
-            { legalMenuItems.map((item) => (
-              <li>
-                <a href={item.href}>{item.label}</a>
-              </li>
-            ))}
-        </menu>
-        
-<!--   <menu>
-    { menuItems.map((item: any) => {
-       const urlPath = new URL(item.url).pathname;
-      return (
+<nav>
+  <menu>
+    {
+      menuItems.map((item) => (
         <li>
-          <a href={urlPath}>{item.label}</a>
+          <a href={item.url}>
+            {" "}
+            <span set:html={item.title} />
+          </a>
         </li>
-      );
-    })}
-  </menu> -->
+      ))
+    }
+  </menu>
 </nav>
 
 <style>
   nav {
     display: grid;
-    place-content: center; 
+    place-content: center;
     background-color: var(--color-base);
-    padding-block:2rem;
+    padding-block: 2rem;
     inline-size: 100vw;
 
     & menu {
-        display: flex;
-        list-style-type: none;
-        gap: clamp(1.5rem, -0.074rem + 3.28vw, 3rem);
-  
-        & li{
-            transform: scale(1);
-            transition: .3s transform ease-out;  
-            &:hover {
-               transform: scale(1.25);
-               filter: brightness(2);
-            }
+      display: flex;
+      list-style-type: none;
+      gap: clamp(1.5rem, -0.074rem + 3.28vw, 3rem);
+
+      & li {
+        transform: scale(1);
+        transition: 0.3s transform ease-out;
+        &:hover {
+          transform: scale(1.25);
+          filter: brightness(2);
         }
-        & li a {
-            font-size: 13px;
-            text-align: center;
-            color: var(--color-contrast-2);
-            text-decoration: none;
-        }
+      }
+      & li a {
+        font-size: 13px;
+        text-align: center;
+        color: var(--color-contrast-2);
+        text-decoration: none;
+      }
     }
   }
 </style>

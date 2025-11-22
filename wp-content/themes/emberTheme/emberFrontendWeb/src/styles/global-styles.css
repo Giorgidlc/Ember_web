@@ -16,6 +16,8 @@
   }
 
   :root {
+    --a11y-font-scale: 1;
+
     --color-base: #ECECE3;
     --color-accent: #F28729;
     --color-accent-2: #034EA2;
@@ -32,6 +34,43 @@
     --space-block: clamp(5rem, 3.826rem + 5.87vw, 9.375rem);
   }
 
+  html {
+    /* Esto hace la magia: al cambiar la variable, todo lo que use 'rem' cambia de tamaño */
+    font-size: calc(100% * var(--a11y-font-scale));
+  }
+
+  /* --- CLASES DE ACCESIBILIDAD --- */
+
+  /* 1. Alto Contraste */
+  body.a11y-high-contrast {
+    background-color: #000 !important;
+    color: #fff !important;
+  }
+
+  body.a11y-high-contrast * {
+    background-color: #000 !important;
+    color: #ff0 !important;
+    /* Amarillo sobre negro es el mejor contraste */
+    border-color: #fff !important;
+  }
+
+  body.a11y-high-contrast img {
+    filter: grayscale(100%) contrast(120%);
+  }
+
+  /* 2. Enlaces Subrayados */
+  body.a11y-links-underline a {
+    text-decoration: underline !important;
+    text-decoration-thickness: 2px !important;
+  }
+
+  /* 3. Fuente Legible (Opcional, cambia a fuentes de sistema sans-serif) */
+  body.a11y-readable-font * {
+    font-family: Arial, Helvetica, sans-serif !important;
+    letter-spacing: 0.05em !important;
+    line-height: 1.6 !important;
+  }
+
   h1,
   h2,
   h3,
@@ -46,9 +85,10 @@
     white-space: pre-line;
   }
 
-  p {
+  span>p {
     line-height: 1.6;
     font-weight: 300 !important;
+
   }
 }
 
@@ -56,7 +96,7 @@
   inline-size: calc(100% - 18rem * (1 / 1));
   max-inline-size: calc(100rem - 18rem * (1 / 1));
   margin: auto;
-  
+
 
 }
 

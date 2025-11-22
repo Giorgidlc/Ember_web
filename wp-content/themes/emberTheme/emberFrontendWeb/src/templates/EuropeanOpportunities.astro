@@ -1,0 +1,58 @@
+---
+import HighlightSection from "@/components/HighlightSection.astro"
+import ServiceItem from "@ui/ServiceItem.astro"
+import Card from "@ui/Card.astro"
+import { chars } from "@/utils/chars"
+
+
+
+const { programmeCards, highlightTitle, highlightDescription,  buttonText, linkHighlightButton } = Astro.props
+---
+
+<section class="section__cards">
+  <article class="inner section__cards__wrapper">
+    {
+      programmeCards?.map((program: any) => (
+        <Card
+          title={program.programmeTitle}
+          description={program.shortDescriptionProgramme}
+          buttonText="See more"
+          url={program.linkProgramme}
+          target="_self"
+        />
+      ))
+    }
+  </article>
+</section>
+
+<HighlightSection
+  title={highlightTitle}
+  description={highlightDescription}
+  buttonText={buttonText}
+  link={linkHighlightButton}
+  target="_self"
+/>
+
+<section class="inner">
+  <div class="sevices-wrapper">
+    {
+      programmeCards?.map((program: any, i: any) => (
+        <article class="item-block">
+          <figure class="chars-container">
+            <img
+              class="chars"
+              src={chars[i % chars.length]}
+              alt={`char-${i}`}
+            />
+          </figure>
+          <ServiceItem
+            id={program.idName}
+            title={program.programmeTitle}
+            description={program.programmeDescription}
+          />
+        </article>
+      ))
+    }
+  </div>
+</section>
+

@@ -1,0 +1,29 @@
+---
+import ServiceItem from "@/components/ui/ServiceItem.astro";
+import { howWeAreDot } from "@utils/chars";
+
+const { contentBlocks } = Astro.props;
+---
+
+<section class="inner">
+  <div class="sevices-wrapper">
+    {
+      contentBlocks?.map((block: any, i: any) => (
+        <article class="item-block">
+          <ServiceItem
+            title={block.post_title}
+            description={block.block_description}
+          />
+          <figure class="dotlootie-wrap">
+            <dotlottie-wc
+              src={howWeAreDot[i % howWeAreDot.length]}
+              class="dotlootie-container"
+              autoplay
+              loop
+            />
+          </figure>
+        </article>
+      ))
+    }
+  </div>
+</section>

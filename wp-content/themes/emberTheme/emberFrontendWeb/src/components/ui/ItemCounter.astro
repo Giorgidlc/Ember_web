@@ -10,20 +10,40 @@ const { number } = Astro.props;
   .item-counter {
    
     display: flex;
-    align-items: end;
-    border: solid clamp(1rem, 0.597rem + 2.01vw, 2.5rem) var(--color-base);
+    justify-content: flex-end;
+    border: solid clamp(1rem, 0.597rem + 2.01vw, 2rem) var(--color-base);
     border-radius: 30px 0px 30px 0px;
     flex: 1;
     aspect-ratio: 1/1;
+    min-width: 17rem;
     ;
 
     span {
       font-family: 'Unbounded Variable';
-      font-size: clamp(8.5rem, 4.339rem + 20.81vw, 16rem);
+      font-size: clamp(8.5rem, 7.429rem + 6vw, 16rem);
       color: var(--color-base);
-      margin: 0 0 -2rem -1rem;
+      inline-size: clamp(14.25rem, 12.429rem + 9.11vw, 27rem);
+      margin: 7rem 7rem -4rem -1rem;
     }    
   }
+
+  @media (width <= 1024px ) {
+    .item-counter span {
+      font-size: clamp(8.5rem, 7.429rem + 6vw, 16rem);
+      inline-size: clamp(8.25rem, 10rem + 14vw, 27rem);
+      margin: 7rem 7rem -3rem -1rem;
+    }  
+  }
+
+   @media (width < 640px ) {
+    .item-counter span {
+      font-size: clamp(8.5rem, 5.429rem + 6vw, 16rem);
+      inline-size: clamp(8.25rem, 10rem + -3vw, 27rem);
+      margin: 7rem 7rem -2rem -1rem;
+    }  
+  }
+
+
 </style>
 
 

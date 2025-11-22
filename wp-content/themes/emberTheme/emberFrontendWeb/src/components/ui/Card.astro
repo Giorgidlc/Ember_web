@@ -2,28 +2,23 @@
 import Button from "@ui/Button.astro";
 
 interface CardProps {
-  id: string;
   title: string;
   description: string;
   buttonText: string;
-  url?: string;
-  target?: string
-  
+  url?: string;  
 }
 
-const { id, title, description, buttonText, url, target } = Astro.props as CardProps;
+const { title, description, buttonText, url } = Astro.props as CardProps;
 ---
 
 <div 
-  id={id}
   class="card"
 >
   <h3>{title}</h3>
-  <div class="description-card" set:html={description}/>
+  <span class="description-card" set:html={description}/>
   <Button 
     buttonText={buttonText} 
-    href={url} 
-    target={target} 
+    href={url}  
     variant="secondary"
   />
 </div> 

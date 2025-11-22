@@ -1,45 +1,52 @@
 ---
+import type { PatternData } from "@/libs/types/apiTypes";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Hero from "@components/Hero.astro";
 
+import "@styles/slug-styles.css";
+
 export interface Props {
-  lang: 'es' | 'en';
+  lang: "es" | "en";
   pageTitle: string;
   heroTitle?: string;
   heroDescription?: string;
   dotHero?: string;
   slug?: string;
+  footerData: PatternData | null;
 }
 
-
-const { 
+const {
   lang,
-  pageTitle = "", 
-  heroTitle = "", 
-  heroDescription = "", 
+  pageTitle = "",
+  heroTitle = "",
+  heroDescription = "",
   dotHero = "",
   slug,
+  footerData,
 } = Astro.props;
 ---
 
-<BaseLayout pageTitle={ pageTitle } slug={ slug } lang={ lang } >
-  <Hero 
-    titleHero={heroTitle} 
+<BaseLayout
+  pageTitle={pageTitle}
+  slug={slug}
+  lang={lang}
+  footerData={footerData}
+>
+  <Hero
+    titleHero={heroTitle}
     descriptionHero={heroDescription}
     dotHero={dotHero}
-    isContact={ slug === 'contacto' || slug === 'contact' } 
-    isEU={ slug === 'oportunidades-europeas' || slug === 'european-opportunities'}
-  /> 
+    isContact={slug === "contacto" || slug === "contact"}
+    isEU={slug === "oportunidades-europeas" ||
+      slug === "european-opportunities"}
+  />
   <div class="over">
-  <slot name="que-hacemos" />
-  <slot name="quienes-somos" />
-  <slot name="oportunidades-europeas"/>
-  <slot name="aviso-legal"/>
-  <slot name="politica-privacidad"/>
-  <slot name="politica-cookies"/>
-</div>
+    <slot name="que-hacemos" />
+    <slot name="quienes-somos" />
+    <slot name="oportunidades-europeas" />
+    <slot name="legal" />
+  </div>
 </BaseLayout>
-
 
 <style>
   .over {

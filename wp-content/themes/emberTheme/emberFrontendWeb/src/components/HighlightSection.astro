@@ -10,7 +10,7 @@ const { title, description, buttonText, link, target } = Astro.props;
   </svg>
   <div class="inner">
     <h2 class="split">{title}</h2>
-    <p>{description}</p>
+    <span set:html={description}/>
     <Button buttonText={buttonText} href={link} target={target} />
   </div>
 </article>
@@ -35,7 +35,7 @@ const { title, description, buttonText, link, target } = Astro.props;
       max-inline-size: 24ch;
     }
 
-    > p {
+    > span > p {
       font-size: var(--fontSize-medium);
       color: var(--color-base);
       max-inline-size: 39ch;

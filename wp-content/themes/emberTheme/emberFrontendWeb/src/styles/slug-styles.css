@@ -1,0 +1,138 @@
+section {
+  padding-block: var(--space-block);
+}
+
+.sevices-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.sevices-wrapper {
+  position: relative;
+  display: grid;
+  gap: 2rem;
+  inline-size: 100%;
+
+  & .item-block {
+    position: relative;
+    display: grid;
+    grid-template-columns: 18% 60% 18%;
+    justify-content: space-between;
+
+    & .chars-container {
+      margin-block-start: 3rem;
+      display: flex;
+      max-block-size: 12rem;
+      grid-column: 1;
+
+
+      >.chars {
+        flex: 1;
+        object-fit: contain;
+        max-inline-size: 100%;
+      }
+    }
+
+    & .dotlootie-wrap {
+      position: relative;
+      display: flex;
+      grid-column: 3;
+
+      & .dotlootie-container {
+        position: absolute;
+        width: 100%;
+        transform: scale(3) translateX(-15px);
+        height: auto;
+        bottom: 5rem;
+        left: -10px;
+      }
+    }
+
+    &:nth-child(odd) {
+      grid-auto-flow: dense;
+
+      >.chars-container {
+        grid-column: 3;
+
+      }
+
+      >.dotlootie-wrap {
+        grid-column: 1;
+      }
+    }
+  }
+}
+
+.section__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-block);
+}
+
+.section__cards__wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 2rem;
+
+  >.card:nth-child(4n + 1) {
+    background-color: var(--color-contrast-2);
+  }
+
+  >.card:nth-child(4n + 2) {
+    background-color: var(--color-accent);
+  }
+
+  >.card:nth-child(4n + 3) {
+    background-color: var(--color-contrast-1);
+  }
+
+  >.card:nth-child(4n + 4) {
+    border: solid 2px var(--color-contrast-2);
+    background-color: var(--color-base);
+
+    > h3 {
+       color: var(--color-contrast-2) !important;
+    }
+
+    > .description-card {
+        color: var(--color-contrast-2) !important;
+    }
+
+    > a {
+      border: solid 2px var(--color-contrast-2);
+    }
+  }
+}
+
+
+@media (max-width: 425px) {
+
+  .item-block {
+
+    grid-template-columns: 1fr !important;
+
+    &:nth-child(odd) {
+      .chars-container {
+        display: none !important;
+      }
+    }
+
+    &:nth-child(even) {
+      .chars-container {
+        display: none !important;
+      }
+    }
+
+  }
+
+  .dotlootie-wrap {
+    display: none !important;
+  }
+
+  .section__cards__wrapper {
+
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  }
+
+}

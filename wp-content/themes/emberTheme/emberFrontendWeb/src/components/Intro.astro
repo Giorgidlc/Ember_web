@@ -4,7 +4,7 @@ const { introTitle, description } = Astro.props
 <article>
   <header class="inner">
     <h2 class="split">{introTitle}</h2>
-    { description && <p>{description}</p> } 
+    { description && <span set:html={description}/> } 
   </header>
   
 </article>
@@ -23,9 +23,12 @@ const { introTitle, description } = Astro.props
     margin-block-end: 2rem;
   } 
 
-  p {
+   span {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
     color: var(--color-contrast-2);
     font-size: var(--fontSize-medium);
-    max-inline-size: 33ch;
+    max-inline-size: 90ch;
    }
 </style>

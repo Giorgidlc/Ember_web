@@ -1,31 +1,39 @@
 ---
+import type { PatternData } from "@/libs/types/apiTypes";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Hero from "@components/Hero.astro";
 
 export interface Props {
-  lang: 'es' | 'en';
+  lang: "es" | "en";
   pageTitle: string;
   heroTitle?: string;
   heroDescription?: string;
   dotHero?: string;
   slug?: string;
+  footerData?: PatternData | null;
 }
 
-const { 
-  lang, 
-  pageTitle = "", 
-  heroTitle = "", 
-  heroDescription = "", 
+const {
+  lang,
+  pageTitle = "",
+  heroTitle = "",
+  heroDescription = "",
   dotHero = "",
   slug,
-} = Astro.props as Props; 
+  footerData,
+} = Astro.props as Props;
 ---
 
-<BaseLayout lang={lang} pageTitle={pageTitle} slug={slug}>
-  <Hero 
-    titleHero={heroTitle} 
+<BaseLayout
+  lang={lang}
+  pageTitle={pageTitle}
+  slug={slug}
+  footerData={footerData}
+>
+  <Hero
+    titleHero={heroTitle}
     descriptionHero={heroDescription}
     dotHero={dotHero}
-  />  
-  <slot />  
+  />
+  <slot />
 </BaseLayout>

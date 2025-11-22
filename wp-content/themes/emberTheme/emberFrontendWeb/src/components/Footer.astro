@@ -1,8 +1,13 @@
 ---
 import logoEmber from "@assets/logoEmber.svg";
 import LegalInformation from "@components/LegalInformation.astro";
-import { Image } from 'astro:assets';
-const { lang } = Astro.props;
+import { Image } from "astro:assets";
+
+import { getRelativeLocaleUrl } from "astro:i18n";
+const lang = Astro.currentLocale || "es";
+const logoHref = getRelativeLocaleUrl(lang, "/");
+
+const { pattern } = Astro.props;
 ---
 
 <footer>
@@ -11,38 +16,31 @@ const { lang } = Astro.props;
   </svg>
   <section class="inner">
     <div class="column">
-      <h2>Contacta con nosotros</h2>
+      <h2>{pattern?.patternTitle}</h2>
       <div>
-        <p>+34 601 253 603</p>
-        <p>hablamos@ember.com</p>
+        <span set:html={pattern?.patternDescription} />
       </div>
     </div>
     <div class="column">
-      <img
-        src={logoEmber.src}
-        alt="Logo Ember"
-        loading="eager"
-        width="200"
-        height="150"
-      />
+      <a href={logoHref}>
+        <img
+          src={logoEmber.src}
+          alt="Logo Ember"
+          loading="eager"
+          width="200"
+          height="150"
+        />
+      </a>
     </div>
   </section>
   <LegalInformation lang={lang} />
   <figure>
-
-  <Image
-    src="http://localhost:8890/wp-content/uploads/2025/09/CONBANDERA_KITDIGITAL-fondo-transparente.webp" 
-    alt="Banner kit digital"
-    width="1000"
-    height="100"
-  />
-   <!--  <img 
-      loading="lazy"
+    <Image
+      src="http://localhost:8890/wp-content/uploads/2025/09/CONBANDERA_KITDIGITAL-fondo-transparente.webp"
+      alt="Banner kit digital"
       width="1000"
       height="100"
-      src= {kitdigital.src}
-      alt="Banner Kit digital" 
-    /> -->
+    />
   </figure>
 </footer>
 
@@ -53,33 +51,33 @@ const { lang } = Astro.props;
     flex-direction: column;
     align-items: center;
     color: var(--color-base);
-   
+
     overflow: hidden;
 
     section {
       display: flex;
       justify-content: space-between;
       flex-wrap: wrap;
-      margin-block-end: var(--space-block);
       padding-inline: var(--space-inline);
-      padding-block-start: var(--space-block);
+      padding-block: var(--space-block);
 
-      >:nth-child(1) {
+      > :nth-child(1) {
         display: flex;
         flex-direction: column;
         gap: 2rem;
       }
-      >:nth-child(2) {
+      > :nth-child(2) {
         display: flex;
         justify-content: end;
+        align-items: flex-end;
         flex: 1 2 auto;
-  
       }
 
       h2 {
         font-size: var(--fontSize-x-large);
         text-wrap: balance;
         max-inline-size: 13ch;
+        color: var(--color-base);
       }
 
       p {

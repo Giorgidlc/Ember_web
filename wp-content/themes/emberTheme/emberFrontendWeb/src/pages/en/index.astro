@@ -1,35 +1,34 @@
 ---
 import PageIndexLayout from "@layouts/PageIndexLayout.astro";
-import Intro from "@/components/Intro.astro";
-import Counter from "@/components/Counter.astro";
-import BlogCards from "@/components/BlogCards.astro";
+import Intro from "@components/Intro.astro";
+import Counter from "@components/Counter.astro";
+import BlogCards from "@components/BlogCards.astro";
 import Card from "@ui/Card.astro";
 import Button from "@ui/Button.astro";
 
-import '@styles/index-style.css'
+import "@styles/index-style.css";
 
-import { getPageBySlug, getAllSlugPosts, getPostBySlug } from "@/libs/apiWP";
+import { getPageBySlug, getAllSlugPosts, getPatterns} from "@/libs/apiWPPods";
 
-const slugIndex = "home"
-const lang = "en"
-const page = await getPageBySlug(slugIndex, lang)
-console.log(page)
+const pageSlug = "home";
+const patternSlug = "footer";
+const lang = "en";
 
-const slugsPost = await getAllSlugPosts({ perPage: 3, lang: lang });
-
-const slugPost = await Promise.all(
-  slugsPost.map((slug: string) => getPostBySlug(slug, lang))
-);
-
+const [page, posts, footerData] = await Promise.all([
+  getPageBySlug(pageSlug, lang),
+  getAllSlugPosts({ perPage: 3, lang: lang }),
+  getPatterns(patternSlug, lang) 
+]);
 ---
 
-<PageIndexLayout 
-  lang="en"
+<PageIndexLayout
+  lang={lang}
   pageTitle="Ember Projects"
   heroTitle={page?.heroTitle}
   heroDescription={page?.heroDescription}
   dotHero={page?.heroImage}
-  slug={slugIndex}  
+  slug={pageSlug}
+  footerData = {footerData}
 >
   <main>
     <Intro introTitle={page?.introTitle} />
@@ -38,22 +37,22 @@ const slugPost = await Promise.all(
         {
           page?.serviceCards?.map((service: any) => (
             <Card
-              id={service.serviceId}
-              title={service.serviceName}
-              description={service.serviceExcerpt}
-              buttonText={service.serviceButton.buttonText}
-              url={service.serviceButton.buttonHref}
-              target={service.serviceButton.buttonTarget}
+              id={service.idName}
+              title={service.serviceTitle}
+              description={service.shortDescriptionService}
+              buttonText="See more"
+              url={service.linkService}
+              target="_self"
             />
           ))
         }
       </section>
       <div class="inner">
-        <h2 class="split">{page?.sectionTitle}</h2>
+        <h2 class="split">{page?.highlightTitle}</h2>
         <Button
-          buttonText={page?.sectionButton?.buttonText ?? ""}
-          href={page?.sectionButton?.buttonHref}
-          target={page?.sectionButton?.buttonTarget}
+          buttonText={page?.buttonText}
+          href={page?.linkHighlightButton}
+          target="_self"
         />
       </div>
     </article>
@@ -61,9 +60,6 @@ const slugPost = await Promise.all(
       titleCounter={page?.counterTitle}
       projectCounter={page?.numberProjects}
     />
-        <BlogCards posts={slugPost} />
+    <BlogCards posts={posts} />
   </main>
 </PageIndexLayout>
-
-<style>
-</style>

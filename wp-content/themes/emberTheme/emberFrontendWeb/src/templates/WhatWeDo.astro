@@ -1,0 +1,40 @@
+---
+import Intro from "@/components/Intro.astro";
+import ServiceItem from "@/components/ui/ServiceItem.astro";
+import { chars, aboutDot } from "@utils/chars";
+
+const { introTitle, introDescription, serviceCards } = Astro.props;
+---
+
+<Intro introTitle={introTitle} description={introDescription} />
+
+<section class="inner sevices-container">
+  <div class="sevices-wrapper">
+    {
+      serviceCards?.map((service: any, i: any) => (
+        <article class="item-block">
+          <figure class="chars-container">
+            <img
+              class="chars"
+              src={chars[i % chars.length]}
+              alt={`char-${i}`}
+            />
+          </figure>
+          <ServiceItem
+            id={service.idName}
+            title={service.serviceTitle}
+            description={service.serviceDescription}
+          />
+          <figure class="dotlootie-wrap">
+            <dotlottie-wc
+              src={aboutDot[i % aboutDot.length]}
+              class="dotlootie-container"
+              autoplay
+              loop
+            />
+          </figure>
+        </article>
+      ))
+    }
+  </div>
+</section>

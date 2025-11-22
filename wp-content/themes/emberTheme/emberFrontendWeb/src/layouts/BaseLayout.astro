@@ -1,15 +1,13 @@
 ---
-export interface Props {
-  lang: 'es' | 'en';
-  pageTitle: string;
-  slug?: string;
-}
 import Navigation from "@ui/Navigation.astro";
 import Footer from "@components/Footer.astro";
+import AccessibilityTool from "@components/AccessibilityTool.astro";
 
 import "@styles/global-styles.css";
 
-const { lang, pageTitle, slug } = Astro.props;
+const { lang, pageTitle, footerData, slug } = Astro.props;
+
+
 ---
 
 <!doctype html>
@@ -20,16 +18,21 @@ const { lang, pageTitle, slug } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <title>{pageTitle}</title>
-  </head>
-  <body>
-    <Navigation isEU={slug === "oportunidades-europeas" || slug === 'european-opportunities'}  lang={lang} />
-    <slot />
-    <Footer lang={lang} />
-    <script src="/src/libs/animation/splitText.js"></script>
+
+     <script type="module" src="/src/libs/animation/splitText.js"></script>
+    <script type="module" src="/src/libs/animation/chars.js"></script>
     <script
       src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js"
       type="module">
     </script>
+  </head>
+  <body>
+    <Navigation isEU={slug === "oportunidades-europeas" || slug === 'european-opportunities'}  lang={lang} />
+    <slot />
+    <Footer pattern={footerData} lang={lang} />
+    <AccessibilityTool />
+   
+    
   </body>
 </html>
 

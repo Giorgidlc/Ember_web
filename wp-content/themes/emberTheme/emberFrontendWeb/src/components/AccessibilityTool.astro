@@ -1,0 +1,283 @@
+<div id="a11y-widget" class="a11y-widget">
+  <button
+    id="a11y-toggle"
+    class="a11y-toggle"
+    aria-label="Opciones de Accesibilidad"
+    aria-expanded="false"
+  >
+    <svg fill="none" viewBox="0 0 24 24">
+      <path fill="#ECECE3" d="M13.5 6.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"
+      ></path>
+      <path
+        fill="#ECECE3"
+        d="M6.051 8.684a1 1 0 0 0 .633 1.265q.263.086.529.165c.323.097.776.227 1.294.356.582.146 1.274.299 1.971.403-.046.892-.158 1.533-.261 1.958l-2.111 4.222a1 1 0 0 0 1.788.895L12 13.736l2.106 4.212a1 1 0 1 0 1.788-.895l-2.11-4.222c-.104-.425-.216-1.066-.262-1.958.697-.104 1.389-.257 1.97-.403a29 29 0 0 0 1.82-.52c.514-.17.808-.752.637-1.266a1 1 0 0 0-1.265-.632q-.235.076-.471.147c-.302.09-.724.21-1.206.331-.985.247-2.136.47-3.007.47-.87 0-2.022-.223-3.007-.47a27 27 0 0 1-1.671-.477 1.01 1.01 0 0 0-1.27.631"
+      ></path>
+      <path
+        fill="#ECECE3"
+        fill-rule="evenodd"
+        d="M23 12c0 6.075-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1s11 4.925 11 11M3.007 12a8.993 8.993 0 1 0 17.986 0 8.993 8.993 0 0 0-17.986 0"
+        clip-rule="evenodd"></path>
+    </svg>
+  </button>
+
+  <div id="a11y-panel" class="a11y-panel hidden">
+    <h3>Accesibilidad</h3>
+
+    <div class="a11y-group">
+      <span>Texto</span>
+      <div class="a11y-buttons">
+        <button id="btn-decrease" aria-label="Disminuir texto">A-</button>
+        <button id="btn-reset-font" aria-label="Texto normal">A</button>
+        <button id="btn-increase" aria-label="Aumentar texto">A+</button>
+      </div>
+    </div>
+
+    <div class="a11y-group">
+      <button id="btn-contrast" class="a11y-option">
+        <span>🌗</span> Alto Contraste
+      </button>
+      <button id="btn-links" class="a11y-option">
+        <span>🔗</span> Subrayar Enlaces
+      </button>
+      <button id="btn-font" class="a11y-option">
+        <span>T</span> Fuente Legible
+      </button>
+    </div>
+
+    <button id="btn-reset-all" class="a11y-reset">Restablecer todo</button>
+  </div>
+</div>
+
+<style>
+  /* Posicionamiento flotante */
+  .a11y-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px; /* O left: 20px si prefieres */
+    z-index: 9999;
+    font-family: system-ui, sans-serif;
+  }
+
+  .a11y-toggle {
+    background: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+    padding: 3px;
+  }
+
+  .a11y-toggle:hover {
+    transform: scale(1.1);
+  }
+
+  /* El Panel */
+  .a11y-panel {
+    position: absolute;
+    bottom: 60px;
+    right: 0;
+    width: 250px;
+    background: white;
+    border: 2px solid #0056b3;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: #333;
+  }
+
+  .a11y-panel.hidden {
+    display: none;
+  }
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+  }
+
+  .a11y-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .a11y-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .a11y-buttons button {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ddd;
+    background: #f4f4f4;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .a11y-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    border-radius: 4px;
+    color: #333;
+  }
+
+  .a11y-option.active {
+    background: #0056b3;
+    color: white;
+    border-color: #0056b3;
+  }
+
+  .a11y-reset {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    color: #666;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+</style>
+
+<script is:inline>
+  // Script en línea para que funcione inmediatamente en el navegador
+  document.addEventListener("astro:page-load", () => {
+    initA11y();
+  });
+
+  // Si no usas ViewTransitions, usa 'DOMContentLoaded'
+  document.addEventListener("DOMContentLoaded", () => {
+    initA11y();
+  });
+
+  function initA11y() {
+    const toggleBtn = document.getElementById("a11y-toggle");
+    const panel = document.getElementById("a11y-panel");
+    const body = document.body;
+    const html = document.documentElement;
+
+    // Elementos de control
+    const btnIncrease = document.getElementById("btn-increase");
+    const btnDecrease = document.getElementById("btn-decrease");
+    const btnResetFont = document.getElementById("btn-reset-font");
+    const btnContrast = document.getElementById("btn-contrast");
+    const btnLinks = document.getElementById("btn-links");
+    const btnFont = document.getElementById("btn-font");
+    const btnResetAll = document.getElementById("btn-reset-all");
+
+    // Estado inicial
+    let fontSize = parseFloat(localStorage.getItem("a11y-font-scale")) || 1;
+    let highContrast = localStorage.getItem("a11y-high-contrast") === "true";
+    let linksUnderline =
+      localStorage.getItem("a11y-links-underline") === "true";
+    let readableFont = localStorage.getItem("a11y-readable-font") === "true";
+
+    // Aplicar estado guardado
+    applyState();
+
+    // Toggle Panel
+    toggleBtn?.addEventListener("click", () => {
+      const isHidden = panel.classList.contains("hidden");
+      if (isHidden) {
+        panel.classList.remove("hidden");
+        toggleBtn.setAttribute("aria-expanded", "true");
+      } else {
+        panel.classList.add("hidden");
+        toggleBtn.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    // Lógica Fuente
+    btnIncrease?.addEventListener("click", () => updateFont(0.1));
+    btnDecrease?.addEventListener("click", () => updateFont(-0.1));
+    btnResetFont?.addEventListener("click", () => {
+      fontSize = 1;
+      applyState();
+    });
+
+    function updateFont(amount) {
+      fontSize += amount;
+      if (fontSize < 0.8) fontSize = 0.8;
+      if (fontSize > 2) fontSize = 2;
+      applyState();
+    }
+
+    // Lógica Toggles
+    btnContrast?.addEventListener("click", () => {
+      highContrast = !highContrast;
+      applyState();
+    });
+
+    btnLinks?.addEventListener("click", () => {
+      linksUnderline = !linksUnderline;
+      applyState();
+    });
+
+    btnFont?.addEventListener("click", () => {
+      readableFont = !readableFont;
+      applyState();
+    });
+
+    // Reset Total
+    btnResetAll?.addEventListener("click", () => {
+      fontSize = 1;
+      highContrast = false;
+      linksUnderline = false;
+      readableFont = false;
+      applyState();
+    });
+
+    function applyState() {
+      // 1. Aplicar Fuente (Variable CSS Global)
+      html.style.setProperty("--a11y-font-scale", fontSize);
+      localStorage.setItem("a11y-font-scale", fontSize);
+
+      // 2. Aplicar Clases al Body
+      // Contraste
+      if (highContrast) {
+        body.classList.add("a11y-high-contrast");
+        btnContrast?.classList.add("active");
+      } else {
+        body.classList.remove("a11y-high-contrast");
+        btnContrast?.classList.remove("active");
+      }
+      localStorage.setItem("a11y-high-contrast", highContrast);
+
+      // Enlaces
+      if (linksUnderline) {
+        body.classList.add("a11y-links-underline");
+        btnLinks?.classList.add("active");
+      } else {
+        body.classList.remove("a11y-links-underline");
+        btnLinks?.classList.remove("active");
+      }
+      localStorage.setItem("a11y-links-underline", linksUnderline);
+
+      // Fuente Legible
+      if (readableFont) {
+        body.classList.add("a11y-readable-font");
+        btnFont?.classList.add("active");
+      } else {
+        body.classList.remove("a11y-readable-font");
+        btnFont?.classList.remove("active");
+      }
+      localStorage.setItem("a11y-readable-font", readableFont);
+    }
+  }
+</script>
